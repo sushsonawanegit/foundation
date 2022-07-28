@@ -1,0 +1,124 @@
+version: 2
+
+sources:
+  - name: AX_DEV
+    database: FIVETRAN
+    schema: AX_PRODREPLICATION1_DBO
+    tables:
+      - name: INVENTTABLE
+      - name: CUSTTABLE
+      - name: CUSTPRECASTCODE_OPI
+      - name: COMPANYINFO
+      - name: INVENTSITE
+      - name: INVENTLOCATION
+      - name: CUSTGROUP
+      - name: CUSTPAYMMODETABLE
+      - name: CUSTPRECASTCATEGORY_OPI
+      - name: CURRENCY
+      - name: PAYMTERM
+      - name: CASHDISC
+      - name: COMMISSIONCUSTOMERGROUP
+      - name: ADDRESS
+      - name: SALESTABLE
+      - name: VENDTABLE
+      - name: CONTACTPERSON
+      - name: DIMENSIONS
+      - name: UNIT
+      - name: INVENTDIMGROUP
+      - name: INVENTITEMBUYERGROUP
+      - name: INVENTITEMGROUP
+      - name: INVENTMODELGROUP
+      - name: INVENTPRECASTCATEGORY_OPI
+      - name: INVENTPRECASTCODE_OPI
+      - name: INVENTPRODUCTCLASS_OPI
+      - name: REQGROUP
+      - name: INVENTSALESCLASS_OPI
+      - name: INVENTSIZE
+      - name: INVENTDIM
+      - name: INVENTITEMPRICE
+      - name: LEDGERTABLE
+      - name: LEDGERBALANCESDIMTRANS
+      - name: INVENTITEMLOCATION
+      - name: INVENTSUM
+      - name: INVENTTABLEMODULE
+      - name: INVENTTRANS
+      - name: DLVTERM
+      - name: DLVMODE
+      - name: SALESLINE
+      - name: LEDGERTRANS
+      - name: PURCHTABLE
+      - name: PURCHLINE
+      - name: PROJTABLE
+      - name: VENDTRANS
+      - name: VENDINVOICEJOUR
+      - name: CUSTTRANS
+      - name: CUSTSETTLEMENT
+      - name: PRICEDISCGROUP
+      - name: PROJCATEGORY
+      - name: WMSPICKINGROUTE
+      - name: PROJCOSTTRANS
+      - name: CUSTTRANSOPEN
+      - name: CUSTPACKINGSLIPJOUR
+      - name: CUSTPACKINGSLIPTRANS
+      - name: CUSTINVOICEJOUR
+      - name: CUSTINVOICETRANS
+      - name: VENDINVOICETRANS
+      - name: VENDPACKINGSLIPJOUR
+      - name: VENDPACKINGSLIPTRANS
+      - name: PROJITEMTRANS
+      - name: PROJEMPLTRANS
+      - name: PROJFORECASTCOST 
+      - name: PROJFORECASTEMPL
+      - name: PROJTRANSPOSTING
+      - name: PROJREVENUE_OPI
+
+  - name: AX_PRODVIEW
+    database: FIVETRAN
+    schema: AX_PRODVIEW_DBO
+    tables:
+      - name: DIM_TIME_93
+
+  - name: NS_DEV
+    database: FIVETRAN
+    schema: NETSUITE
+    tables:
+      - name: PAYMENT_TERMS
+      - name: PAYMENT_METHODS
+      - name: CURRENCIES
+      - name: LOCATIONS
+      - name: DEPARTMENTS
+      - name: COMPANY_OPI
+      - name: REGION_OPI
+      - name: SUBREGION_OPI
+      - name: ACCOUNTS
+      - name: TRANSACTIONS
+      - name: TRANSACTION_LINES
+      - name: ACCOUNTING_PERIODS
+      - name: MARKET_OPI
+      - name: CLASSES
+      - name: UOM
+      - name: SUBSIDIARIES
+
+  - name: JDE_DEV
+    database: MULE_STAGING
+    schema: JDE_HANCOCK
+    tables:
+      - name: JDE_PRODUCTION_PRODDTA_F0013
+      - name: JDE_PRODUCTION_PRODDTA_F0010
+      - name: JDE_PRODUCTION_PRODDTA_F0101
+      - name: JDE_PRODUCTION_PRODDTA_F01151
+      - name: JDE_PRODUCTION_PRODDTA_F0006
+      - name: JDE_PRODUCTION_PRODCTL_F0005
+      - name: JDE_PRODUCTION_PRODDTA_F0901
+      - name: JDE_PRODUCTION_PRODDTA_F0911
+      - name: JDE_PRODUCTION_PRODDTA_F0902
+      - name: JDE920_DD920_F9210
+
+  - name: PRIMEX_DEV
+    database: MULE_STAGING
+    schema: SYSPRO_PRIMEX
+    tables:
+      - name: COMPANYA_DBO_TBLCURRENCY
+      - name: COMPANYC_DBO_TBLCURRENCY
+      - name: COMPANYP_DBO_TBLCURRENCY
+      - name: COMPANYX_DBO_TBLCURRENCY
