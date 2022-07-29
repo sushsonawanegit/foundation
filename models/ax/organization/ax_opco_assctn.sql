@@ -17,16 +17,16 @@ with ax_opco_assctn as (
     wr.warehouse_sk,
     1 as actv_ind
     from {{source('AX_DEV', 'INVENTDIM')}} id 
-    left join {{ref('opco')}} opco
+    left join {{ref('v_ax_opco_curr')}} opco
         on id.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX' 
-    left join {{ref('opco_site')}} site
+    left join {{ref('v_ax_opco_site_curr')}} site
         on upper(id.inventsiteid) = site.src_site_id
         and site.src_sys_nm = 'AX'
-    left join {{ref('opco_cost_center')}} cc
+    left join {{ref('v_ax_opco_cost_center_curr')}} cc
         on upper(id.inventsiteid) = cc.src_cost_center_cd
         and cc.src_sys_nm = 'AX'
-    left join {{ref('warehouse')}} wr 
+    left join {{ref('v_ax_warehouse_curr')}} wr 
         on upper(id.inventlocationid) = wr.warehouse_id
         and id.dataareaid = wr.opco_id
         and wr.src_sys_nm = 'AX'

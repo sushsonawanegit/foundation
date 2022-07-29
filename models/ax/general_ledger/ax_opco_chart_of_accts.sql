@@ -67,27 +67,27 @@ with ax_opco_chart_of_accts as (
     null::varchar(20) as acct_clssfctn_cd,
     null::varchar(20) as sub_acct_nbr
     from {{source('AX_DEV', 'LEDGERTABLE')}} lt
-    left join {{ref('chart_of_accts')}} coa 
+    left join {{ref('v_ax_chart_of_accts_curr')}} coa 
         on lt.accountnum = coa.gl_acct_nbr
-    left join {{ref('opco_cost_center')}} cc 
+    left join {{ref('v_ax_opco_cost_center_curr')}} cc 
         on upper(lt.dimension) = cc.src_cost_center_cd
         and cc.src_sys_nm = 'AX'
-    left join {{ref('opco_dept')}} od 
+    left join {{ref('v_ax_opco_dept_curr')}} od 
         on upper(lt.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ref('opco_type')}} ot 
+    left join {{ref('v_ax_opco_type_curr')}} ot 
         on upper(lt.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ref('opco_purpose')}} oip
+    left join {{ref('v_ax_opco_purpose_curr')}} oip
         on upper(lt.dimension4_) = oip.src_purpose_cd
         and oip.src_sys_nm = 'AX'
-    left join {{ref('opco_lob')}} ol 
+    left join {{ref('v_ax_opco_lob_curr')}} ol 
         on upper(lt.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ref('opco_chart_of_accts_type')}} cat 
+    left join {{ref('v_ax_opco_chart_of_accts_type_curr')}} cat 
         on cast(lt.accountpltype as varchar) = cat.src_acct_type_cd
         and cat.src_sys_nm = 'AX'
-    left join {{ref('opco_uom')}} ou 
+    left join {{ref('v_ax_opco_uom_curr')}} ou 
         on upper(lt.unitid_opi) = ou.src_uom_cd
         and ou.src_sys_nm = 'AX'
     where upper(lt.dataareaid) != 'UGL' 

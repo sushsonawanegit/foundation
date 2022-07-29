@@ -36,41 +36,41 @@ with ax_opco_cust_settled_trans as (
     cs.exchadjustment as exch_adjstmnt_amt,
     cs.utilizedcashdisc as utilized_cash_dscnt_amt
     from {{ source('AX_DEV', 'CUSTSETTLEMENT') }} cs
-    left join {{ ref('opco')}} opco 
+    left join {{ ref('v_ax_opco_curr')}} opco 
         on cs.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'
-    left join {{ ref('opco_cust_trans')}} oct
+    left join {{ ref('v_ax_opco_cust_trans_curr')}} oct
         on cs.dataareaid = oct.opco_id
         and cs.transrecid = oct.src_key_txt
         and oct.src_sys_nm = 'AX'
-    left join {{ ref('opco_cust')}} oc
+    left join {{ ref('v_ax_opco_cust_curr')}} oc
         on cs.dataareaid = oc.opco_id
         and cs.accountnum = oc.cust_id
         and oc.src_sys_nm = 'AX'
-    left join {{ ref('opco_cust_trans')}} oct1
+    left join {{ ref('v_ax_opco_cust_trans_curr')}} oct1
         on cs.dataareaid = oct1.opco_id
         and cs.offsetrecid = oct1.src_key_txt
         and oct1.src_sys_nm = 'AX'
-    left join {{ ref('opco_cust')}} oc1
+    left join {{ ref('v_ax_opco_cust_curr')}} oc1
         on cs.offsetcompany = oc1.opco_id
         and cs.offsetaccountnum = oc1.cust_id
         and oc1.src_sys_nm = 'AX'
-    left join {{ ref('opco_cost_center')}} occ 
+    left join {{ ref('v_ax_opco_cost_center_curr')}} occ 
         on upper(cs.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ ref('opco_dept')}} od 
+    left join {{ ref('v_ax_opco_dept_curr')}} od 
         on upper(cs.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ ref('opco_type')}} ot 
+    left join {{ ref('v_ax_opco_type_curr')}} ot 
         on upper(cs.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ ref('opco_purpose')}} op 
+    left join {{ ref('v_ax_opco_purpose_curr')}} op 
         on upper(cs.dimension4_) = op.src_purpose_cd
         and op.src_sys_nm = 'AX'
-    left join {{ ref('opco_lob')}} ol 
+    left join {{ ref('v_ax_opco_lob_curr')}} ol 
         on upper(cs.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ ref('opco_chart_of_accts')}} oca 
+    left join {{ ref('v_ax_opco_chart_of_accts_curr')}} oca 
         on cs.dataareaid = oca.opco_id
         and cs.cashdiscaccount = oca.gl_acct_nbr
         and oca.src_sys_nm = 'AX'

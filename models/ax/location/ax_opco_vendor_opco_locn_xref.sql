@@ -25,14 +25,14 @@ with ax_opco_vendor_opco_locn_xref as(
     '' as start_dt,
     '' as end_dt
     from {{source('AX_DEV', 'VENDTABLE')}} vt
-    left join {{ref('opco_locn')}} ol 
+    left join {{ref('v_ax_opco_locn_curr')}} ol 
         on upper(vt.street) = ol.addr_ln_1_txt
         and upper(vt.city) = ol.city_nm
         and upper(vt.state) = ol.state_nm
         and upper(vt.countryregionid) = ol.country_nm
         and upper(vt.zipcode) = ol.zip_cd 
         and ol.src_sys_nm = 'AX'
-    left join {{ref('opco_vendor')}} ov 
+    left join {{ref('v_ax_opco_vendor_curr')}} ov 
         on upper(vt.accountnum) = ov.vendor_id
         and ov.src_sys_nm = 'AX'
     where vt.dataareaid not in {{ var('excluded_ax_companies')}}

@@ -57,30 +57,30 @@ with ax_opco_picking_list as (
     wms.printedafterchange_opi as picking_list_printed_after_chg_ind,
     wms.tmsdonotsend_opi as do_not_send_ind
     from {{ source('AX_DEV', 'WMSPICKINGROUTE') }} wms 
-    left join {{ ref('opco_cust')}} ocu 
+    left join {{ ref('v_ax_opco_cust_curr')}} ocu 
         on wms.dataareaid = ocu.opco_id
         and wms.customer = ocu.cust_id
         and ocu.src_sys_nm = 'AX' 
-    left join {{ ref('opco_cust')}} oi 
+    left join {{ ref('v_ax_opco_cust_curr')}} oi 
         on wms.dataareaid = oi.opco_id
         and wms.invoiceaccount_opi = oi.cust_id
         and oi.src_sys_nm = 'AX' 
-    left join {{ ref('opco_invtry_trans_type')}} oit 
+    left join {{ ref('v_ax_opco_invtry_trans_type_curr')}} oit 
         on wms.transtype = oit.invtry_trans_type_cd
         and oit.src_sys_nm = 'AX'
-    left join {{ ref('opco_handling_status')}} ohs 
+    left join {{ ref('v_ax_opco_handling_status_curr')}} ohs 
         on wms.expeditionstatus = ohs.handling_status_cd
         and ohs.src_sys_nm = 'AX'
-    left join {{ ref('opco_dlvry_terms')}} odt 
+    left join {{ ref('v_ax_opco_dlvry_terms_curr')}} odt 
         on upper(wms.dlvtermid) = odt.src_dlvry_terms_cd
         and odt.src_sys_nm = 'AX'
-    left join {{ ref('opco_dlvry_mode')}} odm 
+    left join {{ ref('v_ax_opco_dlvry_mode_curr')}} odm 
         on upper(wms.dlvmodeid) = odm.src_dlvry_mode_cd
         and odm.src_sys_nm = 'AX'
-    left join {{ ref('opco_site')}} os 
+    left join {{ ref('v_ax_opco_site_curr')}} os 
         on upper(wms.inventsiteid_opi) = os.src_site_id
         and os.src_sys_nm = 'AX'
-    left join {{ ref('opco_pymnt_terms')}} opt 
+    left join {{ ref('v_ax_opco_pymnt_terms_curr')}} opt 
         on upper(wms.payment_opi) = opt.src_pymnt_terms_cd
         and opt.src_sys_nm = 'AX'
     where wms.dataareaid not in {{ var('excluded_ax_companies')}}

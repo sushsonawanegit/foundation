@@ -94,57 +94,57 @@ with ax_opco_cust_invoice_line as (
     cit.defaultprice_opi as default_item_price_amt,
     cit.itemprice_opi as item_price_amt
     from {{ source('AX_DEV', 'CUSTINVOICETRANS') }} cit 
-    left join {{ ref('opco')}} opco 
+    left join {{ ref('v_ax_opco_curr')}} opco 
         on cit.dataareaid = opco.opco_id 
         and opco.src_sys_nm = 'AX'
-    left join {{ ref('opco_sls_ordr')}} oso 
+    left join {{ ref('v_ax_opco_sls_ordr_curr')}} oso 
         on cit.dataareaid = oso.opco_id
         and cit.salesid = oso.sls_ordr_id
         and oso.src_sys_nm = 'AX'
-    left join {{ ref('opco_sls_ordr')}} oso1 
+    left join {{ ref('v_ax_opco_sls_ordr_curr')}} oso1 
         on cit.dataareaid = oso1.opco_id
         and cit.origsalesid = oso1.sls_ordr_id
         and oso1.src_sys_nm = 'AX'
-    left join {{ ref('opco_item')}} oi 
+    left join {{ ref('v_ax_opco_item_curr')}} oi 
         on cit.dataareaid = oi.opco_id
         and cit.itemid = oi.src_item_cd
         and oi.src_sys_nm = 'AX'
-    left join {{ ref('opco_chart_of_accts')}} ocoa 
+    left join {{ ref('v_ax_opco_chart_of_accts_curr')}} ocoa 
         on cit.dataareaid = ocoa.opco_id
         and cit.ledgeraccount = ocoa.gl_acct_nbr
         and ocoa.src_sys_nm = 'AX'
-    left join {{ref('opco_cost_center')}} occ 
+    left join {{ref('v_ax_opco_cost_center_curr')}} occ 
         on upper(cit.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ref('opco_dept')}} od 
+    left join {{ref('v_ax_opco_dept_curr')}} od 
         on upper(cit.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ref('opco_type')}} ot 
+    left join {{ref('v_ax_opco_type_curr')}} ot 
         on upper(cit.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ref('opco_purpose')}} op 
+    left join {{ref('v_ax_opco_purpose_curr')}} op 
         on upper(cit.dimension4_) = op.src_purpose_cd
         and op.src_sys_nm = 'AX'
-    left join {{ref('opco_lob')}} ol
+    left join {{ref('v_ax_opco_lob_curr')}} ol
         on upper(cit.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ ref('opco_currency')}} ocr 
+    left join {{ ref('v_ax_opco_currency_curr')}} ocr 
         on upper(cit.currencycode) = ocr.src_currency_cd
         and ocr.src_sys_nm = 'AX'
-    left join {{ ref('opco_uom')}} ou 
+    left join {{ ref('v_ax_opco_uom_curr')}} ou 
         on upper(cit.salesunit) = ou.src_uom_cd
         and ou.src_sys_nm = 'AX'
-    left join {{ ref('opco_uom')}} ou1 
+    left join {{ ref('v_ax_opco_uom_curr')}} ou1 
         on upper(cit.glproduom_opi) = ou1.src_uom_cd
         and ou1.src_sys_nm = 'AX'
-    left join {{ ref('opco_uom')}} ou2 
+    left join {{ ref('v_ax_opco_uom_curr')}} ou2 
         on upper(cit.glsalesuom_opi) = ou2.src_uom_cd
         and ou.src_sys_nm = 'AX'
-    left join {{ ref('opco_assctn')}} oa 
+    left join {{ ref('v_ax_opco_assctn_curr')}} oa 
         on cit.dataareaid = oa.opco_id
         and cit.inventdimid = oa.src_assctn_cd
         and oa.src_sys_nm = 'AX'
-    left join {{ ref('opco_invtry_ref_type')}} oirt
+    left join {{ ref('v_ax_opco_invtry_ref_type_curr')}} oirt
         on cit.inventreftype = oirt.invtry_ref_type_cd
         and oirt.src_sys_nm = 'AX'
     where cit.dataareaid not in {{ var('excluded_ax_companies')}}

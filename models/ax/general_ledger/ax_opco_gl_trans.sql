@@ -55,40 +55,40 @@ with ax_opco_gl_trans as (
         and lt.accountnum = ltb.accountnum
         and ltb._fivetran_deleted = false
         and ltb.dataareaid not in {{ var('excluded_ax_companies')}}
-    left join {{ ref('opco')}} opco 
+    left join {{ ref('v_ax_opco_curr')}} opco 
         on lt.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'
-    left join {{ ref('opco_chart_of_accts')}} oca 
+    left join {{ ref('v_ax_opco_chart_of_accts_curr')}} oca 
         on lt.dataareaid = oca.opco_id
         and lt.accountnum = oca.gl_acct_nbr
         and oca.src_sys_nm = 'AX'
-    left join {{ ref('opco_gl_trans_type')}} ogt 
+    left join {{ ref('v_ax_opco_gl_trans_type_curr')}} ogt 
         on lt.transtype::string = ogt.src_gl_trans_type_cd
         and ogt.src_sys_nm = 'AX'
-    left join {{ ref('opco_gl_trans_posting_type')}} ogtp 
+    left join {{ ref('v_ax_opco_gl_trans_posting_type_curr')}} ogtp 
         on lt.posting = ogtp.src_gl_trans_posting_type_cd
         and ogtp.src_sys_nm = 'AX'
-    left join {{ ref('opco_cost_center')}} occ 
+    left join {{ ref('v_ax_opco_cost_center_curr')}} occ 
         on upper(lt.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ ref('opco_dept')}} od 
+    left join {{ ref('v_ax_opco_dept_curr')}} od 
         on upper(lt.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ ref('opco_type')}} ot 
+    left join {{ ref('v_ax_opco_type_curr')}} ot 
         on upper(lt.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ ref('opco_purpose')}} oip
+    left join {{ ref('v_ax_opco_purpose_curr')}} oip
         on upper(lt.dimension4_) = oip.src_purpose_cd
         and oip.src_sys_nm = 'AX'
-    left join {{ ref('opco_lob')}} ol
+    left join {{ ref('v_ax_opco_lob_curr')}} ol
         on upper(lt.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ ref('opco_currency')}} oc
+    left join {{ ref('v_ax_opco_currency_curr')}} oc
         on upper(lt.currencycode) = oc.src_currency_cd
         and oc.src_sys_nm = 'AX'
-    left join {{ ref('fscl_clndr')}} fc
+    left join {{ ref('v_ax_fscl_clndr_curr')}} fc
         on fc.clndr_dt = date(lt.transdate)
-    left join {{ ref('opco_uom')}} ou 
+    left join {{ ref('v_ax_opco_uom_curr')}} ou 
         on ou.src_uom_cd = upper(ltb.unitid_opi)
         and ou.src_sys_nm = 'AX'
     where lt.periodcode = 1
