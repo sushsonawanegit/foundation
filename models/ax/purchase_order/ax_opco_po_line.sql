@@ -70,60 +70,60 @@ with ax_opco_po_line as(
     pl.purchmarkup as purchase_markup_amt,
     pl.tax1099amount as tax_1099_amt
     from {{ source('AX_DEV', 'PURCHLINE') }} pl 
-    left join {{ ref('opco_po')}} op 
+    left join {{ ref('ax_opco_po_curr')}} op 
         on pl.dataareaid = op.opco_id
         and pl.purchid = op.po_id
         and op.src_sys_nm = 'AX'
-    left join {{ ref('opco_vendor')}} ov
+    left join {{ ref('ax_opco_vendor_curr')}} ov
         on upper(pl.vendaccount) = ov.vendor_id
         and ov.src_sys_nm = 'AX'
-    left join {{ ref('opco_cost_center')}} occ 
+    left join {{ ref('ax_opco_cost_center_curr')}} occ 
         on upper(pl.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ ref('opco_dept')}} od 
+    left join {{ ref('ax_opco_dept_curr')}} od 
         on upper(pl.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ ref('opco_type')}} ot 
+    left join {{ ref('ax_opco_type_curr')}} ot 
         on upper(pl.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ ref('opco_purpose')}} oip
+    left join {{ ref('ax_opco_purpose_curr')}} oip
         on upper(pl.dimension4_) = oip.src_purpose_cd
         and oip.src_sys_nm = 'AX'
-    left join {{ ref('opco_lob')}} ol
+    left join {{ ref('ax_opco_lob_curr')}} ol
         on upper(pl.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ ref('opco_assctn')}} oa
+    left join {{ ref('ax_opco_assctn_curr')}} oa
         on pl.dataareaid = oa.opco_id
         and pl.inventdimid = oa.src_assctn_cd
         and oa.src_sys_nm = 'AX'
-    left join {{ ref('opco_item')}} oi 
+    left join {{ ref('ax_opco_item_curr')}} oi 
         on pl.dataareaid = oi.opco_id
         and pl.itemid = oi.src_item_cd
         and oi.src_sys_nm = 'AX'
-    left join {{ ref('opco_currency')}} oc 
+    left join {{ ref('ax_opco_currency_curr')}} oc 
         on upper(pl.currencycode) = oc.src_currency_cd
         and oc.src_sys_nm = 'AX'
-    left join {{ ref('opco_trans_status')}} ots 
+    left join {{ ref('ax_opco_trans_status_curr')}} ots 
         on pl.purchstatus = ots.src_trans_status_cd
         and ots.src_sys_nm = 'AX'
-    left join {{ ref('opco_po_type')}} opt 
+    left join {{ ref('ax_opco_po_type_curr')}} opt 
         on pl.purchasetype = opt.src_po_type_cd
         and opt.src_sys_nm = 'AX'
-    left join {{ ref('opco_uom')}} ou 
+    left join {{ ref('ax_opco_uom_curr')}} ou 
         on upper(pl.priceunit) = ou.src_uom_cd
         and ou.src_sys_nm = 'AX'
-    left join {{ ref('opco_chart_of_accts')}} ocoa
+    left join {{ ref('ax_opco_chart_of_accts_curr')}} ocoa
         on pl.dataareaid = ocoa.opco_id
         and pl.ledgeraccount = ocoa.gl_acct_nbr
         and ocoa.src_sys_nm = 'AX'
-    left join {{ ref('opco_invtry_ref_type')}} oirt 
+    left join {{ ref('ax_opco_invtry_ref_type_curr')}} oirt 
         on pl.itemreftype = oirt.invtry_ref_type_cd
         and oirt.src_sys_nm = 'AX'
-    left join {{ ref('opco_project_catgry')}} opc
+    left join {{ ref('ax_opco_project_catgry_curr')}} opc
         on pl.dataareaid = opc.opco_id
         and pl.projcategoryid = opc.catgry_cd
         and opc.src_sys_nm = 'AX'
-    left join {{ ref('opco_project')}} opr
+    left join {{ ref('ax_opco_project_curr')}} opr
         on pl.dataareaid = opr.opco_id
         and pl.projid = opr.project_id
         and opr.src_sys_nm = 'AX'

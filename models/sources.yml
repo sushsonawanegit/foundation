@@ -122,3 +122,10 @@ sources:
       - name: COMPANYC_DBO_TBLCURRENCY
       - name: COMPANYP_DBO_TBLCURRENCY
       - name: COMPANYX_DBO_TBLCURRENCY
+
+  - name: JDE_NPP_DEV
+    database: MULE_STAGING
+    schema: JDE_NPP
+    tables:
+      - name: JDE_PRODUCTION_PRODDTA_F0013
+      

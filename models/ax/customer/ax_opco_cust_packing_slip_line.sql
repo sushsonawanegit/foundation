@@ -55,48 +55,48 @@ with ax_opco_cust_packing_slip_line as(
     cpt.valuemst as opco_currency_packed_line_amt,
     cpt.weight_opi as item_weight_amt
     from {{ source('AX_DEV', 'CUSTPACKINGSLIPTRANS') }} cpt
-    left join {{ ref('opco_cust_packing_slip')}} ocps
+    left join {{ ref('ax_opco_cust_packing_slip_curr')}} ocps
         on cpt.dataareaid = ocps.opco_id
         and cpt.packingslipid = ocps.packing_slip_id
         and src_sys_nm = 'AX'
-    left join {{ ref('opco_sls_ordr')}} oso 
+    left join {{ ref('ax_opco_sls_ordr_curr')}} oso 
         on cpt.dataareaid = oso.opco_id
         and cpt.salesid = oso.sls_ordr_id
         and oso.src_sys_nm = 'AX'
-    left join {{ ref('opco_sls_ordr')}} oso1 
+    left join {{ ref('ax_opco_sls_ordr_curr')}} oso1 
         on cpt.dataareaid = oso1.opco_id
         and cpt.origsalesid = oso1.sls_ordr_id
         and oso1.src_sys_nm = 'AX'
-    left join {{ ref('opco_item')}} oi 
+    left join {{ ref('ax_opco_item_curr')}} oi 
         on cpt.dataareaid = oi.opco_id
         and cpt.itemid = oi.src_item_cd
         and oi.src_sys_nm = 'AX'
-    left join {{ref('opco_cost_center')}} occ 
+    left join {{ref('ax_opco_cost_center_curr')}} occ 
         on upper(cpt.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ref('opco_dept')}} od 
+    left join {{ref('ax_opco_dept_curr')}} od 
         on upper(cpt.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ref('opco_type')}} ot 
+    left join {{ref('ax_opco_type_curr')}} ot 
         on upper(cpt.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ref('opco_purpose')}} op 
+    left join {{ref('ax_opco_purpose_curr')}} op 
         on upper(cpt.dimension4_) = op.src_purpose_cd
         and op.src_sys_nm = 'AX'
-    left join {{ref('opco_lob')}} ol
+    left join {{ref('ax_opco_lob_curr')}} ol
         on upper(cpt.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ ref('opco_assctn')}} oa 
+    left join {{ ref('ax_opco_assctn_curr')}} oa 
         on cpt.dataareaid = oa.opco_id
         and cpt.inventdimid = oa.src_assctn_cd
         and oa.src_sys_nm = 'AX'
-    left join {{ ref('opco_invtry_ref_type')}} oirt
+    left join {{ ref('ax_opco_invtry_ref_type_curr')}} oirt
         on cpt.inventreftype = oirt.invtry_ref_type_cd
         and oirt.src_sys_nm = 'AX'
-    left join {{ ref('opco_uom')}} ou 
+    left join {{ ref('ax_opco_uom_curr')}} ou 
         on upper(cpt.salesunit) = ou.src_uom_cd
         and ou.src_sys_nm = 'AX'
-    left join {{ ref('opco_uom')}} ou1 
+    left join {{ ref('ax_opco_uom_curr')}} ou1 
         on upper(cpt.inventunit_opi) = ou1.src_uom_cd
         and ou1.src_sys_nm = 'AX'
     where cpt.dataareaid not in {{ var('excluded_ax_companies')}}

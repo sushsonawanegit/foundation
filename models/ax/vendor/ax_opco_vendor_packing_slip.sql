@@ -38,52 +38,52 @@ with ax_opco_vendor_packing_slip as (
     vps.volume as dlvry_volume_amt,
     vps.weight as dlvry_weight_amt
     from {{ source('AX_DEV', 'VENDPACKINGSLIPJOUR') }} vps
-    left join {{ ref('opco')}} opco 
+    left join {{ ref('ax_opco_curr')}} opco 
         on vps.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'   
-    left join {{ ref('opco_vendor')}} ov 
+    left join {{ ref('ax_opco_vendor_curr')}} ov 
         on upper(vps.orderaccount) = ov.vendor_id
         and ov.src_sys_nm = 'AX'
-    left join {{ ref('opco_vendor')}} ov1 
+    left join {{ ref('ax_opco_vendor_curr')}} ov1 
         on upper(vps.invoiceaccount) = ov1.vendor_id
         and ov1.src_sys_nm = 'AX'
-    left join {{ ref('opco_po')}} opo 
+    left join {{ ref('ax_opco_po_curr')}} opo 
         on vps.dataareaid = opo.opco_id 
         and vps.purchid = opo.po_id
         and opo.src_sys_nm = 'AX'
-    left join {{ ref('opco_cost_center')}} occ 
+    left join {{ ref('ax_opco_cost_center_curr')}} occ 
         on upper(vps.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ ref('opco_dept')}} od 
+    left join {{ ref('ax_opco_dept_curr')}} od 
         on upper(vps.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ ref('opco_type')}} ot 
+    left join {{ ref('ax_opco_type_curr')}} ot 
         on upper(vps.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ ref('opco_purpose')}} op 
+    left join {{ ref('ax_opco_purpose_curr')}} op 
         on upper(vps.dimension4_) = op.src_purpose_cd
         and op.src_sys_nm = 'AX'
-    left join {{ ref('opco_lob')}} ol 
+    left join {{ ref('ax_opco_lob_curr')}} ol 
         on upper(vps.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ ref('opco_dlvry_terms')}} odt 
+    left join {{ ref('ax_opco_dlvry_terms_curr')}} odt 
         on upper(vps.dlvterm) = odt.src_dlvry_terms_cd
         and odt.src_sys_nm = 'AX'
-    left join {{ ref('opco_dlvry_mode')}} odm 
+    left join {{ ref('ax_opco_dlvry_mode_curr')}} odm 
         on upper(vps.dlvmode) = odm.src_dlvry_mode_cd
         and odm.src_sys_nm = 'AX'
-    left join {{ ref('opco_locn')}} oln 
+    left join {{ ref('ax_opco_locn_curr')}} oln 
          on upper(vps.deliverystreet) = oln.addr_ln_1_txt
         and upper(vps.deliverycity) = oln.city_nm
         and upper(vps.dlvstate) = oln.state_nm
         and upper(vps.dlvcountryregionid) = oln.country_nm
         and upper(vps.dlvzipcode) = oln.zip_cd
         and oln.src_sys_nm = 'AX'
-    left join {{ ref('opco_project')}} opr 
+    left join {{ ref('ax_opco_project_curr')}} opr 
         on vps.dataareaid = opr.opco_id
         and vps.projid_opi = opr.project_id
         and opr.src_sys_nm = 'AX'
-    left join {{ ref('opco_po_type')}} opt 
+    left join {{ ref('ax_opco_po_type_curr')}} opt 
         on vps.purchasetype = opt.src_po_type_cd
         and opt.src_sys_nm = 'AX'
     where vps.dataareaid not in {{ var('excluded_ax_companies')}}

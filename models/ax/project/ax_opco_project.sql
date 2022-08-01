@@ -58,32 +58,32 @@ with ax_opco_project as(
 	pt.retentionduedate_opi as retention_due_dt ,   
 	pt.payusetax_opi as use_tax_ind        
     from {{source('AX_DEV', 'PROJTABLE')}} pt
-    left join {{ref('opco')}} o    
+    left join {{ref('ax_opco_curr')}} o    
         on pt.dataareaid = o.opco_id    
         and o.src_sys_nm = 'AX'  
-	left join {{ref('opco_cust')}} oc 
+	left join {{ref('ax_opco_cust_curr')}} oc 
         on pt.dataareaid = oc.opco_id
 		and pt.custaccount = oc.cust_id
         and oc.src_sys_nm = 'AX'  		
-    left join {{ref('opco_cost_center')}} occ 
+    left join {{ref('ax_opco_cost_center_curr')}} occ 
         on upper(pt.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ref('opco_dept')}} od
+    left join {{ref('ax_opco_dept_curr')}} od
         on upper(pt.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-	left join {{ref('opco_type')}} ot 
+	left join {{ref('ax_opco_type_curr')}} ot 
         on upper(pt.dimension3_) = ot.src_type_cd	
         and ot.src_sys_nm = 'AX'  	
-	left join {{ref('opco_purpose')}} op
+	left join {{ref('ax_opco_purpose_curr')}} op
         on upper(pt.dimension4_) = op.src_purpose_cd	
         and op.src_sys_nm = 'AX'  		
-	left join {{ref('opco_lob')}} ol 
+	left join {{ref('ax_opco_lob_curr')}} ol 
         on upper(pt.dimension5_) = ol.src_lob_cd	
         and ol.src_sys_nm = 'AX'  	
-	left join {{ref('opco_pymnt_terms')}} opt 
+	left join {{ref('ax_opco_pymnt_terms_curr')}} opt 
         on upper(pt.payment_opi) = opt.src_pymnt_terms_cd	
         and opt.src_sys_nm = 'AX'  
-	left join {{ ref('opco_locn')}} olc 
+	left join {{ ref('ax_opco_locn_curr')}} olc 
 		on upper(pt.deliverystreet) = olc.addr_ln_1_txt 
 		and upper(pt.deliverycity) = olc.city_nm
 		and upper(pt.dlvstate) = olc.state_nm

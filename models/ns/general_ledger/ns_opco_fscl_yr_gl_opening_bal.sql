@@ -104,34 +104,34 @@ plus_one_logic as(
     left join {{ source('NS_DEV', 'ACCOUNTS')}} a
         on ofgo.accountnumber = a.accountnumber
         and a._fivetran_deleted = false
-    left join {{ ref('opco')}} opco 
+    left join {{ ref('ns_opco_curr')}} opco 
         on ofgo.subsidiary_id = opco.opco_id
         and opco.src_sys_nm = 'NS'
-    left join {{ ref('opco_chart_of_accts')}} oca 
+    left join {{ ref('ns_opco_chart_of_accts_curr')}} oca 
         on ofgo.accountnumber = oca.gl_acct_nbr
         and oca.src_sys_nm = 'NS'
-    left join {{ ref('opco_gl_trans_type')}} ogt 
+    left join {{ ref('ns_opco_gl_trans_type_curr')}} ogt 
         on ofgo.transaction_type = ogt.src_gl_trans_type_cd
         and ogt.src_sys_nm = 'NS'
-    left join {{ ref('opco_cost_center')}} occ 
+    left join {{ ref('ns_opco_cost_center_curr')}} occ 
         on upper(ofgo.location_id) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'NS'
-    left join {{ ref('opco_dept')}} od 
+    left join {{ ref('ns_opco_dept_curr')}} od 
         on upper(ofgo.department_id) = od.src_dept_cd
         and od.src_sys_nm = 'NS'
-    left join {{ ref('opco_type')}} ot 
+    left join {{ ref('ns_opco_type_curr')}} ot 
         on upper(ofgo.type) = ot.src_type_cd
         and ot.src_sys_nm = 'NS'
-    left join {{ ref('opco_purpose')}} oip
+    left join {{ ref('ns_opco_purpose_curr')}} oip
         on upper(ofgo.market_opi_id) = oip.src_purpose_cd
         and oip.src_sys_nm = 'NS'
-    left join {{ ref('opco_currency')}} oc
+    left join {{ ref('ns_opco_currency_curr')}} oc
         on upper(ofgo.currency_id) = oc.src_currency_cd
         and oc.src_sys_nm = 'NS'
-    left join {{ ref('opco_uom')}} ou 
+    left join {{ ref('ns_opco_uom_curr')}} ou 
         on a.opi_qty_uom_id::varchar(15) = ou.src_uom_cd
         and ou.src_sys_nm = 'NS'
-    left join {{ ref('opco_brand')}} ob 
+    left join {{ ref('ns_opco_brand_curr')}} ob 
         on ofgo.class_id = ob.src_brand_cd
         and ob.src_sys_nm = 'NS'
 ),

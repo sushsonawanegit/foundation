@@ -32,35 +32,35 @@ with ax_opco_opco_cust_xref as(
     ct.segment_opi as segment_cd,
     ct.segmentation_opi as segmentation_txt
     from {{source('AX_DEV', 'CUSTTABLE')}} ct
-    left join {{ref('opco')}} opco
+    left join {{ref('ax_opco_curr')}} opco
         on ct.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'
-    left join {{ref('opco_cust')}} oc 
+    left join {{ref('ax_opco_cust_curr')}} oc 
         on ct.accountnum = oc.cust_id
         and ct.dataareaid = oc.opco_id
         and oc.src_sys_nm = 'AX' 
-    left join {{ref('opco_currency')}} opcur
+    left join {{ref('ax_opco_currency_curr')}} opcur
         on upper(ct.currency) = opcur.src_currency_cd
         and opcur.src_sys_nm = 'AX'
-    left join {{ref('opco_pymnt_terms')}} oppyt
+    left join {{ref('ax_opco_pymnt_terms_curr')}} oppyt
         on upper(ct.paymtermid) = oppyt.src_pymnt_terms_cd
         and oppyt.src_sys_nm = 'AX'
-    left join {{ref('opco_pymnt_mode')}} oppym
+    left join {{ref('ax_opco_pymnt_mode_curr')}} oppym
         on  upper(ct.paymmode) = oppym.src_pymnt_mode_cd 
         and oppym.src_sys_nm = 'AX'
-    left join {{ref('opco_cust_code')}} opcc 
+    left join {{ref('ax_opco_cust_code_curr')}} opcc 
         on upper(ct.precastcode_opi) = opcc.src_cust_code_cd 
         and opcc.src_sys_nm = 'AX'
-    left join {{ref('opco_cust_type')}} opct
+    left join {{ref('ax_opco_cust_type_curr')}} opct
         on upper(ct.precastcategory_opi) = opct.src_cust_type_cd
         and opct.src_sys_nm = 'AX' 
-    left join {{ref('opco_commsn_grp')}} opcg 
+    left join {{ref('ax_opco_commsn_grp_curr')}} opcg 
         on upper(ct.commissiongroup) = opcg.src_commsn_grp_cd
         and opcg.src_sys_nm = 'AX'
-    left join {{ref('opco_cust_grp')}} opcug
+    left join {{ref('ax_opco_cust_grp_curr')}} opcug
         on upper(ct.custgroup) = opcug.src_cust_grp_cd 
         and opcug.src_sys_nm = 'AX'
-    left join {{ref('opco_cash_dscnt_terms')}} opcdt 
+    left join {{ref('ax_opco_cash_dscnt_terms_curr')}} opcdt 
         on upper(cashdisc) = opcdt.src_cash_dscnt_terms_cd
         and opcdt.src_sys_nm = 'AX' 
     where dataareaid not in {{ var('excluded_ax_companies')}}

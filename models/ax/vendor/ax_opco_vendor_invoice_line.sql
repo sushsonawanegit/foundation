@@ -56,56 +56,56 @@ with ax_opco_vendor_invoice_line as (
     vit.lineamounttax as trans_currency_tax_amt,
     vit.tax1099amount as opco_currency_tax_1099_amt
     from {{ source('AX_DEV', 'VENDINVOICETRANS') }} vit 
-    left join {{ ref('opco_vendor_invoice')}} ovi 
+    left join {{ ref('ax_opco_vendor_invoice_curr')}} ovi 
         on vit.dataareaid = ovi.opco_id
         and vit.invoiceid = ovi.invoice_nbr
         and vit.internalinvoiceid = ovi.internal_invoice_nbr
         and ovi.src_sys_nm = 'AX'
-    left join {{ ref('opco')}} opco 
+    left join {{ ref('ax_opco_curr')}} opco 
         on vit.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'
-    left join {{ ref('opco_item')}} oi 
+    left join {{ ref('ax_opco_item_curr')}} oi 
         on vit.dataareaid = oi.opco_id
         and vit.itemid = oi.src_item_cd
         and oi.src_sys_nm = 'AX'
-    left join {{ ref('opco_cost_center')}} occ 
+    left join {{ ref('ax_opco_cost_center_curr')}} occ 
         on upper(vit.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ ref('opco_dept')}} od 
+    left join {{ ref('ax_opco_dept_curr')}} od 
         on upper(vit.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ ref('opco_type')}} ot 
+    left join {{ ref('ax_opco_type_curr')}} ot 
         on upper(vit.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ ref('opco_purpose')}} op 
+    left join {{ ref('ax_opco_purpose_curr')}} op 
         on upper(vit.dimension4_) = op.src_purpose_cd
         and op.src_sys_nm = 'AX'
-    left join {{ ref('opco_lob')}} ol 
+    left join {{ ref('ax_opco_lob_curr')}} ol 
         on upper(vit.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ ref('opco_po')}} opo 
+    left join {{ ref('ax_opco_po_curr')}} opo 
         on vit.dataareaid = opo.opco_id 
         and vit.purchid = opo.po_id
         and opo.src_sys_nm = 'AX'
-    left join {{ ref('opco_po')}} opo1
+    left join {{ ref('ax_opco_po_curr')}} opo1
         on vit.dataareaid = opo1.opco_id 
         and vit.origpurchid = opo1.po_id
         and opo1.src_sys_nm = 'AX'
-    left join {{ ref('opco_chart_of_accts')}} ocoa
+    left join {{ ref('ax_opco_chart_of_accts_curr')}} ocoa
         on vit.dataareaid = ocoa.opco_id
         and vit.ledgeraccount = ocoa.gl_acct_nbr
         and ocoa.src_sys_nm = 'AX'
-    left join {{ ref('opco_currency')}} ocr 
+    left join {{ ref('ax_opco_currency_curr')}} ocr 
         on upper(vit.currencycode) = ocr.src_currency_cd
         and ocr.src_sys_nm = 'AX'
-    left join {{ ref('opco_assctn')}} oa
+    left join {{ ref('ax_opco_assctn_curr')}} oa
         on vit.dataareaid = oa.opco_id
         and vit.inventdimid = oa.src_assctn_cd
         and oa.src_sys_nm = 'AX'
-    left join {{ ref('opco_invtry_ref_type')}} oirt 
+    left join {{ ref('ax_opco_invtry_ref_type_curr')}} oirt 
         on vit.inventreftype = oirt.invtry_ref_type_cd
         and oirt.src_sys_nm = 'AX'
-    left join {{ ref('opco_uom')}} ou 
+    left join {{ ref('ax_opco_uom_curr')}} ou 
         on upper(vit.purchunit) = ou.src_uom_cd
         and ou.src_sys_nm = 'AX'
     where vit.dataareaid not in {{ var('excluded_ax_companies')}}

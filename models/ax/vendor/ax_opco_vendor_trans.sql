@@ -58,49 +58,49 @@ with ax_opco_vendor_trans as(
     vt.discdate_opi as dscnt_dt,
     vt.discamt_opi as dscnt_amt
     from {{ source('AX_DEV', 'VENDTRANS') }} vt 
-    left join {{ ref('opco')}} opco1 
+    left join {{ ref('ax_opco_curr')}} opco1 
         on vt.lastsettlecompany = opco1.opco_id
         and opco1.src_sys_nm = 'AX'
-    left join {{ ref('opco')}} opco
+    left join {{ ref('ax_opco_curr')}} opco
         on vt.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'
-    left join {{ ref('opco_vendor')}} ov 
+    left join {{ ref('ax_opco_vendor_curr')}} ov 
         on upper(vt.accountnum) = ov.vendor_id
         and ov.src_sys_nm = 'AX'
-    left join {{ ref('opco_vendor')}} ov1 
+    left join {{ ref('ax_opco_vendor_curr')}} ov1 
         on upper(vt.lastsettleaccountnum) = ov1.vendor_id
         and ov1.src_sys_nm = 'AX'
-    left join {{ ref('opco_cost_center')}} occ 
+    left join {{ ref('ax_opco_cost_center_curr')}} occ 
         on upper(vt.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ ref('opco_dept')}} od 
+    left join {{ ref('ax_opco_dept_curr')}} od 
         on upper(vt.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ ref('opco_type')}} ot 
+    left join {{ ref('ax_opco_type_curr')}} ot 
         on upper(vt.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ ref('opco_purpose')}} op 
+    left join {{ ref('ax_opco_purpose_curr')}} op 
         on upper(vt.dimension4_) = op.src_purpose_cd
         and op.src_sys_nm = 'AX'
-    left join {{ ref('opco_lob')}} ol 
+    left join {{ ref('ax_opco_lob_curr')}} ol 
         on upper(vt.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ ref('opco_po')}} opo 
+    left join {{ ref('ax_opco_po_curr')}} opo 
         on vt.dataareaid = opo.opco_id 
         and vt.purchid_opi = opo.po_id
         and opo.src_sys_nm = 'AX'
         and vt.purchid_opi is not null
         and vt.purchid_opi <> '0'
-    left join {{ ref('opco_gl_trans_type')}} ogt 
+    left join {{ ref('ax_opco_gl_trans_type_curr')}} ogt 
         on cast(vt.transtype as string) = cast(ogt.src_gl_trans_type_cd as string)
         and ogt.src_sys_nm = 'AX'
-    left join {{ ref('opco_currency')}} oc 
+    left join {{ ref('ax_opco_currency_curr')}} oc 
         on upper(vt.currencycode) = oc.src_currency_cd
         and oc.src_sys_nm = 'AX'
-    left join {{ ref('opco_pymnt_mode')}} opm 
+    left join {{ ref('ax_opco_pymnt_mode_curr')}} opm 
         on upper(vt.paymmode) = opm.src_pymnt_mode_cd
         and opm.src_sys_nm = 'AX'
-    left join {{ ref('opco_cash_dscnt_terms')}} ocd 
+    left join {{ ref('ax_opco_cash_dscnt_terms_curr')}} ocd 
         on upper(vt.cashdisccode) = ocd.src_cash_dscnt_terms_cd
         and ocd.src_sys_nm = 'AX'
     where vt.dataareaid not in {{ var('excluded_ax_companies')}}

@@ -30,31 +30,31 @@ with ax_opco_vendor as(
         when vt.blocked = 2 then 'All'
     end as vendor_block_txt
     from {{source('AX_DEV', 'VENDTABLE')}} vt
-    left join {{ ref('opco_cost_center')}} occ 
+    left join {{ ref('ax_opco_cost_center_curr')}} occ 
         on upper(vt.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ ref('opco_dept')}} od 
+    left join {{ ref('ax_opco_dept_curr')}} od 
         on upper(vt.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ ref('opco_type')}} ot 
+    left join {{ ref('ax_opco_type_curr')}} ot 
         on upper(vt.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ ref('opco_purpose')}} op 
+    left join {{ ref('ax_opco_purpose_curr')}} op 
         on upper(vt.dimension4_) = op.src_purpose_cd
         and op.src_sys_nm = 'AX'
-    left join {{ ref('opco_lob')}} ol
+    left join {{ ref('ax_opco_lob_curr')}} ol
         on upper(vt.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ref('opco_pymnt_mode')}} opm 
+    left join {{ref('ax_opco_pymnt_mode_curr')}} opm 
         on upper(vt.paymmode) = opm.src_pymnt_mode_cd
         and opm.src_sys_nm = 'AX'
-    left join {{ref('opco_pymnt_terms')}} opt 
+    left join {{ref('ax_opco_pymnt_terms_curr')}} opt 
         on upper(vt.paymtermid) = opt.src_pymnt_terms_cd
         and opt.src_sys_nm = 'AX'
-    left join {{ ref('opco_currency')}} oc 
+    left join {{ ref('ax_opco_currency_curr')}} oc 
         on upper(vt.currency) = oc.src_currency_cd
         and oc.src_sys_nm = 'AX'
-    left join {{ ref('opco_dlvry_mode')}} odm 
+    left join {{ ref('ax_opco_dlvry_mode_curr')}} odm 
         on upper(vt.dlvmode) = odm.src_dlvry_mode_cd
         and odm.src_sys_nm = 'AX'
     where vt.dataareaid not in {{ var('excluded_ax_companies')}}

@@ -15,11 +15,11 @@ with ax_opco_item_invtry as (
     isu.postedqty as item_posted_qty,
     isu.postedvalue as item_posted_value_amt
     from {{source('AX_DEV', 'INVENTSUM')}} isu 
-    left join {{ref('opco_item')}} oi 
+    left join {{ref('ax_opco_item_curr')}} oi 
         on isu.dataareaid = oi.opco_id
         and isu.itemid = oi.src_item_cd
         and oi.src_sys_nm = 'AX'
-    left join {{ref('opco_assctn')}} oa 
+    left join {{ref('ax_opco_assctn_curr')}} oa 
         on isu.dataareaid = oa.opco_id 
         and isu.inventdimid = oa.src_assctn_cd
         and oa.src_sys_nm = 'AX'

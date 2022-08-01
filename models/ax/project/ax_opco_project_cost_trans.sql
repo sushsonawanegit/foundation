@@ -52,42 +52,42 @@ with ax_opco_project_cost_trans as(
 	pt.cashdiscamount_opi as opco_currency_cash_dscnt_amt,	 
 	pt.mcpercent_opi as margin_contribution_pct
     from {{source('AX_DEV', 'PROJCOSTTRANS')}} pt
-    left join {{ref('opco')}} o    
+    left join {{ref('ax_opco_curr')}} o    
         on pt.dataareaid = o.opco_id    
         and o.src_sys_nm = 'AX'  
-	left join {{ref('opco_project')}} op 
+	left join {{ref('ax_opco_project_curr')}} op 
         on pt.dataareaid = op.opco_id
 		and pt.projid = op.project_id
         and op.src_sys_nm = 'AX'  		
-    left join {{ref('opco_cost_center')}} ooc 
+    left join {{ref('ax_opco_cost_center_curr')}} ooc 
         on upper(pt.dimension) = ooc.src_cost_center_cd
         and ooc.src_sys_nm = 'AX'
-    left join {{ref('opco_dept')}} od
+    left join {{ref('ax_opco_dept_curr')}} od
         on upper(pt.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-	left join {{ref('opco_type')}} ot 
+	left join {{ref('ax_opco_type_curr')}} ot 
         on upper(pt.dimension3_) = ot.src_type_cd	
         and ot.src_sys_nm = 'AX'  	
-	left join {{ref('opco_purpose')}} opp
+	left join {{ref('ax_opco_purpose_curr')}} opp
         on upper(pt.dimension4_) = opp.src_purpose_cd	
         and opp.src_sys_nm = 'AX'  		
-	left join {{ref('opco_lob')}} ol 
+	left join {{ref('ax_opco_lob_curr')}} ol 
         on upper(pt.dimension5_) = ol.src_lob_cd	
         and ol.src_sys_nm = 'AX'  	
-	left join {{ref('opco_uom')}} ou 
+	left join {{ref('ax_opco_uom_curr')}} ou 
         on upper(pt.unitid_opi) = ou.src_uom_cd	
         and ou.src_sys_nm = 'AX'  
-	left join {{ref('opco_currency')}} tc 
+	left join {{ref('ax_opco_currency_curr')}} tc 
         on upper(pt.currencyidcost) = tc.src_currency_cd
         and tc.src_sys_nm = 'AX'
-	left join {{ref('opco_project_catgry')}} opc 
+	left join {{ref('ax_opco_project_catgry_curr')}} opc 
         on pt.dataareaid = opc.opco_id
 		and pt.categoryid = opc.catgry_cd
         and opc.src_sys_nm = 'AX' 
-	left join {{ ref('opco_project_trans_status')}} opts
+	left join {{ ref('ax_opco_project_trans_status_curr')}} opts
 		on pt.transstatus = opts.project_trans_status_cd
 		and opts.src_sys_nm = 'AX'
-	left join {{ ref('opco_project_trans_origin')}} opto
+	left join {{ ref('ax_opco_project_trans_origin_curr')}} opto
 		on pt.transactionorigin = opto.project_trans_origin_cd
 		and opto.src_sys_nm = 'AX'
 	where pt.dataareaid not in {{ var('excluded_ax_companies')}}    

@@ -81,50 +81,50 @@ with ax_opco_invtry_trans as(
     it.costamountphysical as invtry_updt_qty_cost_amt,
     it.revenueamountphysical as invtry_updt_qty_revenue_amt
     from {{ source('AX_DEV', 'INVENTTRANS') }} it 
-    left join {{ ref('opco')}} opco 
+    left join {{ ref('ax_opco_curr')}} opco 
         on it.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'
-    left join {{ ref('opco_cust')}} oc
+    left join {{ ref('ax_opco_cust_curr')}} oc
         on it.dataareaid = oc.opco_id
         and it.custvendac = oc.cust_id
         and it.direction = 2
         and it.custvendac <> ''
         and oc.src_sys_nm = 'AX'
-    left join {{ ref('opco_vendor')}} ov
+    left join {{ ref('ax_opco_vendor_curr')}} ov
         on upper(it.custvendac) = ov.vendor_id
         and it.direction = 1
         and it.custvendac <> ''
         and ov.src_sys_nm = 'AX'
-    left join {{ ref('opco_item')}} oi 
+    left join {{ ref('ax_opco_item_curr')}} oi 
         on it.dataareaid = oi.opco_id
         and it.itemid = oi.src_item_cd
         and oi.src_sys_nm = 'AX'
-    left join {{ ref('opco_assctn')}} oa 
+    left join {{ ref('ax_opco_assctn_curr')}} oa 
         on it.dataareaid = oa.opco_id
         and it.inventdimid = oa.src_assctn_cd
         and oa.src_sys_nm = 'AX'
-    left join {{ ref('opco_currency')}} ocu
+    left join {{ ref('ax_opco_currency_curr')}} ocu
         on upper(it.currencycode) = ocu.src_currency_cd
         and ocu.src_sys_nm = 'AX'
-    left join {{ ref('opco_invtry_trans_type')}} oitt 
+    left join {{ ref('ax_opco_invtry_trans_type_curr')}} oitt 
         on it.transtype = oitt.invtry_trans_type_cd
         and oitt.src_sys_nm = 'AX'
-    left join {{ ref('opco_project')}} op 
+    left join {{ ref('ax_opco_project_curr')}} op 
         on it.dataareaid = op.opco_id
         and it.projid = op.project_id
         and op.src_sys_nm = 'AX'
-    left join {{ ref('opco_project_catgry')}} opc 
+    left join {{ ref('ax_opco_project_catgry_curr')}} opc 
         on it.dataareaid = opc.opco_id
         and it.projcategoryid = opc.catgry_cd
         and opc.src_sys_nm = 'AX'
-    left join {{ ref('opco_picking_list')}} opl 
+    left join {{ ref('ax_opco_picking_list_curr')}} opl 
         on it.dataareaid = opl.opco_id
         and it.pickingrouteid = opl.picking_list_id
         and opl.src_sys_nm = 'AX'
-    left join {{ ref('opco_invtry_issue_status')}} oiis 
+    left join {{ ref('ax_opco_invtry_issue_status_curr')}} oiis 
         on it.statusissue = oiis.invtry_issue_status_cd
         and oiis.src_sys_nm = 'AX'
-    left join {{ ref('opco_invtry_rcpt_status')}} oirc 
+    left join {{ ref('ax_opco_invtry_rcpt_status_curr')}} oirc 
         on it.statusreceipt = oirc.invtry_rcpt_status_cd
         and oirc.src_sys_nm = 'AX'
     where it.dataareaid not in {{ var('excluded_ax_companies')}}

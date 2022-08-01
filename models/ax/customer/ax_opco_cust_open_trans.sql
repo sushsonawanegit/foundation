@@ -28,18 +28,18 @@ with ax_opco_cust_open_trans as (
     cto.amountmst as opco_currency_trans_amt,
     cto.possiblecashdisc as included_cash_dscnt_amt
     from {{ source('AX_DEV', 'CUSTTRANSOPEN') }} cto 
-    left join {{ ref('opco_cust_trans')}} oct 
+    left join {{ ref('ax_opco_cust_trans_curr')}} oct 
         on cto.dataareaid = oct.opco_id
         and cto.refrecid = oct.src_key_txt
         and oct.src_sys_nm = 'AX'
-    left join {{ ref('opco')}} opco 
+    left join {{ ref('ax_opco_curr')}} opco 
         on cto.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'
-    left join {{ ref('opco_cust')}} oc 
+    left join {{ ref('ax_opco_cust_curr')}} oc 
         on cto.dataareaid = oc.opco_id
         and cto.accountnum = oc.cust_id
         and oc.src_sys_nm = 'AX'
-    left join {{ ref('opco_chart_of_accts')}} oca 
+    left join {{ ref('ax_opco_chart_of_accts_curr')}} oca 
         on cto.dataareaid = oca.opco_id
         and cto.cashdiscaccount = oca.gl_acct_nbr
         and oca.src_sys_nm = 'AX'

@@ -83,53 +83,53 @@ with ax_opco_sls_ordr_line as (
     sl.engineeringhours_opi as engineering_hours_nbr,
     sl.laborhours_opi as labor_hours_nbr   
     from {{source('AX_DEV', 'SALESLINE')}} sl 
-    left join {{ref('opco')}} opco 
+    left join {{ref('ax_opco_curr')}} opco 
         on sl.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'
-    left join {{ref('opco_sls_ordr')}} oso 
+    left join {{ref('ax_opco_sls_ordr_curr')}} oso 
         on sl.dataareaid = oso.opco_id
         and sl.salesid = oso.sls_ordr_id
         and oso.src_sys_nm = 'AX'
-    left join {{ref('opco_item')}} oi 
+    left join {{ref('ax_opco_item_curr')}} oi 
         on sl.dataareaid = oi.opco_id
         and sl.itemid = oi.src_item_cd
         and oi.src_sys_nm = 'AX'
-    left join {{ref('opco_cust')}} oc 
+    left join {{ref('ax_opco_cust_curr')}} oc 
         on sl.dataareaid = oc.opco_id
         and sl.custaccount = oc.cust_id
         and oc.src_sys_nm = 'AX'
-    left join {{ref('opco_currency')}} ocu 
+    left join {{ref('ax_opco_currency_curr')}} ocu 
         on upper(sl.currencycode) = ocu.src_currency_cd
         and ocu.src_sys_nm = 'AX'
-    left join {{ref('opco_uom')}} ou 
+    left join {{ref('ax_opco_uom_curr')}} ou 
         on upper(sl.salesunit) = ou.src_uom_cd
         and ou.src_sys_nm = 'AX'
-    left join {{ref('opco_cost_center')}} occ 
+    left join {{ref('ax_opco_cost_center_curr')}} occ 
         on upper(sl.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ref('opco_dept')}} od 
+    left join {{ref('ax_opco_dept_curr')}} od 
         on upper(sl.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ref('opco_type')}} ot 
+    left join {{ref('ax_opco_type_curr')}} ot 
         on upper(sl.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ref('opco_purpose')}} oip 
+    left join {{ref('ax_opco_purpose_curr')}} oip 
         on upper(sl.dimension4_) = oip.src_purpose_cd
         and oip.src_sys_nm = 'AX'
-    left join {{ref('opco_lob')}} ol 
+    left join {{ref('ax_opco_lob_curr')}} ol 
         on upper(sl.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ref('opco_assctn')}} oa 
+    left join {{ref('ax_opco_assctn_curr')}} oa 
         on sl.inventdimid = oa.src_assctn_cd
         and sl.dataareaid = oa.opco_id
         and oa.src_sys_nm = 'AX'
-    left join {{ref('opco_sls_ordr_type')}} osot 
+    left join {{ref('ax_opco_sls_ordr_type_curr')}} osot 
         on sl.salestype = osot.src_sls_ordr_type_cd
         and osot.src_sys_nm = 'AX'
-    left join {{ref('opco_trans_status')}} osos
+    left join {{ref('ax_opco_trans_status_curr')}} osos
         on sl.salesstatus = osos.src_trans_status_cd
         and osos.src_sys_nm = 'AX'
-    left join {{ ref('opco_dlvry_mode')}} odm 
+    left join {{ ref('ax_opco_dlvry_mode_curr')}} odm 
         on upper(sl.dlvmode) = odm.src_dlvry_mode_cd
         and odm.src_sys_nm = 'AX'
     where sl.dataareaid not in {{ var('excluded_ax_companies')}}

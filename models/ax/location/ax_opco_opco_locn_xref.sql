@@ -25,10 +25,10 @@ with ax_opco_opco_locn_xref as (
     '' as start_dt,
     '' as end_dt
     from {{source('AX_DEV', 'COMPANYINFO')}} ci
-    left join {{ref('opco')}} opco 
+    left join {{ref('ax_opco_curr')}} opco 
         on ci.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'
-    left join {{ref('opco_locn')}} ol 
+    left join {{ref('ax_opco_locn_curr')}} ol 
         on upper(ci.street) = ol.addr_ln_1_txt
         and upper(ci.city) = ol.city_nm
         and upper(ci.state) = ol.state_nm

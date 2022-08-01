@@ -39,36 +39,36 @@ with ax_opco_project_cost_frcst as (
     pfc.totalcost_opi as total_cost_amt,
     pfc.mcpercent_opi as marging_contribution_pct
     from {{ source('AX_DEV', 'PROJFORECASTCOST') }} pfc
-    left join {{ ref('opco_project')}} opr
+    left join {{ ref('ax_opco_project_curr')}} opr
         on pfc.dataareaid = opr.opco_id
         and pfc.projid = opr.project_id
         and opr.src_sys_nm = 'AX'
-    left join {{ ref('opco')}} opco 
+    left join {{ ref('ax_opco_curr')}} opco 
         on pfc.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'
-    left join {{ref('opco_cost_center')}} occ 
+    left join {{ref('ax_opco_cost_center_curr')}} occ 
         on upper(pfc.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ref('opco_dept')}} od 
+    left join {{ref('ax_opco_dept_curr')}} od 
         on upper(pfc.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ref('opco_type')}} ot 
+    left join {{ref('ax_opco_type_curr')}} ot 
         on upper(pfc.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ref('opco_purpose')}} op 
+    left join {{ref('ax_opco_purpose_curr')}} op 
         on upper(pfc.dimension4_) = op.src_purpose_cd
         and op.src_sys_nm = 'AX'
-    left join {{ref('opco_lob')}} ol
+    left join {{ref('ax_opco_lob_curr')}} ol
         on upper(pfc.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ ref('opco_project_catgry')}} opc
+    left join {{ ref('ax_opco_project_catgry_curr')}} opc
         on pfc.dataareaid = opc.opco_id
         and pfc.categoryid = opc.catgry_cd
         and opc.src_sys_nm = 'AX'
-    left join {{ ref('opco_currency')}} ocr
+    left join {{ ref('ax_opco_currency_curr')}} ocr
         on upper(pfc.currencyid) = ocr.src_currency_cd
         and ocr.src_sys_nm = 'AX'
-    left join {{ ref('opco_uom')}} ou 
+    left join {{ ref('ax_opco_uom_curr')}} ou 
         on upper(pfc.unitid_opi) = ou.src_uom_cd
         and ou.src_sys_nm = 'Ax'
     where pfc.dataareaid not in {{ var('excluded_ax_companies')}}

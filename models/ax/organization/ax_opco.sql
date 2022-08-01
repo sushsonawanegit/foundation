@@ -38,13 +38,13 @@ with ax_opco as(
     ci.collectiontype_opi::varchar(50) as collection_type_txt,
     ci.dashboard_opi::numeric(1,0) as dashboard_usage_id
     from {{ source('AX_DEV', 'COMPANYINFO')}} ci
-    left join {{ref('region')}} r 
+    left join {{ref('ax_region_curr')}} r 
         on upper(ci.region_opi) = r.region_id
         and r.src_sys_nm = 'AX'
-    left join {{ref('sub_region')}} sr 
+    left join {{ref('ax_sub_region_curr')}} sr 
         on upper(ci.subregion_opi) = sr.sub_region_id
         and sr.src_sys_nm = 'AX'
-    left join {{ref('opco_currency')}} oc 
+    left join {{ref('ax_opco_currency_curr')}} oc 
         on upper(ci.currencycode) = oc.src_currency_cd
         and oc.src_sys_nm = 'AX'
     where dataareaid not in {{ var('excluded_ax_companies')}}

@@ -46,39 +46,39 @@ with ax_opco_project_empl_trans as (
     pet.totalstdcost_opi as total_std_cost_amt,
     pet.mcpercent_opi as margin_contribution_pct
     from {{ source('AX_DEV', 'PROJEMPLTRANS') }} pet
-    left join {{ ref('opco_project')}} opr
+    left join {{ ref('ax_opco_project_curr')}} opr
         on pet.dataareaid = opr.opco_id
         and pet.projid = opr.project_id
         and opr.src_sys_nm = 'AX'
-    left join {{ ref('opco')}} opco 
+    left join {{ ref('ax_opco_curr')}} opco 
         on pet.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'
-    left join {{ref('opco_cost_center')}} occ 
+    left join {{ref('ax_opco_cost_center_curr')}} occ 
         on upper(pet.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ref('opco_dept')}} od 
+    left join {{ref('ax_opco_dept_curr')}} od 
         on upper(pet.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ref('opco_type')}} ot 
+    left join {{ref('ax_opco_type_curr')}} ot 
         on upper(pet.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ref('opco_purpose')}} op 
+    left join {{ref('ax_opco_purpose_curr')}} op 
         on upper(pet.dimension4_) = op.src_purpose_cd
         and op.src_sys_nm = 'AX'
-    left join {{ref('opco_lob')}} ol
+    left join {{ref('ax_opco_lob_curr')}} ol
         on upper(pet.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ ref('opco_project_catgry')}} opc
+    left join {{ ref('ax_opco_project_catgry_curr')}} opc
         on pet.dataareaid = opc.opco_id
         and pet.categoryid = opc.catgry_cd
         and opc.src_sys_nm = 'AX'
-    left join {{ ref('opco_project_trans_status')}} opts
+    left join {{ ref('ax_opco_project_trans_status_curr')}} opts
 		on pet.transstatus = opts.project_trans_status_cd
 		and opts.src_sys_nm = 'AX'
-	left join {{ ref('opco_project_trans_origin')}} opto
+	left join {{ ref('ax_opco_project_trans_origin_curr')}} opto
 		on pet.transactionorigin = opto.project_trans_origin_cd
 		and opto.src_sys_nm = 'AX'
-    left join {{ ref('opco_currency')}} ocr
+    left join {{ ref('ax_opco_currency_curr')}} ocr
         on upper(pet.currencyid) = ocr.src_currency_cd
         and ocr.src_sys_nm = 'AX'
     where pet.dataareaid not in {{ var('excluded_ax_companies')}}

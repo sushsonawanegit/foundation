@@ -43,49 +43,49 @@ with ax_opco_vendor_packing_slip_line as (
     vps.inventqty as invtry_qty,
     vps.valuemst as opco_currency_trans_amt
     from {{ source('AX_DEV', 'VENDPACKINGSLIPTRANS') }} vps
-    left join {{ ref('opco_vendor_packing_slip')}} ovps
+    left join {{ ref('ax_opco_vendor_packing_slip_curr')}} ovps
         on vps.dataareaid = ovps.opco_id
         and vps.packingslipid = ovps.packing_slip_id
         and vps.internalpackingslipid = ovps.internal_packing_slip_id
         and ovps.src_sys_nm = 'AX'
-    left join {{ ref('opco')}} opco 
+    left join {{ ref('ax_opco_curr')}} opco 
         on vps.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'
-    left join {{ ref('opco_item')}} oi 
+    left join {{ ref('ax_opco_item_curr')}} oi 
         on vps.dataareaid = oi.opco_id
         and vps.itemid = oi.src_item_cd
         and oi.src_sys_nm = 'AX'
-    left join {{ ref('opco_cost_center')}} occ 
+    left join {{ ref('ax_opco_cost_center_curr')}} occ 
         on upper(vps.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ ref('opco_dept')}} od 
+    left join {{ ref('ax_opco_dept_curr')}} od 
         on upper(vps.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ ref('opco_type')}} ot 
+    left join {{ ref('ax_opco_type_curr')}} ot 
         on upper(vps.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ ref('opco_purpose')}} op 
+    left join {{ ref('ax_opco_purpose_curr')}} op 
         on upper(vps.dimension4_) = op.src_purpose_cd
         and op.src_sys_nm = 'AX'
-    left join {{ ref('opco_lob')}} ol 
+    left join {{ ref('ax_opco_lob_curr')}} ol 
         on upper(vps.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ ref('opco_po')}} opo 
+    left join {{ ref('ax_opco_po_curr')}} opo 
         on vps.dataareaid = opo.opco_id 
         and vps.purchid = opo.po_id
         and opo.src_sys_nm = 'AX'
-    left join {{ ref('opco_po')}} opo1 
+    left join {{ ref('ax_opco_po_curr')}} opo1 
         on vps.dataareaid = opo1.opco_id 
         and vps.origpurchid = opo1.po_id
         and opo1.src_sys_nm = 'AX'
-    left join {{ ref('opco_assctn')}} oa
+    left join {{ ref('ax_opco_assctn_curr')}} oa
         on vps.dataareaid = oa.opco_id
         and vps.inventdimid = oa.src_assctn_cd
         and oa.src_sys_nm = 'AX'
-    left join {{ ref('opco_uom')}} ou 
+    left join {{ ref('ax_opco_uom_curr')}} ou 
         on upper(vps.purchunit) = ou.src_uom_cd
         and ou.src_sys_nm = 'AX'
-    left join {{ ref('opco_invtry_ref_type')}} oirt 
+    left join {{ ref('ax_opco_invtry_ref_type_curr')}} oirt 
         on vps.inventreftype = oirt.invtry_ref_type_cd
         and oirt.src_sys_nm = 'AX'
     where vps.dataareaid not in {{ var('excluded_ax_companies')}}

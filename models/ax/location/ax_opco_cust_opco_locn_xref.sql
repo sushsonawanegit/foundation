@@ -32,14 +32,14 @@ with ax_opco_cust_opco_locn_xref as(
         and cp.dataareaid not in {{ var('excluded_ax_companies')}}
         and ct.dataareaid not in {{ var('excluded_ax_companies')}}
         and ct._fivetran_deleted = false
-    left join {{ref('opco_locn')}} ol
+    left join {{ref('ax_opco_locn_curr')}} ol
         on upper(ct.street) = ol.addr_ln_1_txt
         and upper(ct.city) = ol.city_nm
         and upper(ct.state) = ol.state_nm
         and upper(ct.countryregionid) = ol.country_nm
         and upper(ct.zipcode) = ol.zip_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ref('opco_cust')}} oc 
+    left join {{ref('ax_opco_cust_curr')}} oc 
         on ct.accountnum = oc.cust_id
         and ct.dataareaid = oc.opco_id
         and oc.src_sys_nm = 'AX'

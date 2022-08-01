@@ -66,48 +66,48 @@ with ax_opco_project_trans_posting as (
     ptp.qty as trans_qty,
     ptp.amountmst as opco_currency_trans_amt
     from {{ source('AX_DEV', 'PROJTRANSPOSTING') }} ptp
-    left join {{ ref('opco_project')}} opr
+    left join {{ ref('ax_opco_project_curr')}} opr
         on ptp.dataareaid = opr.opco_id
         and ptp.projid = opr.project_id
         and opr.src_sys_nm = 'AX'
-    left join {{ ref('opco')}} opco 
+    left join {{ ref('ax_opco_curr')}} opco 
         on ptp.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'
-    left join {{ ref('opco_item')}} oi 
+    left join {{ ref('ax_opco_item_curr')}} oi 
         on ptp.emplitemid = oi.src_item_cd
         and ptp.dataareaid = oi.opco_id
         and oi.src_sys_nm = 'AX'
         and ptp.projtranstype = 4
         and ptp.emplitemid is not null
-    left join {{ref('opco_cost_center')}} occ 
+    left join {{ref('ax_opco_cost_center_curr')}} occ 
         on upper(ptp.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ref('opco_dept')}} od 
+    left join {{ref('ax_opco_dept_curr')}} od 
         on upper(ptp.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ref('opco_type')}} ot 
+    left join {{ref('ax_opco_type_curr')}} ot 
         on upper(ptp.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ref('opco_purpose')}} op 
+    left join {{ref('ax_opco_purpose_curr')}} op 
         on upper(ptp.dimension4_) = op.src_purpose_cd
         and op.src_sys_nm = 'AX'
-    left join {{ref('opco_lob')}} ol
+    left join {{ref('ax_opco_lob_curr')}} ol
         on upper(ptp.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ ref('opco_project_catgry')}} opc
+    left join {{ ref('ax_opco_project_catgry_curr')}} opc
         on ptp.dataareaid = opc.opco_id
         and ptp.categoryid = opc.catgry_cd
         and opc.src_sys_nm = 'AX'
-    left join {{ ref('opco_project_trans_origin')}} opto
+    left join {{ ref('ax_opco_project_trans_origin_curr')}} opto
         on ptp.transactionorigin = opto.project_trans_origin_cd
         and opto.src_sys_nm = 'AX'
-    left join {{ ref('opco_project_trans_origin')}} opto1
+    left join {{ ref('ax_opco_project_trans_origin_curr')}} opto1
         on ptp.ledgerorigin = opto1.project_trans_origin_cd
         and opto1.src_sys_nm = 'AX'
-    left join {{ ref('opco_gl_trans_posting_type')}} ogtp
+    left join {{ ref('ax_opco_gl_trans_posting_type_curr')}} ogtp
         on ptp.postingtype = ogtp.src_gl_trans_posting_type_cd
         and ogtp.src_sys_nm = 'AX'
-    left join {{ ref('opco_chart_of_accts')}} ocoa
+    left join {{ ref('ax_opco_chart_of_accts_curr')}} ocoa
         on ptp.dataareaid = ocoa.opco_id
         and ptp.account = ocoa.gl_acct_nbr
         and ocoa.src_sys_nm = 'AX'

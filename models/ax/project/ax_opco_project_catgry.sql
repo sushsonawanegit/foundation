@@ -35,29 +35,29 @@ with ax_opco_project_catgry as(
     end as empl_applicable_ind,
 	pt.active as actv_ind
     from {{source('AX_DEV', 'PROJCATEGORY')}} pt
-    left join {{ref('opco')}} o    
+    left join {{ref('ax_opco_curr')}} o    
         on pt.dataareaid = o.opco_id    
         and o.src_sys_nm = 'AX'  
-	left join {{ref('opco_item')}} oi 
+	left join {{ref('ax_opco_item_curr')}} oi 
         on pt.dataareaid = oi.opco_id
 		and pt.itemid_opi = oi.src_item_cd
         and oi.src_sys_nm = 'AX'  	
-    left join {{ref('opco_cost_center')}} occ 
+    left join {{ref('ax_opco_cost_center_curr')}} occ 
         on upper(pt.dimension_opi) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ref('opco_dept')}} od
+    left join {{ref('ax_opco_dept_curr')}} od
         on upper(pt.dimension_opi2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-	left join {{ref('opco_type')}} ot 
+	left join {{ref('ax_opco_type_curr')}} ot 
         on upper(pt.dimension_opi3_) = ot.src_type_cd	
         and ot.src_sys_nm = 'AX'  	
-	left join {{ref('opco_purpose')}} op
+	left join {{ref('ax_opco_purpose_curr')}} op
         on upper(pt.dimension_opi4_) = op.src_purpose_cd	
         and op.src_sys_nm = 'AX'  		
-	left join {{ref('opco_lob')}} ol 
+	left join {{ref('ax_opco_lob_curr')}} ol 
         on upper(pt.dimension_opi5_) = ol.src_lob_cd	
         and ol.src_sys_nm = 'AX'  	
-	left join {{ref('opco_uom')}} ou 
+	left join {{ref('ax_opco_uom_curr')}} ou 
         on upper(pt.unitid_opi) = ou.src_uom_cd	
         and ou.src_sys_nm = 'AX'  
     where pt.dataareaid not in {{ var('excluded_ax_companies')}} 

@@ -96,69 +96,69 @@ with ax_opco_sls_ordr as (
         and st.dataareaid not in {{ var('excluded_ax_companies')}}
         and ccg.dataareaid not in {{ var('excluded_ax_companies')}}
         and ccg._fivetran_deleted = false
-    left join {{ref('opco_cost_center')}} occ 
+    left join {{ref('ax_opco_cost_center_curr')}} occ 
         on upper(st.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ref('opco_dept')}} od 
+    left join {{ref('ax_opco_dept_curr')}} od 
         on upper(st.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ref('opco_type')}} ot 
+    left join {{ref('ax_opco_type_curr')}} ot 
         on upper(st.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ref('opco_purpose')}} oip 
+    left join {{ref('ax_opco_purpose_curr')}} oip 
         on upper(st.dimension4_) = oip.src_purpose_cd
         and oip.src_sys_nm = 'AX'
-    left join {{ref('opco_lob')}} ol
+    left join {{ref('ax_opco_lob_curr')}} ol
         on upper(st.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ref('opco_cust')}} oc 
+    left join {{ref('ax_opco_cust_curr')}} oc 
         on st.dataareaid = oc.opco_id
         and st.custaccount = oc.cust_id
         and oc.src_sys_nm = 'AX'
-    left join {{ref('opco_trans_status')}} oss 
+    left join {{ref('ax_opco_trans_status_curr')}} oss 
         on st.salesstatus = oss.src_trans_status_cd
         and oss.src_sys_nm = 'AX'
-    left join {{ref('opco_cust_grp')}} ocg 
+    left join {{ref('ax_opco_cust_grp_curr')}} ocg 
         on upper(st.custgroup) = ocg.src_cust_grp_cd
         and ocg.src_sys_nm = 'AX'
-    left join {{ref('opco_site')}} os 
+    left join {{ref('ax_opco_site_curr')}} os 
         on upper(st.inventsiteid) = os.src_site_id
         and os.src_sys_nm = 'AX'
-    left join {{ref('opco_currency')}} ocu 
+    left join {{ref('ax_opco_currency_curr')}} ocu 
         on upper(st.currencycode) = ocu.src_currency_cd
         and ocu.src_sys_nm = 'AX'
-    left join {{ref('opco_pymnt_terms')}} opt 
+    left join {{ref('ax_opco_pymnt_terms_curr')}} opt 
         on upper(st.payment) = opt.src_pymnt_terms_cd
         and opt.src_sys_nm = 'AX'
-    left join {{ref('opco_pymnt_mode')}} opm 
+    left join {{ref('ax_opco_pymnt_mode_curr')}} opm 
         on upper(st.paymmode) = opm.src_pymnt_mode_cd
         and opm.src_sys_nm = 'AX'
-    left join {{ref('opco_cash_dscnt_terms')}} ocd 
+    left join {{ref('ax_opco_cash_dscnt_terms_curr')}} ocd 
         on upper(st.cashdisc) = ocd.src_cash_dscnt_terms_cd
         and ocd.src_sys_nm = 'AX'
-    left join {{ref('opco_sls_ordr_doc_status')}} oso 
+    left join {{ref('ax_opco_sls_ordr_doc_status_curr')}} oso 
         on st.documentstatus = oso.src_sls_ordr_doc_status_cd
         and oso.src_sys_nm = 'AX'
-    left join {{ref('opco_sls_ordr_type')}} osot
+    left join {{ref('ax_opco_sls_ordr_type_curr')}} osot
         on st.salestype = osot.src_sls_ordr_type_cd
         and osot.src_sys_nm = 'AX'
-    left join {{ ref('opco_dlvry_terms')}} odt 
+    left join {{ ref('ax_opco_dlvry_terms_curr')}} odt 
         on upper(st.dlvterm) = odt.src_dlvry_terms_cd
         and odt.src_sys_nm = 'AX'
-    left join {{ ref('opco_dlvry_mode')}} odm 
+    left join {{ ref('ax_opco_dlvry_mode_curr')}} odm 
         on upper(st.dlvmode) = odm.src_dlvry_mode_cd
         and odm.src_sys_nm = 'AX'
-    left join {{ ref('opco_locn')}} olc
+    left join {{ ref('ax_opco_locn_curr')}} olc
         on st.deliverystreet = olc.addr_ln_1_txt
         and st.deliverycity = olc.city_nm
         and st.deliverystate = olc.state_nm
         and st.deliverycountryregionid = olc.country_nm
         and st.deliveryzipcode = olc.zip_cd
-    left join {{ ref('warehouse')}} wr 
+    left join {{ ref('ax_warehouse_curr')}} wr 
         on upper(st.inventlocationid) = wr.warehouse_id
         and st.dataareaid = wr.opco_id
         and wr.src_sys_nm = 'AX'
-    left join {{ ref('opco_cust')}} ocust
+    left join {{ ref('ax_opco_cust_curr')}} ocust
         on st.dataareaid = ocust.opco_id
         and st.invoiceaccount = ocust.cust_id
         and ocust.src_sys_nm = 'AX'

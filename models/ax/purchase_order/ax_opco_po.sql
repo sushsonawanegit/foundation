@@ -47,74 +47,74 @@ with ax_opco_po as (
     pt.discpercent as dscnt_pct,
     pt.cashdiscpercent as cash_dscnt_pct
     from {{ source('AX_DEV', 'PURCHTABLE') }} pt
-    left join {{ ref('opco')}} opco 
+    left join {{ ref('ax_opco_curr')}} opco 
         on pt.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'
-    left join {{ ref('opco_cost_center')}} occ 
+    left join {{ ref('ax_opco_cost_center_curr')}} occ 
         on upper(pt.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ ref('opco_dept')}} od 
+    left join {{ ref('ax_opco_dept_curr')}} od 
         on upper(pt.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ ref('opco_type')}} ot 
+    left join {{ ref('ax_opco_type_curr')}} ot 
         on upper(pt.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ ref('opco_purpose')}} oip
+    left join {{ ref('ax_opco_purpose_curr')}} oip
         on upper(pt.dimension4_) = oip.src_purpose_cd
         and oip.src_sys_nm = 'AX'
-    left join {{ ref('opco_lob')}} ol
+    left join {{ ref('ax_opco_lob_curr')}} ol
         on upper(pt.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ ref('opco_vendor')}} ov 
+    left join {{ ref('ax_opco_vendor_curr')}} ov 
         on upper(pt.orderaccount) = ov.vendor_id
         and ov.src_sys_nm = 'AX'
-    left join {{ ref('opco_vendor')}} ov2
+    left join {{ ref('ax_opco_vendor_curr')}} ov2
         on upper(pt.invoiceaccount) = ov2.vendor_id
         and ov2.src_sys_nm = 'AX'
-    left join {{ ref('opco_cash_dscnt_terms')}} ocd 
+    left join {{ ref('ax_opco_cash_dscnt_terms_curr')}} ocd 
         on upper(pt.cashdisc) = ocd.src_cash_dscnt_terms_cd
         and ocd.src_sys_nm = 'AX'
-    left join {{ ref('opco_currency')}} oc 
+    left join {{ ref('ax_opco_currency_curr')}} oc 
         on upper(pt.currencycode) = oc.src_currency_cd
         and oc.src_sys_nm = 'AX'
-    left join {{ ref('opco_trans_status')}} ots 
+    left join {{ ref('ax_opco_trans_status_curr')}} ots 
         on pt.purchstatus = ots.src_trans_status_cd
         and ots.src_sys_nm = 'AX'
-    left join {{ ref('opco_po_type')}} opo
+    left join {{ ref('ax_opco_po_type_curr')}} opo
         on pt.purchasetype = opo.src_po_type_cd
         and opo.src_sys_nm = 'AX'
-    left join {{ ref('opco_pymnt_terms')}} opt 
+    left join {{ ref('ax_opco_pymnt_terms_curr')}} opt 
         on upper(pt.payment) = opt.src_pymnt_terms_cd
         and opt.src_sys_nm = 'AX'
-    left join {{ ref('opco_pymnt_mode')}} opm 
+    left join {{ ref('ax_opco_pymnt_mode_curr')}} opm 
         on upper(pt.paymmode) = opm.src_pymnt_mode_cd
         and opm.src_sys_nm = 'AX'
-    left join {{ ref('opco_cust')}} ocu 
+    left join {{ ref('ax_opco_cust_curr')}} ocu 
         on pt.dataareaid = ocu.opco_id
         and pt.intercompanyoriginalcustacco12 = ocu.cust_id
         and ocu.src_sys_nm = 'AX'
-    left join {{ ref('opco_sls_ordr')}} oso 
+    left join {{ ref('ax_opco_sls_ordr_curr')}} oso 
         on pt.dataareaid = oso.opco_id
         and pt.intercompanyoriginalsalesid = oso.sls_ordr_id
         and oso.src_sys_nm = 'AX'
-    left join {{ ref('opco_dlvry_mode')}} odm 
+    left join {{ ref('ax_opco_dlvry_mode_curr')}} odm 
         on upper(pt.dlvmode) = odm.src_dlvry_mode_cd
         and odm.src_sys_nm = 'AX'
-    left join {{ ref('opco_dlvry_terms')}} odt 
+    left join {{ ref('ax_opco_dlvry_terms_curr')}} odt 
         on upper(pt.dlvterm) = odt.src_dlvry_terms_cd
         and odt.src_sys_nm = 'AX'
-    left join {{ ref('opco_po_doc_status')}} opds
+    left join {{ ref('ax_opco_po_doc_status_curr')}} opds
         on pt.documentstatus = opds.po_doc_status_cd
         and opds.src_sys_nm = 'AX'
-    left join {{ ref('warehouse')}} wr 
+    left join {{ ref('ax_warehouse_curr')}} wr 
         on pt.dataareaid = wr.opco_id
         and upper(pt.inventlocationid) = wr.warehouse_id
         and wr.src_sys_nm = 'AX'
-    left join {{ ref('opco_project')}} op
+    left join {{ ref('ax_opco_project_curr')}} op
         on pt.dataareaid = op.opco_id
         and pt.projid = op.project_id
         and op.src_sys_nm = 'AX'
-    left join {{ ref('opco_locn')}} oln 
+    left join {{ ref('ax_opco_locn_curr')}} oln 
         on upper(pt.deliverystreet) = oln.addr_ln_1_txt
         and upper(pt.deliverycity) = oln.city_nm
         and upper(pt.dlvstate) = oln.state_nm

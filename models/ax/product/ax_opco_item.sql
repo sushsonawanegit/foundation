@@ -70,43 +70,43 @@ with ax_opco_item as (
         when tier_opi = 6 then 'C'
     end as tier_txt
     from {{source('AX_DEV', 'INVENTTABLE')}} it 
-    left join {{ref('opco_item_type')}} oit 
+    left join {{ref('ax_opco_item_type_curr')}} oit 
         on upper(it.precastcategory_opi) = oit.src_item_type_cd
         and oit.src_sys_nm = 'AX'
-    left join {{ref('opco_item_subtype')}} ois 
+    left join {{ref('ax_opco_item_subtype_curr')}} ois 
         on it.precastcode_opi = ois.src_item_subtype_desc
         and upper(it.precastcategory_opi) = ois.src_item_type_cd
         and ois.src_sys_nm = 'AX'
-    left join {{ref('opco_uom')}} ou 
+    left join {{ref('ax_opco_uom_curr')}} ou 
         on upper(it.bomunitid) = ou.src_uom_cd
         and ou.src_sys_nm = 'AX'
-    left join {{ref('opco_commsn_grp')}} ocg 
+    left join {{ref('ax_opco_commsn_grp_curr')}} ocg 
         on upper(it.commissiongroupid) = ocg.src_commsn_grp_cd
         and ocg.src_sys_nm ='AX'
-    left join {{ref('opco_item_grp')}} oig 
+    left join {{ref('ax_opco_item_grp_curr')}} oig 
         on upper(it.itemgroupid) = oig.src_item_grp_cd
         and it.dataareaid = oig.opco_id
         and oig.src_sys_nm = 'AX'
-    left join {{ref('opco_item_model_grp')}} oim 
+    left join {{ref('ax_opco_item_model_grp_curr')}} oim 
         on upper(it.modelgroupid) = oim.src_item_model_grp_cd
         and oim.src_sys_nm = 'AX'
-    left join {{ref('opco_vendor')}} ov 
+    left join {{ref('ax_opco_vendor_curr')}} ov 
         on upper(it.primaryvendorid) = ov.vendor_id
         and ov.src_sys_nm = 'AX'
-    left join {{ref('opco_item_class')}} oic 
+    left join {{ref('ax_opco_item_class_curr')}} oic 
         on upper(it.productclassid_opi) = oic.src_item_class_cd
         and oic.src_sys_nm = 'AX'
-    left join {{ref('opco_item_cvrg_grp')}} oicg 
+    left join {{ref('ax_opco_item_cvrg_grp_curr')}} oicg 
         on upper(it.reqgroupid) = oicg.src_item_cvrg_grp_cd
         and it.dataareaid = oicg.opco_id
         and oicg.src_sys_nm = 'AX'
-    left join {{ref('opco_item_sls_class')}} oisc 
+    left join {{ref('ax_opco_item_sls_class_curr')}} oisc 
         on upper(it.salesclassid_opi) = oisc.src_item_sls_class_cd
         and oisc.src_sys_nm = 'AX' 
-    left join {{ref('opco_purpose')}} oip 
+    left join {{ref('ax_opco_purpose_curr')}} oip 
         on upper(it.dimension4_) = oip.src_purpose_cd
         and oip.src_sys_nm = 'AX'
-    left join {{ref('opco_lob')}} ol 
+    left join {{ref('ax_opco_lob_curr')}} ol 
         on upper(it.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
     where it.dataareaid not in {{ var('excluded_ax_companies')}}

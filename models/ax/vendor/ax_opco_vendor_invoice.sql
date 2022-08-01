@@ -55,53 +55,53 @@ with ax_opco_vendor_invoice as(
     vij.sumlinedisc as trans_currency_line_dscnt_amt,
     vij.salesbalance as trans_currency_balance_sls_amt    
     from {{ source('AX_DEV', 'VENDINVOICEJOUR') }} vij
-    left join {{ ref('opco')}} opco 
+    left join {{ ref('ax_opco_curr')}} opco 
         on vij.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'
-    left join {{ ref('opco_po')}} opo 
+    left join {{ ref('ax_opco_po_curr')}} opo 
         on vij.dataareaid = opo.opco_id
         and vij.purchid = opo.po_id
         and opo.src_sys_nm = 'AX'
-    left join {{ ref('opco_vendor')}} ov 
+    left join {{ ref('ax_opco_vendor_curr')}} ov 
         on upper(vij.orderaccount) = ov.vendor_id
         and ov.src_sys_nm = 'AX'
-    left join {{ ref('opco_vendor')}} ov1 
+    left join {{ ref('ax_opco_vendor_curr')}} ov1 
         on upper(vij.invoiceaccount) = ov1.vendor_id
         and ov1.src_sys_nm = 'AX'
-    left join {{ ref('opco_cost_center')}} occ 
+    left join {{ ref('ax_opco_cost_center_curr')}} occ 
         on upper(vij.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ ref('opco_dept')}} od 
+    left join {{ ref('ax_opco_dept_curr')}} od 
         on upper(vij.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ ref('opco_type')}} ot 
+    left join {{ ref('ax_opco_type_curr')}} ot 
         on upper(vij.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ ref('opco_purpose')}} op 
+    left join {{ ref('ax_opco_purpose_curr')}} op 
         on upper(vij.dimension4_) = op.src_purpose_cd
         and op.src_sys_nm = 'AX'
-    left join {{ ref('opco_lob')}} ol 
+    left join {{ ref('ax_opco_lob_curr')}} ol 
         on upper(vij.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ ref('opco_po_type')}} opt
+    left join {{ ref('ax_opco_po_type_curr')}} opt
         on vij.purchasetype = opt.src_po_type_cd
         and opt.src_sys_nm = 'AX'
-    left join {{ ref('opco_currency')}} oc 
+    left join {{ ref('ax_opco_currency_curr')}} oc 
         on upper(vij.currencycode) = oc.src_currency_cd
         and oc.src_sys_nm = 'AX'
-    left join {{ ref('opco_pymnt_terms')}} opm 
+    left join {{ ref('ax_opco_pymnt_terms_curr')}} opm 
         on upper(vij.payment) = opm.src_pymnt_terms_cd
         and opm.src_sys_nm = 'AX'
-    left join {{ ref('opco_cash_dscnt_terms')}} ocd 
+    left join {{ ref('ax_opco_cash_dscnt_terms_curr')}} ocd 
         on upper(vij.cashdisccode) = ocd.src_cash_dscnt_terms_cd
         and ocd.src_sys_nm = 'AX'
-    left join {{ ref('opco_dlvry_terms')}} odt 
+    left join {{ ref('ax_opco_dlvry_terms_curr')}} odt 
         on upper(vij.dlvterm) = odt.src_dlvry_terms_cd
         and odt.src_sys_nm = 'AX'
-    left join {{ ref('opco_dlvry_mode')}} odm 
+    left join {{ ref('ax_opco_dlvry_mode_curr')}} odm 
         on upper(vij.dlvmode) = odm.src_dlvry_mode_cd
         and odm.src_sys_nm = 'AX'
-    left join {{ ref('opco_project')}} opr 
+    left join {{ ref('ax_opco_project_curr')}} opr 
         on vij.dataareaid = opr.opco_id
         and vij.projid_opi = opr.project_id
         and opr.src_sys_nm = 'AX'

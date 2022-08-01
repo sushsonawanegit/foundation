@@ -16,7 +16,7 @@ with ax_opco_item_size as(
     its.name as src_item_size_nm,
     its.description as src_item_size_desc
     from {{source('AX_DEV', 'INVENTSIZE')}} its 
-    left join {{ref('opco_item')}} oi 
+    left join {{ref('ax_opco_item_curr')}} oi 
         on its.dataareaid = oi.opco_id
         and its.itemid = oi.src_item_cd
         and oi.src_sys_nm = 'AX'

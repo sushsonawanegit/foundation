@@ -28,13 +28,13 @@ with ax_opco_item_grp as (
     itg.projectonly_opi as project_only_ind,
     itg.projcategoryid_opi as project_ctgry_cd
     from {{source('AX_DEV', 'INVENTITEMGROUP')}} itg 
-    left join {{ref('opco_uom')}} ou1 
+    left join {{ref('ax_opco_uom_curr')}} ou1 
         on upper(itg.glproduom_opi) = ou1.src_uom_cd
         and ou1.src_sys_nm = 'AX'
-    left join {{ref('opco_uom')}} ou2 
+    left join {{ref('ax_opco_uom_curr')}} ou2 
         on upper(itg.glsalesuom_opi) = ou2.src_uom_cd
         and ou2.src_sys_nm = 'AX'
-    left join {{ref('opco_item_freight')}} oif 
+    left join {{ref('ax_opco_item_freight_curr')}} oif 
         on upper(itg.ifitemid_opi) = oif.src_item_freight_cd
         and oif.src_sys_nm = 'AX'
     where dataareaid not in {{ var('excluded_ax_companies')}}

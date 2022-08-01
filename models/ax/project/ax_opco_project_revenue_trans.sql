@@ -19,11 +19,11 @@ with ax_opco_project_revenue_trans as (
     pro.approved_opi as apprvd_ind,
     pro.projrevenueamount_opi as project_revenue_trans_amt
     from {{ source('AX_DEV', 'PROJREVENUE_OPI') }} pro
-    left join {{ ref('opco_project')}} opr
+    left join {{ ref('ax_opco_project_curr')}} opr
         on pro.dataareaid = opr.opco_id
         and pro.projid_opi = opr.project_id
         and opr.src_sys_nm = 'AX'
-    left join {{ ref('opco')}} opco
+    left join {{ ref('ax_opco_curr')}} opco
         on pro.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'
     where pro.dataareaid not in {{ var('excluded_ax_companies')}}

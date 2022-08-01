@@ -50,23 +50,23 @@ with ns_opco_chart_of_accts as (
         on left(acct.opi_ax_acct, 6) = coa.gl_acct_nbr
         and acct.opi_ax_acct is not null
         and acct.opi_ax_acct not in ('none', 'None')
-    left join {{ref('opco_cost_center')}} cc 
+    left join {{ref('ns_opco_cost_center_curr')}} cc 
         on upper(acct.location_id) = cc.src_cost_center_cd
         and cc.src_sys_nm = 'NS'
-    left join {{ref('opco_dept')}} od 
+    left join {{ref('ns_opco_dept_curr')}} od 
         on upper(acct.department_id) = od.src_dept_cd
         and od.src_sys_nm = 'NS'
-    left join {{ref('opco_type')}} ot 
+    left join {{ref('ns_opco_type_curr')}} ot 
         on upper(substr(acct.opi_ax_acct, 8)) = ot.src_type_cd
         and ot.src_sys_nm = 'NS'
         and acct.opi_ax_acct is not null
-    left join {{ref('opco_chart_of_accts_type')}} cat 
+    left join {{ref('ns_opco_chart_of_accts_type_curr')}} cat 
         on upper(acct.type_name) = cat.src_acct_type_cd
         and cat.src_sys_nm = 'NS'
-    left join {{ref('opco_uom')}} ou 
+    left join {{ref('ns_opco_uom_curr')}} ou 
         on upper(acct.opi_qty_uom_id) = ou.src_uom_cd
         and ou.src_sys_nm = 'NS'
-    left join {{ ref('opco_brand')}} ob 
+    left join {{ ref('ns_opco_brand_curr')}} ob 
         on acct.class_id = ob.src_brand_cd
         and ob.src_sys_nm = 'NS'
     where acct.accountnumber is not null

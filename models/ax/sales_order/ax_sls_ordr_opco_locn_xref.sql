@@ -31,7 +31,7 @@ with ax_sls_ordr_opco_locn_xref as (
         and cp.dataareaid not in {{ var('excluded_ax_companies')}}
         and st.dataareaid not in {{ var('excluded_ax_companies')}}
         and cp._fivetran_deleted = false
-    left join {{ref('opco_locn')}} ol 
+    left join {{ref('ax_opco_locn_curr')}} ol 
         on upper(st.deliverystreet) = ol.addr_ln_1_txt 
         and upper(st.deliverycity) = ol.city_nm
         and upper(st.deliverystate) = ol.state_nm

@@ -14,11 +14,11 @@ with ax_opco_project_invoice_project_xref as(
 	pt.dataareaid as opco_id,
 	pt.projinvoiceprojid as invoice_project_id
     from {{source('AX_DEV', 'PROJTABLE')}} pt
-    left join {{ref('opco_project')}} op1    
+    left join {{ref('ax_opco_project_curr')}} op1    
         on pt.dataareaid = op1.opco_id   
 		and pt.projid = op1.project_id		
         and op1.src_sys_nm = 'AX'
-    left join {{ref('opco_project')}} op2    
+    left join {{ref('ax_opco_project_curr')}} op2    
         on pt.dataareaid = op2.opco_id   
 		and pt.projinvoiceprojid = op2.project_id		
         and op2.src_sys_nm = 'AX'

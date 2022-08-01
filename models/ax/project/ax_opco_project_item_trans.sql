@@ -44,47 +44,47 @@ with ax_opco_project_item_trans as (
     totalstdcost_opi as total_std_cost_amt,
     mcpercent_opi as margin_contribution_pct
     from {{ source('AX_DEV', 'PROJITEMTRANS') }} pit
-    left join {{ ref('opco_project')}} opr
+    left join {{ ref('ax_opco_project_curr')}} opr
         on pit.dataareaid = opr.opco_id
         and pit.projid = opr.project_id
         and opr.src_sys_nm = 'AX'
-    left join {{ ref('opco')}} opco 
+    left join {{ ref('ax_opco_curr')}} opco 
         on pit.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'
-    left join {{ ref('opco_item')}} oi 
+    left join {{ ref('ax_opco_item_curr')}} oi 
         on pit.dataareaid = oi.opco_id
         and pit.itemid = oi.src_item_cd
         and oi.src_sys_nm = 'AX'
-    left join {{ref('opco_cost_center')}} occ 
+    left join {{ref('ax_opco_cost_center_curr')}} occ 
         on upper(pit.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ref('opco_dept')}} od 
+    left join {{ref('ax_opco_dept_curr')}} od 
         on upper(pit.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ref('opco_type')}} ot 
+    left join {{ref('ax_opco_type_curr')}} ot 
         on upper(pit.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ref('opco_purpose')}} op 
+    left join {{ref('ax_opco_purpose_curr')}} op 
         on upper(pit.dimension4_) = op.src_purpose_cd
         and op.src_sys_nm = 'AX'
-    left join {{ref('opco_lob')}} ol
+    left join {{ref('ax_opco_lob_curr')}} ol
         on upper(pit.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ ref('opco_project_catgry')}} opc
+    left join {{ ref('ax_opco_project_catgry_curr')}} opc
         on pit.dataareaid = opc.opco_id
         and pit.categoryid = opc.catgry_cd
         and opc.src_sys_nm = 'AX'
-    left join {{ ref('opco_uom')}} ou 
+    left join {{ ref('ax_opco_uom_curr')}} ou 
         on upper(pit.salesunit) = ou.src_uom_cd
         and ou.src_sys_nm = 'AX'
-    left join {{ ref('opco_assctn')}} oa 
+    left join {{ ref('ax_opco_assctn_curr')}} oa 
         on pit.dataareaid = oa.opco_id
         and pit.inventdimid = oa.src_assctn_cd
         and oa.src_sys_nm = 'AX'
-    left join {{ ref('opco_project_trans_status')}} opts
+    left join {{ ref('ax_opco_project_trans_status_curr')}} opts
 		on pit.transstatus = opts.project_trans_status_cd
 		and opts.src_sys_nm = 'AX'
-	left join {{ ref('opco_project_trans_origin')}} opto
+	left join {{ ref('ax_opco_project_trans_origin_curr')}} opto
 		on pit.transactionorigin = opto.project_trans_origin_cd
 		and opto.src_sys_nm = 'AX'
     where pit.dataareaid not in {{ var('excluded_ax_companies')}}

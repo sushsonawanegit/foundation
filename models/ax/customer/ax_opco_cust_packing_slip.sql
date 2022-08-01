@@ -58,60 +58,60 @@ with ax_opco_cust_packing_slip as(
     cpj.invoiced_opi as invoice_sent_ind,
     cpj.invoiceamount_opi as invoice_amt
     from {{ source('AX_DEV', 'CUSTPACKINGSLIPJOUR') }} cpj
-    left join {{ ref('opco_sls_ordr')}} oso 
+    left join {{ ref('ax_opco_sls_ordr_curr')}} oso 
         on cpj.dataareaid = oso.opco_id
         and cpj.salesid = oso. sls_ordr_id
         and oso.src_sys_nm = 'AX'
-    left join {{ ref('opco_sls_ordr_type')}} osot 
+    left join {{ ref('ax_opco_sls_ordr_type_curr')}} osot 
         on cpj.salestype = osot.src_sls_ordr_type_cd
         and osot.src_sys_nm = 'AX'
-    left join {{ ref('opco_cust')}} oc 
+    left join {{ ref('ax_opco_cust_curr')}} oc 
         on cpj.dataareaid = oc.opco_id
         and cpj.orderaccount = oc.cust_id
         and oc.src_sys_nm = 'AX'
-    left join {{ ref('opco_cust')}} oc1 
+    left join {{ ref('ax_opco_cust_curr')}} oc1 
         on cpj.dataareaid = oc1.opco_id
         and cpj.invoiceaccount = oc1.cust_id
         and oc.src_sys_nm = 'AX'
-    left join {{ref('opco_cost_center')}} occ 
+    left join {{ref('ax_opco_cost_center_curr')}} occ 
         on upper(cpj.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ref('opco_dept')}} od 
+    left join {{ref('ax_opco_dept_curr')}} od 
         on upper(cpj.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ref('opco_type')}} ot 
+    left join {{ref('ax_opco_type_curr')}} ot 
         on upper(cpj.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ref('opco_purpose')}} op 
+    left join {{ref('ax_opco_purpose_curr')}} op 
         on upper(cpj.dimension4_) = op.src_purpose_cd
         and op.src_sys_nm = 'AX'
-    left join {{ref('opco_lob')}} ol
+    left join {{ref('ax_opco_lob_curr')}} ol
         on upper(cpj.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ref('opco_picking_list')}} opl 
+    left join {{ref('ax_opco_picking_list_curr')}} opl 
         on cpj.dataareaid = opl.opco_id
         and cpj.pickinglistid_opi = opl.picking_list_id
         and opl.src_sys_nm = 'AX'
-    left join {{ ref('opco_site')}} os 
+    left join {{ ref('ax_opco_site_curr')}} os 
         on upper(cpj.inventsiteid_opi) = os.src_site_id
         and os.src_sys_nm = 'AX'
-    left join {{ ref('opco_currency')}} ocr
+    left join {{ ref('ax_opco_currency_curr')}} ocr
         on upper(cpj.currencycode_opi) = ocr.src_currency_cd
         and ocr.src_sys_nm = 'AX'
-    left join {{ ref('opco_pymnt_terms')}} opt 
+    left join {{ ref('ax_opco_pymnt_terms_curr')}} opt 
         on upper(cpj.payment_opi) = opt.src_pymnt_terms_cd
         and opt.src_sys_nm = 'AX'
-    left join {{ ref('warehouse')}} wr 
+    left join {{ ref('ax_warehouse_curr')}} wr 
         on cpj.dataareaid = wr.opco_id
         and upper(cpj.inventlocationid) = wr.warehouse_id
         and wr.src_sys_nm = 'AX'
-    left join {{ ref('opco_dlvry_terms')}} odt 
+    left join {{ ref('ax_opco_dlvry_terms_curr')}} odt 
         on upper(cpj.dlvterm) = odt.src_dlvry_terms_cd
         and odt.src_sys_nm = 'AX'
-    left join {{ ref('opco_dlvry_mode')}} odm 
+    left join {{ ref('ax_opco_dlvry_mode_curr')}} odm 
         on upper(cpj.dlvmode) = odm.src_dlvry_mode_cd
         and odm.src_sys_nm = 'AX'
-    left join {{ ref('opco_locn')}} oln 
+    left join {{ ref('ax_opco_locn_curr')}} oln 
          on upper(cpj.deliverystreet) = oln.addr_ln_1_txt
         and upper(cpj.deliverycity) = oln.city_nm
         and upper(cpj.dlvstate) = oln.state_nm

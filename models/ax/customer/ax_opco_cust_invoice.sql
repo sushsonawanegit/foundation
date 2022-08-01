@@ -73,73 +73,73 @@ with ax_opco_cust_invoice as (
     cij.summarkupmst as opco_currenty_misc_chrgs_amt,
     cij.deliverycost_opi as dlvry_cost_amt
     from {{ source('AX_DEV', 'CUSTINVOICEJOUR') }} cij 
-    left join {{ ref('opco')}} opco 
+    left join {{ ref('ax_opco_curr')}} opco 
         on cij.dataareaid = opco.opco_id 
         and opco.src_sys_nm = 'AX'
-    left join {{ ref('opco_cust')}} oc 
+    left join {{ ref('ax_opco_cust_curr')}} oc 
         on cij.dataareaid = oc.opco_id
         and cij.orderaccount = oc.cust_id
         and oc.src_sys_nm = 'AX'
-    left join {{ ref('opco_sls_ordr')}} oso 
+    left join {{ ref('ax_opco_sls_ordr_curr')}} oso 
         on cij.dataareaid = oso.opco_id
         and cij.salesid = oso.sls_ordr_id
         and oso.src_sys_nm = 'AX'
-    left join {{ ref('opco_picking_list')}} opl 
+    left join {{ ref('ax_opco_picking_list_curr')}} opl 
         on cij.dataareaid = opl.opco_id
         and cij.pickinglistid_opi = opl.picking_list_id
         and opl.src_sys_nm = 'AX'
-    left join {{ ref('opco_cust_packing_slip')}} ocps 
+    left join {{ ref('ax_opco_cust_packing_slip_curr')}} ocps 
         on cij.dataareaid = ocps.opco_id
         and cij.packingslipid_opi = ocps.packing_slip_id
         and ocps.src_sys_nm = 'AX'
-    left join {{ref('opco_cost_center')}} occ 
+    left join {{ref('ax_opco_cost_center_curr')}} occ 
         on upper(cij.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ref('opco_dept')}} od 
+    left join {{ref('ax_opco_dept_curr')}} od 
         on upper(cij.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ref('opco_type')}} ot 
+    left join {{ref('ax_opco_type_curr')}} ot 
         on upper(cij.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ref('opco_purpose')}} op 
+    left join {{ref('ax_opco_purpose_curr')}} op 
         on upper(cij.dimension4_) = op.src_purpose_cd
         and op.src_sys_nm = 'AX'
-    left join {{ref('opco_lob')}} ol
+    left join {{ref('ax_opco_lob_curr')}} ol
         on upper(cij.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ ref('opco_sls_ordr_type')}} osot 
+    left join {{ ref('ax_opco_sls_ordr_type_curr')}} osot 
         on cij.salestype = osot.src_sls_ordr_type_cd
         and osot.src_sys_nm = 'AX'
-    left join {{ ref('opco_cust')}} oc1   
+    left join {{ ref('ax_opco_cust_curr')}} oc1   
         on cij.dataareaid = oc1.opco_id
         and cij.invoiceaccount = oc1.cust_id
         and oc1.src_sys_nm = 'AX'
-    left join {{ ref('opco_currency')}} ocr 
+    left join {{ ref('ax_opco_currency_curr')}} ocr 
         on upper(cij.currencycode) = ocr.src_currency_cd
         and ocr.src_sys_nm = 'AX'
-    left join {{ ref('opco_cust_grp')}} ocg 
+    left join {{ ref('ax_opco_cust_grp_curr')}} ocg 
         on upper(cij.custgroup) = ocg.src_cust_grp_cd
         and ocg.src_sys_nm = 'AX'
-    left join {{ ref('opco_pymnt_terms')}} opt 
+    left join {{ ref('ax_opco_pymnt_terms_curr')}} opt 
         on upper(cij.payment) = opt.src_pymnt_terms_cd
         and opt.src_sys_nm = 'AX'
-    left join {{ ref('opco_cash_dscnt_terms')}} ocdt 
+    left join {{ ref('ax_opco_cash_dscnt_terms_curr')}} ocdt 
         on upper(cij.cashdisccode) = ocdt.src_cash_dscnt_terms_cd
         and ocdt.src_sys_nm = 'AX'
-    left join {{ ref('opco_dlvry_terms')}} odt 
+    left join {{ ref('ax_opco_dlvry_terms_curr')}} odt 
         on upper(cij.dlvterm) = odt.src_dlvry_terms_cd
         and odt.src_sys_nm = 'AX'
-    left join {{ ref('opco_dlvry_mode')}} odm 
+    left join {{ ref('ax_opco_dlvry_mode_curr')}} odm 
         on upper(cij.dlvmode) = odm.src_dlvry_mode_cd
         and odm.src_sys_nm = 'AX'
-    left join {{ ref('opco_locn')}} oln 
+    left join {{ ref('ax_opco_locn_curr')}} oln 
          on upper(cij.deliverystreet) = oln.addr_ln_1_txt
         and upper(cij.deliverycity) = oln.city_nm
         and upper(cij.dlvstate) = oln.state_nm
         and upper(cij.dlvcountryregionid) = oln.country_nm
         and upper(cij.dlvzipcode) = oln.zip_cd
         and oln.src_sys_nm = 'AX'
-    left join {{ ref('opco_locn')}} oln1 
+    left join {{ ref('ax_opco_locn_curr')}} oln1 
          on upper(cij.invoicestreet) = oln1.addr_ln_1_txt
         and upper(cij.invoicecity) = oln1.city_nm
         and upper(cij.invstate) = oln1.state_nm

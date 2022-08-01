@@ -41,7 +41,7 @@ with ns_opco as(
     null::varchar(50) as collection_type_txt,
     null::numeric(1,0) as dashboard_usage_id 
     from {{ source('NS_DEV', 'SUBSIDIARIES')}} sd
-    left join {{ref('opco_currency')}} ocr 
+    left join {{ref('ns_opco_currency_curr')}} ocr 
        on upper(sd.base_currency_id) = ocr.src_currency_cd
        and ocr.src_sys_nm = 'NS'
     where subsidiary_id not in (1, 4, 5, 7)

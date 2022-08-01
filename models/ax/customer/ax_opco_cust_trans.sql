@@ -78,57 +78,57 @@ with ax_opco_cust_trans as (
     ct.sumtax_opi as sum_tax_amt,
     ct.exchrate as trans_exch_rt
     from {{ source('AX_DEV', 'CUSTTRANS') }} ct 
-    left join {{ ref('opco')}} opco 
+    left join {{ ref('ax_opco_curr')}} opco 
         on ct.dataareaid = opco.opco_id
         and opco.src_sys_nm = 'AX'
-    left join {{ ref('opco_cust')}} oc 
+    left join {{ ref('ax_opco_cust_curr')}} oc 
         on ct.accountnum = oc.cust_id
         and ct.dataareaid = oc.opco_id
         and oc.src_sys_nm = 'AX'
-    left join {{ ref('opco_cust')}} odc 
+    left join {{ ref('ax_opco_cust_curr')}} odc 
         on ct.orderaccount = odc.cust_id
         and ct.dataareaid = odc.opco_id
         and odc.src_sys_nm = 'AX'
-    left join {{ ref('opco_cost_center')}} occ 
+    left join {{ ref('ax_opco_cost_center_curr')}} occ 
         on upper(ct.dimension) = occ.src_cost_center_cd
         and occ.src_sys_nm = 'AX'
-    left join {{ ref('opco_dept')}} od 
+    left join {{ ref('ax_opco_dept_curr')}} od 
         on upper(ct.dimension2_) = od.src_dept_cd
         and od.src_sys_nm = 'AX'
-    left join {{ ref('opco_type')}} ot 
+    left join {{ ref('ax_opco_type_curr')}} ot 
         on upper(ct.dimension3_) = ot.src_type_cd
         and ot.src_sys_nm = 'AX'
-    left join {{ ref('opco_purpose')}} op 
+    left join {{ ref('ax_opco_purpose_curr')}} op 
         on upper(ct.dimension4_) = op.src_purpose_cd
         and op.src_sys_nm = 'AX'
-    left join {{ ref('opco_lob')}} ol 
+    left join {{ ref('ax_opco_lob_curr')}} ol 
         on upper(ct.dimension5_) = ol.src_lob_cd
         and ol.src_sys_nm = 'AX'
-    left join {{ ref('opco_sls_ordr')}} oso 
+    left join {{ ref('ax_opco_sls_ordr_curr')}} oso 
         on ct.dataareaid = oso.opco_id
         and ct.salesid_opi = oso.sls_ordr_id
         and oso.src_sys_nm = 'AX'
         and ct.salesid_opi is not null
         and ct.salesid_opi <> '0'
-    left join {{ ref('opco_gl_trans_type')}} ogt 
+    left join {{ ref('ax_opco_gl_trans_type_curr')}} ogt 
         on ct.transtype::string =  ogt.src_gl_trans_type_cd
         and ogt.src_sys_nm = 'AX'
-    left join {{ ref('opco_currency')}} ocu 
+    left join {{ ref('ax_opco_currency_curr')}} ocu 
         on upper(ct.currencycode) = ocu.src_currency_cd
         and ocu.src_sys_nm = 'AX'
-    left join {{ ref('opco_pymnt_mode')}} opm 
+    left join {{ ref('ax_opco_pymnt_mode_curr')}} opm 
         on upper(ct.paymmode) = opm.src_pymnt_mode_cd
         and opm.src_sys_nm = 'AX'
-    left join {{ ref('opco_cash_dscnt_terms')}} ocd
+    left join {{ ref('ax_opco_cash_dscnt_terms_curr')}} ocd
         on upper(ct.cashdisccode) = ocd.src_cash_dscnt_terms_cd
         and ocd.src_sys_nm = 'AX'
-    left join {{ ref('opco_pymnt_terms')}} opt 
+    left join {{ ref('ax_opco_pymnt_terms_curr')}} opt 
         on upper(ct.payment_opi) = opt.src_pymnt_terms_cd
         and opt.src_sys_nm = 'AX'
-    left join {{ ref('opco_dlvry_mode')}} odm 
+    left join {{ ref('ax_opco_dlvry_mode_curr')}} odm 
         on upper(ct.deliverymode) = odm.src_dlvry_mode_cd
         and odm.src_sys_nm = 'AX'
-    left join {{ ref('opco_project')}} opr 
+    left join {{ ref('ax_opco_project_curr')}} opr 
         on ct.projid_opi = opr.project_id
         and ct.dataareaid = opr.opco_id
         and opr.src_sys_nm = 'AX'

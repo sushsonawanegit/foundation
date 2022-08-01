@@ -29,11 +29,11 @@ with ax_opco_item_opco_assctn_xref as(
     iil.prodflushingprinciple_opi as prodn_flushing_principle_cd,
     iil.variableweight_opi as variable_wt_amt
     from {{source('AX_DEV', 'INVENTITEMLOCATION')}} iil
-    left join {{ref('opco_item')}} oi 
+    left join {{ref('ax_opco_item_curr')}} oi 
         on iil.itemid = oi.src_item_cd
         and iil.dataareaid = oi.opco_id
         and oi.src_sys_nm = 'AX'
-    left join {{ref('opco_assctn')}} oa 
+    left join {{ref('ax_opco_assctn_curr')}} oa 
         on iil.dataareaid = oa.opco_id
         and iil.inventdimid = oa.src_assctn_cd
         and oa.src_sys_nm = 'AX'
