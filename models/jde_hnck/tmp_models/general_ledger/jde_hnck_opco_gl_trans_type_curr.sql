@@ -1,7 +1,7 @@
 with jde_hnck_opco_gl_trans_type as(
     select *,
     rank() over(partition by opco_gl_trans_type_sk order by stg_load_dtm desc, delete_dtm desc) as rnk
-    from {{ ref('jde_opco_gl_trans_type') }}
+    from {{ ref('jde_hnck_opco_gl_trans_type') }}
 ),
 final as(
     select 

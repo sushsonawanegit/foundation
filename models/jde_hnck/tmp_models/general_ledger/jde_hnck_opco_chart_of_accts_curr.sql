@@ -1,7 +1,7 @@
 with jde_hnck_opco_chart_of_accts as(
     select *,
     rank() over(partition by opco_chart_of_accts_sk order by stg_load_dtm desc, delete_dtm desc) as rnk
-    from {{ ref('jde_opco_chart_of_accts') }}
+    from {{ ref('jde_hnck_opco_chart_of_accts') }}
 ),
 final as(
     select 

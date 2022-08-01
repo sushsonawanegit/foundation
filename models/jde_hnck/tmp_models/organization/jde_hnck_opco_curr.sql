@@ -1,7 +1,7 @@
 with jde_hnck_opco as(
     select *,
     rank() over(partition by opco_sk order by stg_load_dtm desc, delete_dtm desc) as rnk
-    from {{ ref('jde_opco') }}
+    from {{ ref('jde_hnck_opco') }}
 ),
 final as(
     select 
