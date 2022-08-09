@@ -1,25 +1,25 @@
-{% set _load = load_type('NPP_OPCO_CURRENCY') %}
+{% set _load = load_type('JDE_NPP_OPCO_CURRENCY') %}
 
-with npp_opco_currency as(
+with jde_npp_opco_currency as(
     select 
     current_timestamp as crt_dtm,
-    null::timestamp_tz as stg_load_dtm,
+    mule_load_ts as stg_load_dtm,
     null::timestamp_tz as delete_dtm,
     'JDE-NPP'::varchar as src_sys_nm,
     upper(trim(cvcrcd))::varchar as src_currency_cd,
     trim(cvdl01)::varchar as src_currency_nm
-    from {{source('JDE_NPP_DEV', 'JDE_PRODUCTION_PRODDTA_F0013')}}
+    from {{source('JDE_NPP_DEV1', 'F0013')}}
 ),
 final as(
     select 
         {{dbt_utils.surrogate_key(['src_sys_nm', 'src_currency_cd'])}} as opco_currency_sk,
         {{dbt_utils.surrogate_key(['src_sys_nm', 'src_currency_cd', 'src_currency_nm'])}} as opco_currency_ck, 
         *
-    from npp_opco_currency
+    from jde_npp_opco_currency
 ),
 delete_captured as(
     select * from final
-    {% if tb_check(var('fnd_tbl_db'), var('intermediate_tbl_sch'), 'NPP_OPCO_CURRENCY') and tb_check(var('fnd_tbl_db'), var('fnd_tbl_sch'), 'OPCO_CURRENCY') and _load != 3%}
+    {% if tb_check(var('fnd_tbl_db'), var('intermediate_tbl_sch'), 'JDE_NPP_OPCO_CURRENCY') and tb_check(var('fnd_tbl_db'), var('fnd_tbl_sch'), 'OPCO_CURRENCY') and _load != 3%}
         union
         select
         OPCO_CURRENCY_SK, OPCO_CURRENCY_CK, CRT_DTM, 

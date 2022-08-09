@@ -1,30 +1,31 @@
 {% set _load = load_type('SYSPRO_PRIMEX_OPCO_SUB_LEDGER_TYPE') %}
 
 with syspro_opco_sub_ledger_type as(
-    {% set tables = table_check('COMPANY', '_DBO_GENJOURNALDETAIL') %}
-    {% for tbl in tables %}
-        select
-        '{{ tbl}}' as src_comp,
-        current_timestamp as crt_dtm,
-        null::timestamp_tz as stg_load_dtm,
-        null::timestamp_tz as delete_dtm,
-        'SYSPRO-PRMX' as src_sys_nm,
-        upper(trim(type)) as src_sub_ledger_type_cd,
-        case 
-            when trim(type) = 'BIL' then 'Billing'
-            when trim(type) = 'CASH' then 'Cash'
-            when trim(type) = 'CSBK' then 'Cashbook'
-            when trim(type) = 'DBS' then 'Disbursement'
-            when trim(type) = 'EXP' then 'Expense'
-            when trim(type) = 'GRN' then 'Goods Receive Note'
-            when trim(type) = 'INV' then 'Inventory'
-            when trim(type) = 'LAB' then 'Labour'
-            when trim(type) = 'SALE' then 'Sales'
-            else trim(type)  
-        end as src_sub_ledger_type_desc,
-        1::number(1,0) as actv_ind
-        from {{ var('primex_db')}}.{{ var('primex_schema')}}.COMPANY{{ tbl}}_DBO_GENJOURNALDETAIL
-        {% if not loop.last %} union all {% endif %}
+    {% for sch in var('primex_schemas') %}
+        {% if tb_check(var('primex_db'), sch, 'GENJOURNALDETAIL') %}
+            select
+            substr('{{sch}}', 22, 1) as src_comp,
+            current_timestamp as crt_dtm,
+            mule_load_ts as stg_load_dtm,
+            null::timestamp_tz as delete_dtm,
+            'SYSPRO-PRMX' as src_sys_nm,
+            upper(trim(type)) as src_sub_ledger_type_cd,
+            case 
+                when trim(type) = 'BIL' then 'Billing'
+                when trim(type) = 'CASH' then 'Cash'
+                when trim(type) = 'CSBK' then 'Cashbook'
+                when trim(type) = 'DBS' then 'Disbursement'
+                when trim(type) = 'EXP' then 'Expense'
+                when trim(type) = 'GRN' then 'Goods Receive Note'
+                when trim(type) = 'INV' then 'Inventory'
+                when trim(type) = 'LAB' then 'Labour'
+                when trim(type) = 'SALE' then 'Sales'
+                else trim(type)  
+            end as src_sub_ledger_type_desc,
+            1::number(1,0) as actv_ind
+            from {{ var('primex_db')}}.{{ sch}}.GENJOURNALDETAIL
+            {% if not loop.last %} union all {% endif %}
+        {% endif %}
     {% endfor %}
 ),
 de_duplication as(

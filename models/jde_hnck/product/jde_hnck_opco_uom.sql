@@ -3,12 +3,12 @@
 with jde_hnck_opco_uom as (
     select 
     current_timestamp as crt_dtm,
-    null::timestamp_tz as stg_load_dtm,
+    mule_load_ts as stg_load_dtm,
     null::timestamp_tz as delete_dtm,
     'JDE_HNCK'::varchar(20) as src_sys_nm,
     upper(trim(drky))::varchar(15) as src_uom_cd,
     trim(drdl01)::varchar(50) as src_uom_desc
-    from {{source('JDE_DEV', 'JDE_PRODUCTION_PRODCTL_F0005')}}
+    from {{source('JDE_HNCK_DEV2', 'F0005')}}
     where trim(drsy) = '00' and trim(drrt) = 'UM'		
 ),
 final as(

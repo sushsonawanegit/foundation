@@ -3,7 +3,7 @@
 with ns_opco_type as (
     select 
     current_timestamp as crt_dtm,
-    null::timestamp_tz as stg_load_dtm,
+    max(_fivetran_synced) as stg_load_dtm,
     null::timestamp_tz as delete_dtm,
     'NS'::varchar(20) as src_sys_nm,
     upper(substr(opi_ax_acct, 8))::varchar(20) as src_type_cd,

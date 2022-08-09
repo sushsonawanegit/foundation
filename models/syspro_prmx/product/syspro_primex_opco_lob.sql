@@ -1,20 +1,21 @@
 {% set _load = load_type('SYSPRO_PRIMEX_OPCO_LOB') %}
 
 with syspro_primex_opco_lob as(
-    {% set tables = table_check('COMPANY', '_DBO_CUSGENMASTER_') %}
-    {% for tbl in tables %}
-        select
-        '{{ tbl}}' as src_comp,
-        current_timestamp as crt_dtm,
-        null::timestamp_tz as stg_load_dtm,
-        null::timestamp_tz as delete_dtm,
-        'SYSPRO-PRMX' as src_sys_nm,
-        upper(trim(fsgroup4buname)) as src_lob_cd,
-        trim(fsgroup4buname) as src_lob_nm,
-        1::number(1,0) as actv_ind,
-        {{ spcl_chr_rp('src_lob_nm')}} as lob_wo_spcl_chr_cd
-        from {{ var('primex_db')}}.{{ var('primex_schema')}}.COMPANY{{ tbl}}_DBO_CUSGENMASTER_
-        {% if not loop.last %} union all {% endif %}
+    {% for sch in var('primex_schemas') %}
+        {% if tb_check(var('primex_db'), sch, 'CUSGENMASTER_') %}
+            select
+            substr('{{sch}}', 22, 1) as src_comp,
+            current_timestamp as crt_dtm,
+            mule_load_ts as stg_load_dtm,
+            null::timestamp_tz as delete_dtm,
+            'SYSPRO-PRMX' as src_sys_nm,
+            upper(trim(fsgroup4buname)) as src_lob_cd,
+            trim(fsgroup4buname) as src_lob_nm,
+            1::number(1,0) as actv_ind,
+            {{ spcl_chr_rp('src_lob_nm')}} as lob_wo_spcl_chr_cd
+            from {{ var('primex_db')}}.{{ sch}}.CUSGENMASTER_
+            {% if not loop.last %} union all {% endif %}
+        {% endif %}
     {% endfor %}
 ),
 de_duplication as(

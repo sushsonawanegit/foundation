@@ -1,18 +1,19 @@
 {% set _load = load_type('SYSPRO_PRIMEX_OPCO_CURRENCY') %}
 
 with syspro_primex_opco_currency as(
-    {% set tables = table_check('COMPANY', '_DBO_TBLCURRENCY') %}
-    {% for tbl in tables %}
-        select 
-        '{{ tbl}}' as src_comp,
-        current_timestamp as crt_dtm,
-        null::timestamp_tz as stg_load_dtm, 
-        null::timestamp_tz as delete_dtm,
-        'SYSPRO-PRMX'::varchar as src_sys_nm,
-        upper(trim(currency)) as src_currency_cd,
-        trim(description) as src_currency_nm
-        from {{ var('primex_db')}}.{{ var('primex_schema')}}.COMPANY{{ tbl}}_DBO_TBLCURRENCY
-        {% if not loop.last %} union all {% endif %}
+    {% for sch in var(('primex_schemas')) %}
+        {% if tb_check(var('primex_db'), sch, 'TBLCURRENCY')  %}
+            select 
+            substr('{{sch}}', 22, 1) as src_comp,
+            current_timestamp as crt_dtm,
+            mule_load_ts as stg_load_dtm, 
+            null::timestamp_tz as delete_dtm,
+            'SYSPRO-PRMX'::varchar as src_sys_nm,
+            upper(trim(currency)) as src_currency_cd,
+            trim(description) as src_currency_nm
+            from {{ var('primex_db')}}.{{ sch}}.TBLCURRENCY
+            {% if not loop.last %} union all {% endif %}
+        {% endif %}
     {% endfor %}
 ),
 de_duplication as(

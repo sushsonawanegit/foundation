@@ -5,9 +5,10 @@ config-version: 2
 profile: 'default'
 
 vars:
-  primex_db: 'MULE_STAGING'
+  primex_db: 'ETL_STAGING_UAT'
   primex_schema: 'SYSPRO_PRIMEX'
   primex_companies: ['A', 'C', 'P', 'X']
+  primex_schemas: ['PRIMEX_SYSPRO_COMPANYA_DBO', 'PRIMEX_SYSPRO_COMPANYC_DBO', 'PRIMEX_SYSPRO_COMPANYP_DBO', 'PRIMEX_SYSPRO_COMPANYX_DBO']
 
   excluded_ax_companies: ('044', '045', '047', '999')
   fnd_tbl_db: 'OI_DATA_DEV_V2'

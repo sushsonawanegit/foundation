@@ -1,27 +1,28 @@
 {% set _load = load_type('SYSPRO_PRIMEX_OPCO_GL_TRANS_TYPE') %}
 
 with syspro_primex_opco_gl_trans_type as(
-    {% set tables = table_check('COMPANY', '_DBO_GENJOURNALCTL') %}
-    {% for tbl in tables %}
-        select
-        '{{ tbl}}' as src_comp,
-        current_timestamp as crt_dtm,
-        null::timestamp_tz as stg_load_dtm,
-        null::timestamp_tz as delete_dtm,
-        'SYSPRO-PRMX' as src_sys_nm,
-        upper(trim(journalsource)) as src_gl_trans_type_cd,
-        case 
-            when trim(journalsource) = 'AP' then 'Accounts Payable'
-            when trim(journalsource) = 'AR' then 'Accounts Receivable'
-            when trim(journalsource) = 'CS' then 'Cash'
-            when trim(journalsource) = 'GR' then 'Goods Receipt'
-            when trim(journalsource) = 'IN' then 'Inventory'
-            when trim(journalsource) = 'SA' then 'Sales'
-            when trim(journalsource) = 'WP' then 'WIP Labour'
-            else trim(journalsource)
-        end as src_gl_trans_type_desc
-        from {{ var('primex_db')}}.{{ var('primex_schema')}}.COMPANY{{ tbl}}_DBO_GENJOURNALCTL
-        {% if not loop.last %} union all {% endif %}
+    {% for sch in var('primex_schemas') %}
+        {% if tb_check(var('primex_db'), sch, 'GENJOURNALCTL') %}
+            select
+            substr('{{sch}}', 22, 1) as src_comp,
+            current_timestamp as crt_dtm,
+            mule_load_ts as stg_load_dtm,
+            null::timestamp_tz as delete_dtm,
+            'SYSPRO-PRMX' as src_sys_nm,
+            upper(trim(journalsource)) as src_gl_trans_type_cd,
+            case 
+                when trim(journalsource) = 'AP' then 'Accounts Payable'
+                when trim(journalsource) = 'AR' then 'Accounts Receivable'
+                when trim(journalsource) = 'CS' then 'Cash'
+                when trim(journalsource) = 'GR' then 'Goods Receipt'
+                when trim(journalsource) = 'IN' then 'Inventory'
+                when trim(journalsource) = 'SA' then 'Sales'
+                when trim(journalsource) = 'WP' then 'WIP Labour'
+                else trim(journalsource)
+            end as src_gl_trans_type_desc
+            from {{ var('primex_db')}}.{{ sch}}.GENJOURNALCTL
+            {% if not loop.last %} union all {% endif %}
+        {% endif %}
     {% endfor %}
 ),
 de_duplication as(

@@ -3,7 +3,7 @@
 with jde_hnck_opco_cost_center as (
     select 
     current_timestamp as crt_dtm,
-    null::timestamp_tz as stg_load_dtm,
+    mule_load_ts as stg_load_dtm,
     null::timestamp_tz as delete_dtm,
     'JDE-HNCK'::varchar(20) as src_sys_nm,
     upper(trim(mcmcu))::varchar(20) as src_cost_center_cd,
@@ -11,7 +11,7 @@ with jde_hnck_opco_cost_center as (
     '1'::number(1,0) as actv_ind,
     trim(mcstyl)::varchar(50) as src_cost_center_type_txt,
     {{ spcl_chr_rp('src_cost_center_desc')}}::varchar(100) as cost_center_wo_spcl_chr_cd
-    from {{source('JDE_DEV', 'JDE_PRODUCTION_PRODDTA_F0006')}}
+    from {{source('JDE_HNCK_DEV1', 'F0006')}}
 ),
 final as (
     select  {{ dbt_utils.surrogate_key(['src_sys_nm', 'src_cost_center_cd']) }} as opco_cost_center_sk, 

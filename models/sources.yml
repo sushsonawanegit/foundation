@@ -99,33 +99,45 @@ sources:
       - name: UOM
       - name: SUBSIDIARIES
 
-  - name: JDE_DEV
-    database: MULE_STAGING
-    schema: JDE_HANCOCK
+  - name: JDE_HNCK_DEV1
+    database: ETL_STAGING_UAT
+    schema: HANCOCK_JDE_JDEPRODUCTION_PRODDTA
     tables:
-      - name: JDE_PRODUCTION_PRODDTA_F0013
-      - name: JDE_PRODUCTION_PRODDTA_F0010
-      - name: JDE_PRODUCTION_PRODDTA_F0101
-      - name: JDE_PRODUCTION_PRODDTA_F01151
-      - name: JDE_PRODUCTION_PRODDTA_F0006
-      - name: JDE_PRODUCTION_PRODCTL_F0005
-      - name: JDE_PRODUCTION_PRODDTA_F0901
-      - name: JDE_PRODUCTION_PRODDTA_F0911
-      - name: JDE_PRODUCTION_PRODDTA_F0902
-      - name: JDE920_DD920_F9210
+      - name: F0013
+      - name: F0901
+      - name: F0006
+      - name: F0902
+      - name: F0911
+      - name: F0010
+      - name: F0101
+      - name: F01151
 
-  - name: PRIMEX_DEV
-    database: MULE_STAGING
-    schema: SYSPRO_PRIMEX
+  - name: JDE_HNCK_DEV2
+    database: ETL_STAGING_UAT
+    schema: HANCOCK_JDE_JDEPRODUCTION_PRODCTL
     tables:
-      - name: COMPANYA_DBO_TBLCURRENCY
-      - name: COMPANYC_DBO_TBLCURRENCY
-      - name: COMPANYP_DBO_TBLCURRENCY
-      - name: COMPANYX_DBO_TBLCURRENCY
+      - name: F0005
 
-  - name: JDE_NPP_DEV
-    database: MULE_STAGING
-    schema: JDE_NPP
+  - name: JDE_HNCK_DEV3
+    database: ETL_STAGING_UAT
+    schema: HANCOCK_JDE_JDE920_DD920
     tables:
-      - name: JDE_PRODUCTION_PRODDTA_F0013
-      
+      - name: F9210
+
+  - name: JDE_NPP_DEV1
+    database: ETL_STAGING_UAT
+    schema: NPP_JDE_JDEPRODUCTION_PRODDTA
+    tables:
+      - name: F0013
+      - name: F0010
+      - name: F0101
+      - name: F0006
+      - name: F0901
+      - name: F0911
+      - name: F0902
+
+  - name: JDE_NPP_DEV2
+    database: ETL_STAGING_UAT
+    schema: NPP_JDE_JDEPRODUCTION_PRODCTL
+    tables:      
+      - name: F0005

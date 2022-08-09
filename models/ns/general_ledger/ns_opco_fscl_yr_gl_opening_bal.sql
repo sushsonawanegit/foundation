@@ -50,7 +50,7 @@ with ns_opco_fscl_yr_gl_opening_bal as(
             when 9 then year(fc.fscl_yr_strt_dt) >= '2017'
         end
     and tl.account_id is not null
-    and tl.non_posting_line = 'No'
+    and (tl.non_posting_line = 'No' or a.type_name = 'Statistical')
     and fc.fscl_yr_id < year(current_timestamp)
     group by subsidiary_id, accountnumber, transaction_type, tl.location_id, tl.department_id, type, tl.market_opi_id, tl.class_id, t.currency_id, fscl_yr_id
 ),

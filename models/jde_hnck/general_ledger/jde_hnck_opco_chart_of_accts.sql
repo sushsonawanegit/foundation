@@ -3,7 +3,7 @@
 with jde_hnck_opco_chart_of_accts as (
     select 
     current_timestamp as crt_dtm,
-    null::timestamp_tz as stg_load_dtm,
+    f1.mule_load_ts as stg_load_dtm,
     null::timestamp_tz as delete_dtm,
     'JDE-HNCK'::varchar(20) as src_sys_nm,
     iff(trim(f1.gmsub) <> '', concat_ws('.', upper(trim(f1.gmmcu)), trim(f1.gmobj), trim(f1.gmsub)), concat_ws('.', upper(trim(f1.gmmcu)), trim(f1.gmobj)))::varchar(20) as gl_acct_nbr,
@@ -36,8 +36,8 @@ with jde_hnck_opco_chart_of_accts as (
     null::varchar(32) as opco_brand_sk,
     upper(trim(f1.gmobj))::varchar(20) as acct_clssfctn_cd,
     upper(trim(f1.gmsub))::varchar(20) as sub_acct_nbr
-    from {{source('JDE_DEV','JDE_PRODUCTION_PRODDTA_F0901')}} f1
-    left join {{source('JDE_DEV','JDE_PRODUCTION_PRODDTA_F0006')}} f0
+    from {{source('JDE_HNCK_DEV1','F0901')}} f1
+    left join {{source('JDE_HNCK_DEV1','F0006')}} f0
         on trim(f1.gmmcu) = trim(f0.mcmcu)
     left join {{ ref('jde_hnck_opco_cost_center_curr')}} occ 
         on upper(trim(f1.gmmcu)) = occ.src_cost_center_cd

@@ -9,66 +9,68 @@
 {% set _load = load_type('SYSPRO_PRIMEX_OPCO_CHART_OF_ACCTS') %}
 
 with syspro_primex_opco_chart_of_accts as(
-    {% set tables = table_check('COMPANY', '_DBO_GENMASTER') %}
-    {% for tbl in tables %}
-        select
-        '{{ tbl}}' as src_comp,
-        current_timestamp as crt_dtm,
-        null::timestamp_tz as stg_load_dtm,
-        null::timestamp_tz as delete_dtm,
-        'SYSPRO-PRMX' as src_sys_nm,
-        upper(trim(cdg.glcode)) as gl_acct_nbr,
-        upper(trim(cdg.company)) as opco_id,
-        trim(cdg.description) as gl_acct_nm,
-        coa.chart_of_accts_sk,
-        occ.opco_cost_center_sk,
-        od.opco_dept_sk,
-        ot.opco_type_sk,
-        oip.opco_purpose_sk,
-        ol.opco_lob_sk,
-        ocoa.opco_chart_of_accts_type_sk,
-        null as opco_uom_sk,
-        null as gl_acct_alias_nm,
-        iff(trim(cdg.controlaccflag) = 'Y', 0, 1) as manual_entry_allowed_ind,
-        null as dpo_exclusion_ind,
-        null as movement_allowed_ind,
-        null as cost_center_reqd_txt,
-        null as dept_reqd_txt,
-        null as type_reqd_txt,
-        null as prnt_gl_acct_nbr,
-        null as related_gl_acct_nbr,
-        null as monetary_gl_acct_ind,
-        iff(trim(cdg.acconhldflag) in ('', 'N'), 1 , 0) as actv_ind,
-        iff(trim(cdc.financialstatement) = 'BS', 1, 0) as balance_sheet_acct_ind,
-        null as summary_acct_ind,
-        null as opco_brand_sk,
-        null as acct_clssfctn_cd,
-        null as sub_acct_nbr
-        from {{ var('primex_db')}}.{{ var('primex_schema')}}.COMPANY{{ tbl}}_DBO_GENMASTER cdg
-        left join {{ var('primex_db')}}.{{ var('primex_schema')}}.COMPANY{{ tbl}}_DBO_CUSGENMASTER_ cdc 
-            on trim(cdg.glcode) = trim(cdc.glcode)
-        left join {{ ref('chart_of_accts')}} coa 
-            on coa.gl_acct_nbr = trim(cdc.gl)
-        left join {{ ref('syspro_primex_opco_cost_center_curr')}} occ 
-            on occ.src_cost_center_cd = upper(trim(cdc.cc))
-            and occ.src_sys_nm = 'SYSPRO-PRMX'
-        left join {{ ref('syspro_primex_opco_dept_curr')}} od 
-            on od.src_dept_cd = upper(trim(cdc.dept))
-            and od.src_sys_nm = 'SYSPRO-PRMX'
-        left join {{ ref('syspro_primex_opco_type_curr')}} ot 
-            on ot.src_type_cd = upper(trim(cdc.type))
-            and ot.src_sys_nm = 'SYSPRO-PRMX'
-        left join {{ ref('syspro_primex_opco_purpose_curr')}} oip 
-            on oip.src_purpose_cd = upper(trim(cdc.purpose))
-            and oip.src_sys_nm = 'SYSPRO-PRMX'
-        left join {{ ref('syspro_primex_opco_lob_curr')}} ol 
-            on ol.src_lob_cd = upper(trim(cdc.fsgroup4buname))
-            and ol.src_sys_nm = 'SYSPRO-PRMX'
-        left join {{ ref('syspro_primex_opco_chart_of_accts_type_curr')}} ocoa 
-            on ocoa.src_acct_type_cd = upper(trim(cdg.glgroup))
-            and ocoa.src_sys_nm = 'SYSPRO-PRMX'
-        where upper(trim(cdg.company)) = '{{tbl}}'
-        {% if not loop.last %} union all {% endif %}
+    {% for sch in var('primex_schemas') %}
+        {% if tb_check(var('primex_db'), sch, 'GENMASTER') and tb_check(var('primex_db'), sch, 'CUSGENMASTER_') %}
+            select
+            substr('{{sch}}', 22, 1) as src_comp,
+            current_timestamp as crt_dtm,
+            cdg.mule_load_ts as stg_load_dtm,
+            null::timestamp_tz as delete_dtm,
+            'SYSPRO-PRMX' as src_sys_nm,
+            upper(trim(cdg.glcode)) as gl_acct_nbr,
+            upper(trim(cdg.company)) as opco_id,
+            trim(cdg.description) as gl_acct_nm,
+            coa.chart_of_accts_sk,
+            occ.opco_cost_center_sk,
+            od.opco_dept_sk,
+            ot.opco_type_sk,
+            oip.opco_purpose_sk,
+            ol.opco_lob_sk,
+            ocoa.opco_chart_of_accts_type_sk,
+            null as opco_uom_sk,
+            null as gl_acct_alias_nm,
+            iff(trim(cdg.controlaccflag) = 'Y', 0, 1) as manual_entry_allowed_ind,
+            null as dpo_exclusion_ind,
+            null as movement_allowed_ind,
+            null as cost_center_reqd_txt,
+            null as dept_reqd_txt,
+            null as type_reqd_txt,
+            null as prnt_gl_acct_nbr,
+            null as related_gl_acct_nbr,
+            null as monetary_gl_acct_ind,
+            iff(trim(cdg.acconhldflag) in ('', 'N'), 1 , 0) as actv_ind,
+            iff(trim(cdc.financialstatement) = 'BS', 1, 0) as balance_sheet_acct_ind,
+            null as summary_acct_ind,
+            null as opco_brand_sk,
+            null as acct_clssfctn_cd,
+            null as sub_acct_nbr
+            from {{ var('primex_db')}}.{{ sch}}.GENMASTER cdg
+            left join {{ var('primex_db')}}.{{ sch}}.CUSGENMASTER_ cdc 
+                on trim(cdg.glcode) = trim(cdc.glcode)
+            left join {{ ref('chart_of_accts')}} coa 
+                on coa.gl_acct_nbr = trim(cdc.gl)
+            left join {{ ref('syspro_primex_opco_cost_center_curr')}} occ 
+                on occ.src_cost_center_cd = upper(trim(cdc.cc))
+                and occ.src_sys_nm = 'SYSPRO-PRMX'
+            left join {{ ref('syspro_primex_opco_dept_curr')}} od 
+                on od.src_dept_cd = upper(trim(cdc.dept))
+                and od.src_sys_nm = 'SYSPRO-PRMX'
+            left join {{ ref('syspro_primex_opco_type_curr')}} ot 
+                on ot.src_type_cd = upper(trim(cdc.type))
+                and ot.src_sys_nm = 'SYSPRO-PRMX'
+            left join {{ ref('syspro_primex_opco_purpose_curr')}} oip 
+                on oip.src_purpose_cd = upper(trim(cdc.purpose))
+                and oip.src_sys_nm = 'SYSPRO-PRMX'
+            left join {{ ref('syspro_primex_opco_lob_curr')}} ol 
+                on ol.src_lob_cd = upper(trim(cdc.fsgroup4buname))
+                and ol.src_sys_nm = 'SYSPRO-PRMX'
+            left join {{ ref('syspro_primex_opco_chart_of_accts_type_curr')}} ocoa 
+                on ocoa.src_acct_type_cd = upper(trim(cdg.glgroup))
+                and ocoa.src_sys_nm = 'SYSPRO-PRMX'
+            where upper(trim(cdg.company)) = substr('{{sch}}', 22, 1)
+            {% if not loop.last %} union all {% endif %}
+        {% endif %}
+        
     {% endfor %}
 ),
 de_duplication as(

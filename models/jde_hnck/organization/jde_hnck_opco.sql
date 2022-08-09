@@ -3,7 +3,7 @@
 with jde_hnck_opco as(
     select 
     current_timestamp as crt_dtm,
-    null::timestamp_tz as stg_load_dtm,
+    f0.mule_load_ts as stg_load_dtm,
     null::timestamp_tz as delete_dtm,
     concat_ws('|','JDE-HNCK', ccco)::varchar(255) as opco_ak,
     'JDE-HNCK'::varchar(20) as src_sys_nm,
@@ -34,8 +34,8 @@ with jde_hnck_opco as(
     null::varchar(50) as prnt_opco_id,
     null::varchar(50) as collection_type_txt,
     null::number(1,0) as dashboard_usage_id
-    from {{source('JDE_DEV','JDE_PRODUCTION_PRODDTA_F0010')}} as f0
-    left join {{source('JDE_DEV','JDE_PRODUCTION_PRODDTA_F0101')}} as f1
+    from {{source('JDE_HNCK_DEV1','F0010')}} as f0
+    left join {{source('JDE_HNCK_DEV1','F0101')}} as f1
         on trim(f0.ccan8) = trim(f1.aban8)
     left join {{ ref('jde_hnck_opco_currency')}} oc 
         on upper(trim(f0.cccrcd)) = oc.src_currency_cd
@@ -43,11 +43,11 @@ with jde_hnck_opco as(
 ),
 website_url_col as(
     select 
-    jde_opco.*,
+    jde_hnck_opco.*,
     trim(f11.eaemal)::varchar(510) as website_url_txt
     from jde_hnck_opco
-    left join {{source('JDE_DEV','JDE_PRODUCTION_PRODDTA_F01151')}} as f11
-        on jde_opco.website_url_txt_join = trim(f11.eaan8)
+    left join {{source('JDE_HNCK_DEV1','F01151')}} as f11
+        on jde_hnck_opco.website_url_txt_join = trim(f11.eaan8)
         and trim(f11.eaidln) = 0 
         and trim(f11.eaetp) = 'I'
 ),

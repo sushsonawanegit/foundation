@@ -3,12 +3,12 @@
 with jde_hnck_opco_currency as(
     select 
     current_timestamp as crt_dtm,
-    null::timestamp_tz as stg_load_dtm,
+    mule_load_ts as stg_load_dtm,
     null::timestamp_tz as delete_dtm,
     'JDE-HNCK'::varchar(20) as src_sys_nm,
     upper(trim(cvcrcd))::varchar(10) as src_currency_cd,
     trim(cvdl01)::varchar(50) as src_currency_nm
-    from {{source('JDE_DEV', 'JDE_PRODUCTION_PRODDTA_F0013')}}
+    from {{source('JDE_HNCK_DEV1', 'F0013')}}
 ),
 final as(
     select  {{dbt_utils.surrogate_key(['src_sys_nm', 'src_currency_cd'])}} as opco_currency_sk, 

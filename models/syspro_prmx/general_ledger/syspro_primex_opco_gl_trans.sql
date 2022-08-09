@@ -10,101 +10,110 @@
 -- depends_on: {{ ref('syspro_primex_opco_sub_ledger_type_curr') }}
 -- depends_on: {{ ref('syspro_primex_opco_currency_curr') }}
 
+{{ config(
+    post_hook=
+    "delete from oi_data_dev.intermediate_fnd_dev.syspro_primex_opco_gl_trans 
+    where src_sys_nm = 'SYSPRO-PRMX' and opco_sk = (select opco_sk from oi_data_dev.foundation_dev.opco where src_sys_nm = 'SYSPRO-PRMX' and opco_id = 'C')
+    and trans_currency_sk = (select opco_currency_sk from oi_data_dev.foundation_dev.opco_currency where src_sys_nm = 'SYSPRO-PRMX' and src_currency_cd = 'CAN')
+    and fscl_yr_nbr = 2022 and fscl_mnth_nbr in (4, 5)" 
+) }}
+
 {% set _load = load_type('SYSPRO_PRIMEX_OPCO_GL_TRANS') %}
 
 with syspro_primex_opco_gl_trans as(
-    {% set tables = table_check('COMPANY', '_DBO_GENJOURNALDETAIL') %}
-    {% for tbl in tables %}
-        select
-        '{{ tbl}}' as src_comp,
-        current_timestamp as crt_dtm,
-        null::timestamp_tz as stg_load_dtm,
-        null::timestamp_tz as delete_dtm,
-        'SYSPRO-PRMX' as src_sys_nm,
-        {{ dbt_utils.surrogate_key(["'SYSPRO-PRMX'", 'src_comp', 'trim(gjd.glyear)', 'trim(gjd.glperiod)', 'upper(trim(gjd.journal))', 'trim(gjd.entrynumber)']) }} as opco_gl_trans_sk, 
-        concat_ws('|', 'SYSPRO-PRMX', src_comp, trim(gjd.glyear), trim(gjd.glperiod), upper(trim(gjd.journal)), trim(gjd.entrynumber)) as opco_gl_trans_ak,
-        concat_ws('|', src_comp, trim(gjd.glyear), trim(gjd.glperiod), upper(trim(gjd.journal)), trim(gjd.entrynumber)) as src_key_txt,
-        iff(gjd.transactiondate is null, gjd.entrydate, gjd.transactiondate) as trans_dt,
-        opco.opco_sk,
-        ocoa.opco_chart_of_accts_sk,
-        ogtt.opco_gl_trans_type_sk,
-        null as opco_gl_trans_posting_type_sk,
-        occ.opco_cost_center_sk,
-        od.opco_dept_sk,
-        ot.opco_type_sk,
-        op.opco_purpose_sk,
-        ol.opco_lob_sk,
-        ifnull(oc.opco_currency_sk, (select opco_currency_sk from {{ ref('syspro_primex_opco_curr')}} where src_sys_nm = 'SYSPRO-PRMX' and opco_id = '{{ tbl}}')) as trans_currency_sk,
-        null as opco_proj_sk,
-        null as original_gl_opco_sk,
-        null as original_gl_voucher_nbr,
-        null as voucher_nbr,
-        null as journal_batch_nbr,
-        null as gl_desc,
-        null as document_nbr,
-        null as document_dt,
-        null as crrctn_trans_ind,
-        case 
-            when gjd.entrytype = 'C' then 1
-            when gjd.entrytype = 'D' then 0
-        end::numeric(1,0) as credit_ind,
-        null as gl_qty,
-        case 
-            when gjd.entrytype = 'C' then (-1)*gjd.currencyvalue
-            else gjd.currencyvalue
-        end as trans_currency_gl_amt,
-        case 
-            when gjd.entrytype = 'C' then (-1)*gjd.entryvalue
-            else gjd.entryvalue
-        end as opco_currency_gl_amt,
-        gjd.glyear as fscl_yr_nbr,
-        gjd.glperiod as fscl_mnth_nbr,
-        iff(gjd.entryposted = 'Y', 1, 0)::numeric(1,0) as posted_ind,
-        ou.opco_uom_sk,
-        null as opco_brand_sk,
-        oslt.opco_sub_ledger_type_sk,
-        null as sub_ledger_cd
-        from {{ var('primex_db')}}.{{ var('primex_schema')}}.COMPANY{{ tbl}}_DBO_GENJOURNALDETAIL gjd
-        left join {{ var('primex_db')}}.{{ var('primex_schema')}}.COMPANY{{ tbl}}_DBO_CUSGENMASTER_ cgm
-            on trim(gjd.glcode) = trim(cgm.glcode)
-        left join {{ var('primex_db')}}.{{ var('primex_schema')}}.COMPANY{{ tbl}}_DBO_GENMASTER cm
-            on trim(gjd.company) = trim(cm.company)
-            and trim(gjd.glcode) = trim(cm.glcode)
-        left join {{ ref('syspro_primex_opco_curr')}} opco 
-            on opco.opco_id = '{{tbl}}'
-            and opco.src_sys_nm = 'SYSPRO-PRMX'
-        left join {{ ref('syspro_primex_opco_chart_of_accts_curr')}} ocoa 
-            on ocoa.opco_id = '{{tbl}}'
-            and ocoa.gl_acct_nbr = upper(trim(gjd.glcode))
-            and ocoa.src_sys_nm = 'SYSPRO-PRMX'
-        left join {{ ref('syspro_primex_opco_gl_trans_type_curr')}} ogtt 
-            on ogtt.src_gl_trans_type_cd = upper(trim(gjd.source))
-            and ogtt.src_sys_nm = 'SYSPRO-PRMX'
-        left join {{ ref('syspro_primex_opco_cost_center_curr')}} occ 
-            on occ.src_cost_center_cd = upper(trim(cgm.cc))
-            and occ.src_sys_nm = 'SYSPRO-PRMX'
-        left join {{ ref('syspro_primex_opco_dept_curr')}} od 
-            on od.src_dept_cd = upper(trim(cgm.dept))
-            and od.src_sys_nm = 'SYSPRO-PRMX'
-        left join {{ ref('syspro_primex_opco_type_curr')}} ot 
-            on ot.src_type_cd = upper(trim(cgm.type))
-            and ot.src_sys_nm = 'SYSPRO-PRMX'
-        left join {{ ref('syspro_primex_opco_purpose_curr')}} op
-            on op.src_purpose_cd = upper(trim(cgm.purpose))
-            and op.src_sys_nm = 'SYSPRO-PRMX'
-        left join {{ ref('syspro_primex_opco_lob_curr')}} ol
-            on ol.src_lob_cd = upper(trim(cgm.fsgroup4buname))
-            and ol.src_sys_nm = 'SYSPRO-PRMX'
-        left join {{ ref('syspro_primex_opco_uom_curr')}} ou 
-            on ou.src_uom_cd = upper(trim(cm.glunitofmeasure))
-            and ou.src_sys_nm = 'SYSPRO-PRMX'
-        left join {{ ref('syspro_primex_opco_sub_ledger_type_curr')}} oslt 
-            on oslt.src_sub_ledger_type_cd = upper(trim(gjd.type))
-            and oslt.src_sys_nm = 'SYSPRO-PRMX'
-        left join {{ ref('syspro_primex_opco_currency_curr')}} oc 
-            on oc.src_currency_cd = upper(trim(gjd.postcurrency))
-            and oc.src_sys_nm = 'SYSPRO-PRMX'
-        {% if not loop.last %} union all {% endif %}
+    {% for sch in var('primex_schemas') %}
+        {% if tb_check(var('primex_db'), sch, 'GENJOURNALDETAIL') and tb_check(var('primex_db'), sch, 'CUSGENMASTER_') and tb_check(var('primex_db'), sch, 'GENMASTER') %}
+            select
+            substr('{{sch}}', 22, 1) as src_comp,
+            current_timestamp as crt_dtm,
+            gjd.mule_load_ts as stg_load_dtm,
+            null::timestamp_tz as delete_dtm,
+            'SYSPRO-PRMX' as src_sys_nm,
+            {{ dbt_utils.surrogate_key(["'SYSPRO-PRMX'", 'src_comp', 'trim(gjd.glyear)', 'trim(gjd.glperiod)', 'upper(trim(gjd.journal))', 'trim(gjd.entrynumber)']) }} as opco_gl_trans_sk, 
+            concat_ws('|', 'SYSPRO-PRMX', src_comp, trim(gjd.glyear), trim(gjd.glperiod), upper(trim(gjd.journal)), trim(gjd.entrynumber)) as opco_gl_trans_ak,
+            concat_ws('|', src_comp, trim(gjd.glyear), trim(gjd.glperiod), upper(trim(gjd.journal)), trim(gjd.entrynumber)) as src_key_txt,
+            iff(gjd.transactiondate is null, gjd.entrydate, gjd.transactiondate) as trans_dt,
+            opco.opco_sk,
+            ocoa.opco_chart_of_accts_sk,
+            ogtt.opco_gl_trans_type_sk,
+            null as opco_gl_trans_posting_type_sk,
+            occ.opco_cost_center_sk,
+            od.opco_dept_sk,
+            ot.opco_type_sk,
+            op.opco_purpose_sk,
+            ol.opco_lob_sk,
+            ifnull(oc.opco_currency_sk, (select opco_currency_sk from {{ ref('syspro_primex_opco_curr')}} where src_sys_nm = 'SYSPRO-PRMX' and opco_id = substr('{{sch}}', 22, 1))) as trans_currency_sk,
+            null as opco_proj_sk,
+            null as original_gl_opco_sk,
+            null as original_gl_voucher_nbr,
+            null as voucher_nbr,
+            null as journal_batch_nbr,
+            null as gl_desc,
+            null as document_nbr,
+            null as document_dt,
+            null as crrctn_trans_ind,
+            case 
+                when gjd.entrytype = 'C' then 1
+                when gjd.entrytype = 'D' then 0
+            end::numeric(1,0) as credit_ind,
+            null as gl_qty,
+            case 
+                when gjd.entrytype = 'C' then (-1)*gjd.currencyvalue
+                else gjd.currencyvalue
+            end as trans_currency_gl_amt,
+            case 
+                when gjd.entrytype = 'C' then (-1)*gjd.entryvalue
+                else gjd.entryvalue
+            end as opco_currency_gl_amt,
+            gjd.glyear as fscl_yr_nbr,
+            gjd.glperiod as fscl_mnth_nbr,
+            iff(gjd.entryposted = 'Y', 1, 0)::numeric(1,0) as posted_ind,
+            ou.opco_uom_sk,
+            null as opco_brand_sk,
+            oslt.opco_sub_ledger_type_sk,
+            null as sub_ledger_cd
+            from {{ var('primex_db')}}.{{ sch}}.GENJOURNALDETAIL gjd
+            left join {{ var('primex_db')}}.{{ sch}}.CUSGENMASTER_ cgm
+                on trim(gjd.glcode) = trim(cgm.glcode)
+            left join {{ var('primex_db')}}.{{ sch}}.GENMASTER cm
+                on trim(gjd.company) = trim(cm.company)
+                and trim(gjd.glcode) = trim(cm.glcode)
+            left join {{ ref('syspro_primex_opco_curr')}} opco 
+                on opco.opco_id = substr('{{sch}}', 22, 1)
+                and opco.src_sys_nm = 'SYSPRO-PRMX'
+            left join {{ ref('syspro_primex_opco_chart_of_accts_curr')}} ocoa 
+                on ocoa.opco_id = substr('{{sch}}', 22, 1)
+                and ocoa.gl_acct_nbr = upper(trim(gjd.glcode))
+                and ocoa.src_sys_nm = 'SYSPRO-PRMX'
+            left join {{ ref('syspro_primex_opco_gl_trans_type_curr')}} ogtt 
+                on ogtt.src_gl_trans_type_cd = upper(trim(gjd.source))
+                and ogtt.src_sys_nm = 'SYSPRO-PRMX'
+            left join {{ ref('syspro_primex_opco_cost_center_curr')}} occ 
+                on occ.src_cost_center_cd = upper(trim(cgm.cc))
+                and occ.src_sys_nm = 'SYSPRO-PRMX'
+            left join {{ ref('syspro_primex_opco_dept_curr')}} od 
+                on od.src_dept_cd = upper(trim(cgm.dept))
+                and od.src_sys_nm = 'SYSPRO-PRMX'
+            left join {{ ref('syspro_primex_opco_type_curr')}} ot 
+                on ot.src_type_cd = upper(trim(cgm.type))
+                and ot.src_sys_nm = 'SYSPRO-PRMX'
+            left join {{ ref('syspro_primex_opco_purpose_curr')}} op
+                on op.src_purpose_cd = upper(trim(cgm.purpose))
+                and op.src_sys_nm = 'SYSPRO-PRMX'
+            left join {{ ref('syspro_primex_opco_lob_curr')}} ol
+                on ol.src_lob_cd = upper(trim(cgm.fsgroup4buname))
+                and ol.src_sys_nm = 'SYSPRO-PRMX'
+            left join {{ ref('syspro_primex_opco_uom_curr')}} ou 
+                on ou.src_uom_cd = upper(trim(cm.glunitofmeasure))
+                and ou.src_sys_nm = 'SYSPRO-PRMX'
+            left join {{ ref('syspro_primex_opco_sub_ledger_type_curr')}} oslt 
+                on oslt.src_sub_ledger_type_cd = upper(trim(gjd.type))
+                and oslt.src_sys_nm = 'SYSPRO-PRMX'
+            left join {{ ref('syspro_primex_opco_currency_curr')}} oc 
+                on oc.src_currency_cd = upper(trim(gjd.postcurrency))
+                and oc.src_sys_nm = 'SYSPRO-PRMX'
+            {% if not loop.last %} union all {% endif %}
+        {% endif %}
     {% endfor %}
 ),
 de_duplication as(

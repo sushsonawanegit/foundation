@@ -71,8 +71,10 @@ with opco_fscl_yr_gl_opening_bal as(
     left join {{ ref('ax_opco_uom_curr')}} ou 
         on upper(ltb.unitid_opi) = ou.src_uom_cd
         and ou.src_sys_nm = 'AX'
-    where lt.periodcode = 0
-    and lt.dataareaid not in {{ var('excluded_ax_companies')}}
+    where 
+    (lt.periodcode = 0 and lt.dataareaid not in {{ var('excluded_ax_companies')}})
+    or
+    (lt.dataareaid = '275' and lt.transdate between '2021-02-28' and '2021-04-03')
 ),
 final as (
     select  distinct

@@ -10,68 +10,69 @@
 {% set _load = load_type('SYSPRO_PRIMEX_OPCO_FSCL_YR_GL_OPENING_BAL') %}
 
 with syspro_primex_opco_fscl_yr_gl_opening_bal as (
-   {% set tables = table_check('COMPANY', '_DBO_GENHISTORY') %}
-   {% for tbl in tables %}
-      select 
-      '{{tbl}}' as src_comp,
-      current_timestamp as crt_dtm,
-      null::timestamp_tz as stg_load_dtm,
-      null::timestamp_tz as delete_dtm,
-      {{ dbt_utils.surrogate_key(["'SYSPRO-PRMX'", "ifnull(trim(gh.company), '{{tbl}}')", 'trim(gh.glyear)', 'trim(gh.glcode)']) }} as opco_fscl_yr_gl_opening_bal_sk, 
-      concat_ws('|', 'SYSPRO-PRMX', ifnull(trim(gh.company), '{{tbl}}'), trim(gh.glyear), trim(gh.glcode)) as opco_fscl_yr_gl_opening_bal_ak,
-      'SYSPRO-PRMX' as src_sys_nm,
-      null as src_key_txt,
-      opco.opco_sk,
-      ocoa.opco_chart_of_accts_sk,
-      null as opco_gl_trans_type_sk,
-      null as opco_gl_trans_posting_type_sk,
-      occ.opco_cost_center_sk,
-      od.opco_dept_sk,
-      ot.opco_type_sk,
-      op.opco_purpose_sk,
-      ol.opco_lob_sk,
-      opco.opco_currency_sk as trans_currency_sk,
-      case 
-         when trim(gh.glyear) >= 2020 then fc.fscl_yr_strt_dt
-         when trim(gh.glyear) < 2020 then concat(trim(gh.glyear), '-04-01')::date
-      end as fscl_yr_strt_dt,
-      trim(gh.glyear) as fscl_yr_nbr,
-      null as credit_ind,
-      null as opening_bal_qty,
-      trim(gh.beginyearbalance) as trans_currency_opening_bal_amt,
-      trim(gh.beginyearbalance) as opco_currency_opening_bal_amt,
-      null as opco_uom_sk,
-      null as opco_brand_sk,
-      null as opco_sub_ledger_type_sk,
-      null as sub_ledger_cd
-      from {{var('primex_db')}}.{{var('primex_schema')}}.COMPANY{{tbl}}_DBO_GENHISTORY as gh
-      left join  {{var('primex_db')}}.{{var('primex_schema')}}.COMPANY{{tbl}}_DBO_CUSGENMASTER_ as cgm
-         on gh.glcode=cgm.glcode
-      left join {{ref('syspro_primex_opco_curr')}} opco 
-         on opco.opco_id = iff(trim(gh.company) is null, '{{ tbl}}', trim(gh.company))
-         and opco.src_sys_nm = 'SYSPRO-PRMX'
-      left join {{ref('syspro_primex_opco_chart_of_accts_curr')}} ocoa 
-         on ocoa.gl_acct_nbr = trim(gh.glcode)
-         and ocoa.src_sys_nm = 'SYSPRO-PRMX'
-      left join {{ref('syspro_primex_opco_cost_center_curr')}} occ
-         on occ.src_cost_center_cd = upper(trim(cgm.cc)) 
-         and occ.src_sys_nm = 'SYSPRO-PRMX'
-      left join {{ref('syspro_primex_opco_dept_curr')}} od 
-         on od.src_dept_cd = upper(trim(cgm.dept)) 
-         and od.src_sys_nm = 'SYSPRO-PRMX'
-      left join {{ref('syspro_primex_opco_type_curr')}} ot 
-         on ot.src_type_cd = upper(trim(cgm.type)) 
-         and ot.src_sys_nm = 'SYSPRO-PRMX'
-      left join {{ref('syspro_primex_opco_purpose_curr')}} op 
-         on op.src_purpose_cd = upper(trim(cgm.purpose)) 
-         and op.src_sys_nm = 'SYSPRO-PRMX'
-      left join {{ref('syspro_primex_opco_lob_curr')}} ol 
-         on ol.src_lob_cd = upper(trim(cgm.fsgroup4buname)) 
-         and ol.src_sys_nm = 'SYSPRO-PRMX' 
-      left join {{ ref('fscl_clndr')}} fc 
-         on fc.fscl_yr_id = trim(gh.glyear)
-      where trim(gh.glyear) >= 2020 and trim(gh.company) in (null, '{{ tbl}}')
-      {% if not loop.last %} union all {% endif %}
+   {% for sch in var('primex_schemas') %}
+      {% if tb_check(var('primex_db'), sch, 'GENHISTORY') and tb_check(var('primex_db'), sch, 'CUSGENMASTER_') %}
+         select 
+         substr('{{sch}}', 22, 1) as src_comp,
+         current_timestamp as crt_dtm,
+         gh.mule_load_ts as stg_load_dtm,
+         null::timestamp_tz as delete_dtm,
+         {{ dbt_utils.surrogate_key(["'SYSPRO-PRMX'", "ifnull(trim(gh.company), substr('{{sch}}', 22, 1))", 'trim(gh.glyear)', 'trim(gh.glcode)']) }} as opco_fscl_yr_gl_opening_bal_sk, 
+         concat_ws('|', 'SYSPRO-PRMX', ifnull(trim(gh.company), substr('{{sch}}', 22, 1)), trim(gh.glyear), trim(gh.glcode)) as opco_fscl_yr_gl_opening_bal_ak,
+         'SYSPRO-PRMX' as src_sys_nm,
+         null as src_key_txt,
+         opco.opco_sk,
+         ocoa.opco_chart_of_accts_sk,
+         null as opco_gl_trans_type_sk,
+         null as opco_gl_trans_posting_type_sk,
+         occ.opco_cost_center_sk,
+         od.opco_dept_sk,
+         ot.opco_type_sk,
+         op.opco_purpose_sk,
+         ol.opco_lob_sk,
+         opco.opco_currency_sk as trans_currency_sk,
+         case 
+            when trim(gh.glyear) >= 2020 then fc.fscl_yr_strt_dt
+            when trim(gh.glyear) < 2020 then concat(trim(gh.glyear), '-04-01')::date
+         end as fscl_yr_strt_dt,
+         trim(gh.glyear) as fscl_yr_nbr,
+         null as credit_ind,
+         null as opening_bal_qty,
+         trim(gh.beginyearbalance) as trans_currency_opening_bal_amt,
+         trim(gh.beginyearbalance) as opco_currency_opening_bal_amt,
+         null as opco_uom_sk,
+         null as opco_brand_sk,
+         null as opco_sub_ledger_type_sk,
+         null as sub_ledger_cd
+         from {{ var('primex_db')}}.{{ sch}}.GENHISTORY as gh
+         left join  {{ var('primex_db')}}.{{ sch}}.CUSGENMASTER_ as cgm
+            on gh.glcode=cgm.glcode
+         left join {{ref('syspro_primex_opco_curr')}} opco 
+            on opco.opco_id = iff(trim(gh.company) is null, substr('{{sch}}', 22, 1), trim(gh.company))
+            and opco.src_sys_nm = 'SYSPRO-PRMX'
+         left join {{ref('syspro_primex_opco_chart_of_accts_curr')}} ocoa 
+            on ocoa.gl_acct_nbr = trim(gh.glcode)
+            and ocoa.src_sys_nm = 'SYSPRO-PRMX'
+         left join {{ref('syspro_primex_opco_cost_center_curr')}} occ
+            on occ.src_cost_center_cd = upper(trim(cgm.cc)) 
+            and occ.src_sys_nm = 'SYSPRO-PRMX'
+         left join {{ref('syspro_primex_opco_dept_curr')}} od 
+            on od.src_dept_cd = upper(trim(cgm.dept)) 
+            and od.src_sys_nm = 'SYSPRO-PRMX'
+         left join {{ref('syspro_primex_opco_type_curr')}} ot 
+            on ot.src_type_cd = upper(trim(cgm.type)) 
+            and ot.src_sys_nm = 'SYSPRO-PRMX'
+         left join {{ref('syspro_primex_opco_purpose_curr')}} op 
+            on op.src_purpose_cd = upper(trim(cgm.purpose)) 
+            and op.src_sys_nm = 'SYSPRO-PRMX'
+         left join {{ref('syspro_primex_opco_lob_curr')}} ol 
+            on ol.src_lob_cd = upper(trim(cgm.fsgroup4buname)) 
+            and ol.src_sys_nm = 'SYSPRO-PRMX' 
+         left join {{ ref('fscl_clndr')}} fc 
+            on fc.fscl_yr_id = trim(gh.glyear)
+         where trim(gh.glyear) >= 2020 and trim(gh.company) in (null, substr('{{sch}}', 22, 1))
+         {% if not loop.last %} union all {% endif %}
+      {% endif %}
    {% endfor %}  
 ),
 de_duplication as(

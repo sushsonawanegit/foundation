@@ -1,3 +1,10 @@
+{{ config(
+    post_hook=
+    "delete from oi_data_dev.intermediate_fnd_dev.ax_opco_gl_trans 
+    where opco_sk = (select opco_sk from oi_data_dev.foundation_dev.opco where src_sys_nm = 'AX' and opco_id = '275')
+    and fscl_yr_nbr = 2021 and fscl_mnth_nbr = 3" 
+) }}
+
 {% set _load = load_type('AX_OPCO_GL_TRANS') %}
 
 with ax_opco_gl_trans as (

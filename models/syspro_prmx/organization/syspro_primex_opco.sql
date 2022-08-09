@@ -6,30 +6,34 @@
 }}
 
 with primex_opco as(
-    {% for tbl in var('primex_companies') %}
+    {% for sch in var('primex_schemas') %}
         select 
         current_timestamp as crt_dtm,
         null::timestamp_tz as stg_load_dtm,
         null::timestamp_tz as delete_dtm,
-        concat_ws('|', 'SYSPRO-PRMX', '{{ tbl}}') as opco_ak,
+        concat_ws('|', 'SYSPRO-PRMX', substr('{{sch}}', 22, 1)) as opco_ak,
         'SYSPRO-PRMX' as src_sys_nm,
-        '{{ tbl}}' as opco_id,
+        substr('{{sch}}', 22, 1) as opco_id,
         case 
-            when '{{ tbl}}' = 'A' then 'Primex Manufacturing Ltd.'
-            when '{{ tbl}}' = 'C' then 'Primex Manufacturing Corp'
-            when '{{ tbl}}' = 'P' then 'Primex Technologies Inc.'
-            when '{{ tbl}}' = 'X' then 'Primex Elimination Co.'
+            when substr('{{sch}}', 22, 1) = 'A' then 'Primex Manufacturing Ltd.'
+            when substr('{{sch}}', 22, 1) = 'C' then 'Primex Manufacturing Corp'
+            when substr('{{sch}}', 22, 1) = 'P' then 'Primex Technologies Inc.'
+            when substr('{{sch}}', 22, 1) = 'X' then 'Primex Elimination Co.'
         end as opco_nm,
-        (select upper(trim(currency)) as currency_cd from {{ var('primex_db')}}.{{ var('primex_schema')}}.COMPANY{{ tbl}}_DBO_TBLCURRENCY where buyexchangerate = 1) as opco_currency_key,
+        {% if tb_check(var('primex_db'), sch, 'TBLCURRENCY') %}
+            (select upper(trim(currency)) as currency_cd from {{ var('primex_db')}}.{{ sch}}.TBLCURRENCY where buyexchangerate = 1) as opco_currency_key,
+        {% else %}
+            null as opco_currency_key,
+        {% endif %}
         case 
-            when '{{ tbl}}' = 'A' then '2019-07-07'::date
-            when '{{ tbl}}' = 'C' then '2020-03-11'::date
-            when '{{ tbl}}' = 'X' then '2019-07-07'::date
+            when substr('{{sch}}', 22, 1) = 'A' then '2019-07-07'::date
+            when substr('{{sch}}', 22, 1) = 'C' then '2020-03-11'::date
+            when substr('{{sch}}', 22, 1) = 'X' then '2019-07-07'::date
             else null
         end as acqstn_dt,
-        iff('{{ tbl}}' in ('A', 'C', 'X'), 1, 0)::number(1,0) as actv_ind,
+        iff(substr('{{sch}}', 22, 1) in ('A', 'C', 'X'), 1, 0)::number(1,0) as actv_ind,
         case 
-            when '{{ tbl}}' = 'P' then '2022-01-01'::date
+            when substr('{{sch}}', 22, 1) = 'P' then '2022-01-01'::date
             else null
         end as inactv_dt
         {% if not loop.last %} union all {% endif %}

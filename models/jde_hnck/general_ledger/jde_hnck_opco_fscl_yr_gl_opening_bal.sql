@@ -5,7 +5,7 @@ with jde_hnck_opco_fscl_yr_gl_opening_bal as(
     {{ dbt_utils.surrogate_key(["'JDE-HNCK'", 'f0902.gbco', 'f0902.gbmcu', 'f0902.gbobj', 'f0902.gbsub', 'f0902.gbsblt', 'f0902.gbsbl', 'f0902.gbctry', 'f0902.gbfy'])}} as opco_fscl_yr_gl_opening_bal_sk,
     concat_ws('|', 'JDE-HNCK', trim(f0902.gbco), trim(f0902.gbmcu), trim(f0902.gbobj), trim(f0902.gbsub), trim(f0902.gbsblt), trim(f0902.gbsbl), trim(f0902.gbctry), trim(f0902.gbfy)) as opco_fscl_yr_gl_opening_bal_ak,
     current_timestamp as crt_dtm,
-    null::timestamp_tz as stg_load_dtm,
+    F0902.mule_load_ts as stg_load_dtm,
     null::timestamp_tz as delete_dtm,
     'JDE-HNCK' as src_sys_nm,
     null as src_key_txt,
@@ -22,14 +22,14 @@ with jde_hnck_opco_fscl_yr_gl_opening_bal as(
     fc.fscl_yr_strt_dt,
     concat(trim(f0902.gbctry), trim(f0902.gbfy)) as fscl_yr_nbr,
     iff(trim(f0902.gbapyc) < 0, 1, 0) as credit_ind,
-    iff(trim(f0902.gblt) = 'AU', trim(f0902.gbapyc)/(select pow(10, trim(frcdec)::number) from {{ source('JDE_DEV', 'JDE920_DD920_F9210') }} where trim(frdtai) = 'APYC'), null) as opening_bal_qty,
-    iff(trim(f0902.gblt) = 'AA', trim(f0902.gbapyc)/(select pow(10, trim(frcdec)::number) from {{ source('JDE_DEV', 'JDE920_DD920_F9210') }} where trim(frdtai) = 'APYC'), null) as trans_currency_opening_bal_amt,
-    iff(trim(f0902.gblt) = 'AA', trim(f0902.gbapyc)/(select pow(10, trim(frcdec)::number) from {{ source('JDE_DEV', 'JDE920_DD920_F9210') }} where trim(frdtai) = 'APYC'), null) as opco_currency_opening_bal_amt,
+    iff(trim(f0902.gblt) = 'AU', trim(f0902.gbapyc)/(select pow(10, trim(frcdec)::number) from {{ source('JDE_HNCK_DEV3', 'F9210') }} where trim(frdtai) = 'APYC'), null) as opening_bal_qty,
+    iff(trim(f0902.gblt) = 'AA', trim(f0902.gbapyc)/(select pow(10, trim(frcdec)::number) from {{ source('JDE_HNCK_DEV3', 'F9210') }} where trim(frdtai) = 'APYC'), null) as trans_currency_opening_bal_amt,
+    iff(trim(f0902.gblt) = 'AA', trim(f0902.gbapyc)/(select pow(10, trim(frcdec)::number) from {{ source('JDE_HNCK_DEV3', 'F9210') }} where trim(frdtai) = 'APYC'), null) as opco_currency_opening_bal_amt,
     null as opco_uom_sk,
     null as opco_brand_sk,
     oslt.opco_sub_ledger_type_sk,
     trim(f0902.gbsbl) as sub_ledger_cd
-    from {{ source('JDE_DEV', 'JDE_PRODUCTION_PRODDTA_F0902') }} f0902
+    from {{ source('JDE_HNCK_DEV1', 'F0902') }} f0902
     left join {{ ref('jde_hnck_opco_curr')}} opco 
         on upper(trim(f0902.gbco)) = opco.opco_id
         and opco.src_sys_nm = 'JDE-HNCK'

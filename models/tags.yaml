@@ -1,0 +1,1436 @@
+version: 2
+
+models:
+    - name: v_opco_cash_dscnt_terms_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_commsn_grp_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_currency_lineage
+      config: 
+        tags: ['ax','ns','jde_hnck','syspro_primex','jde_npp']
+    - name: v_opco_cust_code_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_cust_grp_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_cust_invoice_line_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_cust_invoice_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_cust_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_cust_open_trans_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_cust_packing_slip_line_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_cust_packing_slip_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_cust_settled_trans_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_cust_trans_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_cust_type_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_handling_status_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_invtry_ref_type_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_opco_cust_xref_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_picking_list_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_pymnt_mode_lineage
+      config: 
+        tags: ['ax','ns']
+    - name: v_opco_pymnt_terms_lineage
+      config: 
+        tags: ['ax','ns']
+    - name: v_chart_of_accts_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_chart_of_accts_lineage
+      config: 
+        tags: ['ax','ns','jde_hnck','syspro_primex','jde_npp']
+    - name: v_opco_chart_of_accts_type_lineage
+      config: 
+        tags: ['ax','ns','syspro_primex']
+    - name: v_opco_fscl_yr_gl_opening_bal_lineage
+      config: 
+        tags: ['ax','ns','jde_hnck','syspro_primex','jde_npp']
+    - name: v_opco_gl_trans_lineage
+      config: 
+        tags: ['ax','ns','jde_hnck','syspro_primex','jde_npp']
+    - name: v_opco_gl_trans_posting_type_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_gl_trans_type_lineage
+      config: 
+        tags: ['ax','ns','jde_hnck','syspro_primex','jde_npp']
+    - name: v_opco_sub_ledger_type_lineage
+      config: 
+        tags: ['jde_hnck','syspro_primex','jde_npp']
+    - name: v_opco_cust_opco_locn_xref_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_locn_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_opco_locn_xref_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_vendor_opco_locn_xref_lineage
+      config: 
+        tags: 'ax'
+    - name: v_fscl_clndr_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_assctn_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_cost_center_lineage
+      config: 
+        tags: ['ax','ns','jde_hnck','syspro_primex','jde_npp']
+    - name: v_opco_dept_lineage
+      config: 
+        tags: ['ax','ns','syspro_primex']
+    - name: v_opco_lineage
+      config: 
+        tags: ['ax','ns','jde_hnck','syspro_primex','jde_npp']
+    - name: v_opco_site_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_type_lineage
+      config: 
+        tags: ['ax','ns','syspro_primex']
+    - name: v_region_lineage
+      config: 
+        tags: ['ax','ns']
+    - name: v_sub_region_lineage
+      config: 
+        tags: ['ax','ns']
+    - name: v_warehouse_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_brand_lineage
+      config: 
+        tags: 'ns'
+    - name: v_opco_invtry_issue_status_lineage
+      config: 
+        tags: 'ax'    
+    - name: v_opco_invtry_rcpt_status_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_invtry_trans_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_invtry_trans_type_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_item_class_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_item_cvrg_grp_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_item_freight_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_item_grp_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_item_invtry_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_item_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_item_model_grp_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_item_opco_assctn_xref_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_item_psi_dtl_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_item_size_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_item_sls_class_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_item_subtype_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_item_type_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_lob_lineage
+      config: 
+        tags: ['ax','syspro_primex']
+    - name: v_opco_purpose_lineage
+      config: 
+        tags: ['ax','ns','syspro_primex']
+    - name: v_opco_uom_lineage
+      config: 
+        tags: ['ax','ns','jde_hnck','syspro_primex','jde_npp']
+    - name: v_opco_vendor_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_project_catgry_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_project_cost_frcst_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_project_cost_trans_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_project_empl_frcst_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_project_empl_trans_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_project_invoice_project_xref_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_project_item_trans_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_project_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_project_revenue_trans_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_project_trans_origin_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_project_trans_posting_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_project_trans_status_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_po_doc_status_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_po_line_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_po_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_po_type_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_dlvry_mode_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_dlvry_terms_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_sls_ordr_doc_status_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_sls_ordr_line_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_sls_ordr_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_sls_ordr_type_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_trans_status_lineage
+      config: 
+        tags: 'ax'
+    - name: v_sls_ordr_opco_locn_xref_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_vendor_invoice_line_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_vendor_invoice_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_vendor_packing_slip_line_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_vendor_packing_slip_lineage
+      config: 
+        tags: 'ax'
+    - name: v_opco_vendor_trans_lineage
+      config: 
+        tags: 'ax'
+    
+
+    - name: opco_cash_dscnt_terms
+      config: 
+        tags: 'ax'
+    - name: opco_commsn_grp
+      config: 
+        tags: 'ax'
+    - name: opco_currency
+      config: 
+        tags: ['ax','ns','jde_hnck','syspro_primex','jde_npp']
+    - name: opco_cust_code
+      config: 
+        tags: 'ax'
+    - name: opco_cust_grp
+      config: 
+        tags: 'ax'
+    - name: opco_cust_invoice_line
+      config: 
+        tags: 'ax'
+    - name: opco_cust_invoice
+      config: 
+        tags: 'ax'
+    - name: opco_cust
+      config: 
+        tags: 'ax'
+    - name: opco_cust_open_trans
+      config: 
+        tags: 'ax'
+    - name: opco_cust_packing_slip_line
+      config: 
+        tags: 'ax'
+    - name: opco_cust_packing_slip
+      config: 
+        tags: 'ax'
+    - name: opco_cust_settled_trans
+      config: 
+        tags: 'ax'
+    - name: opco_cust_trans
+      config: 
+        tags: 'ax'
+    - name: opco_cust_type
+      config: 
+        tags: 'ax'
+    - name: opco_handling_status
+      config: 
+        tags: 'ax'
+    - name: opco_invtry_ref_type
+      config: 
+        tags: 'ax'
+    - name: opco_opco_cust_xref
+      config: 
+        tags: 'ax'
+    - name: opco_picking_list
+      config: 
+        tags: 'ax'
+    - name: opco_pymnt_mode
+      config: 
+        tags: ['ax','ns']
+    - name: opco_pymnt_terms
+      config: 
+        tags: ['ax','ns']
+    - name: chart_of_accts
+      config: 
+        tags: 'ax'
+    - name: opco_chart_of_accts
+      config: 
+        tags: ['ax','ns','jde_hnck','syspro_primex','jde_npp']
+    - name: opco_chart_of_accts_type
+      config: 
+        tags: ['ax','ns','syspro_primex']
+    - name: opco_fscl_yr_gl_opening_bal
+      config: 
+        tags: ['ax','ns','jde_hnck','syspro_primex','jde_npp']
+    - name: opco_gl_trans
+      config: 
+        tags: ['ax','ns','jde_hnck','syspro_primex','jde_npp']
+    - name: opco_gl_trans_posting_type
+      config: 
+        tags: 'ax'
+    - name: opco_gl_trans_type
+      config: 
+        tags: ['ax','ns','jde_hnck','syspro_primex','jde_npp']
+    - name: opco_sub_ledger_type
+      config: 
+        tags: ['jde_hnck','syspro_primex','jde_npp']
+    - name: opco_cust_opco_locn_xref
+      config: 
+        tags: 'ax'
+    - name: opco_locn
+      config: 
+        tags: 'ax'
+    - name: opco_opco_locn_xref
+      config: 
+        tags: 'ax'
+    - name: opco_vendor_opco_locn_xref
+      config: 
+        tags: 'ax'
+    - name: fscl_clndr
+      config: 
+        tags: 'ax'
+    - name: opco_assctn
+      config: 
+        tags: 'ax'
+    - name: opco_cost_center
+      config: 
+        tags: ['ax','ns','jde_hnck','syspro_primex','jde_npp']
+    - name: opco_dept
+      config: 
+        tags: ['ax','ns','syspro_primex']
+    - name: opco
+      config: 
+        tags: ['ax','ns','jde_hnck','syspro_primex','jde_npp']
+    - name: opco_site
+      config: 
+        tags: 'ax'
+    - name: opco_type
+      config: 
+        tags: ['ax','ns','syspro_primex']
+    - name: region
+      config: 
+        tags: ['ax','ns']
+    - name: sub_region
+      config: 
+        tags: ['ax','ns']
+    - name: warehouse
+      config: 
+        tags: 'ax'
+    - name: opco_brand
+      config: 
+        tags: 'ns'
+    - name: opco_invtry_issue_status
+      config: 
+        tags: 'ax'    
+    - name: opco_invtry_rcpt_status
+      config: 
+        tags: 'ax'
+    - name: opco_invtry_trans
+      config: 
+        tags: 'ax'
+    - name: opco_invtry_trans_type
+      config: 
+        tags: 'ax'
+    - name: opco_item_class
+      config: 
+        tags: 'ax'
+    - name: opco_item_cvrg_grp
+      config: 
+        tags: 'ax'
+    - name: opco_item_freight
+      config: 
+        tags: 'ax'
+    - name: opco_item_grp
+      config: 
+        tags: 'ax'
+    - name: opco_item_invtry
+      config: 
+        tags: 'ax'
+    - name: opco_item
+      config: 
+        tags: 'ax'
+    - name: opco_item_model_grp
+      config: 
+        tags: 'ax'
+    - name: opco_item_opco_assctn_xref
+      config: 
+        tags: 'ax'
+    - name: opco_item_psi_dtl
+      config: 
+        tags: 'ax'
+    - name: opco_item_size
+      config: 
+        tags: 'ax'
+    - name: opco_item_sls_class
+      config: 
+        tags: 'ax'
+    - name: opco_item_subtype
+      config: 
+        tags: 'ax'
+    - name: opco_item_type
+      config: 
+        tags: 'ax'
+    - name: opco_lob
+      config: 
+        tags: ['ax','syspro_primex']
+    - name: opco_purpose
+      config: 
+        tags: ['ax','ns','syspro_primex']
+    - name: opco_uom
+      config: 
+        tags: ['ax','ns','jde_hnck','syspro_primex','jde_npp']
+    - name: opco_vendor
+      config: 
+        tags: 'ax'
+    - name: opco_project_catgry
+      config: 
+        tags: 'ax'
+    - name: opco_project_cost_frcst
+      config: 
+        tags: 'ax'
+    - name: opco_project_cost_trans
+      config: 
+        tags: 'ax'
+    - name: opco_project_empl_frcst
+      config: 
+        tags: 'ax'
+    - name: opco_project_empl_trans
+      config: 
+        tags: 'ax'
+    - name: opco_project_invoice_project_xref
+      config: 
+        tags: 'ax'
+    - name: opco_project_item_trans
+      config: 
+        tags: 'ax'
+    - name: opco_project
+      config: 
+        tags: 'ax'
+    - name: opco_project_revenue_trans
+      config: 
+        tags: 'ax'
+    - name: opco_project_trans_origin
+      config: 
+        tags: 'ax'
+    - name: opco_project_trans_posting
+      config: 
+        tags: 'ax'
+    - name: opco_project_trans_status
+      config: 
+        tags: 'ax'
+    - name: opco_po_doc_status
+      config: 
+        tags: 'ax'
+    - name: opco_po_line
+      config: 
+        tags: 'ax'
+    - name: opco_po
+      config: 
+        tags: 'ax'
+    - name: opco_po_type
+      config: 
+        tags: 'ax'
+    - name: opco_dlvry_mode
+      config: 
+        tags: 'ax'
+    - name: opco_dlvry_terms
+      config: 
+        tags: 'ax'
+    - name: opco_sls_ordr_doc_status
+      config: 
+        tags: 'ax'
+    - name: opco_sls_ordr_line
+      config: 
+        tags: 'ax'
+    - name: opco_sls_ordr
+      config: 
+        tags: 'ax'
+    - name: opco_sls_ordr_type
+      config: 
+        tags: 'ax'
+    - name: opco_trans_status
+      config: 
+        tags: 'ax'
+    - name: sls_ordr_opco_locn_xref
+      config: 
+        tags: 'ax'
+    - name: opco_vendor_invoice_line
+      config: 
+        tags: 'ax'
+    - name: opco_vendor_invoice
+      config: 
+        tags: 'ax'
+    - name: opco_vendor_packing_slip_line
+      config: 
+        tags: 'ax'
+    - name: opco_vendor_packing_slip
+      config: 
+        tags: 'ax'
+    - name: opco_vendor_trans
+      config: 
+        tags: 'ax'
+
+
+
+    - name: ax_opco_cash_dscnt_terms
+      config: 
+        tags: 'ax'
+    - name: ax_opco_commsn_grp
+      config: 
+        tags: 'ax'
+    - name: ax_opco_currency
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_code
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_grp
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_invoice
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_invoice_line
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_open_trans
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_packing_slip
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_packing_slip_line
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_settled_trans
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_trans
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_type
+      config: 
+        tags: 'ax'
+    - name: ax_opco_handling_status
+      config: 
+        tags: 'ax'
+    - name: ax_opco_invtry_ref_type
+      config: 
+        tags: 'ax'
+    - name: ax_opco_opco_cust_xref
+      config: 
+        tags: 'ax'
+    - name: ax_opco_picking_list
+      config: 
+        tags: 'ax'
+    - name: ax_opco_pymnt_mode
+      config: 
+        tags: 'ax'
+    - name: ax_opco_pymnt_terms
+      config: 
+        tags: 'ax'
+    - name: ax_chart_of_accts
+      config: 
+        tags: 'ax'
+    - name: ax_opco_chart_of_accts
+      config: 
+        tags: 'ax'
+    - name: ax_opco_chart_of_accts_type
+      config: 
+        tags: 'ax'
+    - name: ax_opco_fscl_yr_gl_opening_bal
+      config: 
+        tags: 'ax'
+    - name: ax_opco_gl_trans
+      config: 
+        tags: 'ax'
+    - name: ax_opco_gl_trans_posting_type
+      config: 
+        tags: 'ax'
+    - name: ax_opco_gl_trans_type
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_opco_locn_xref
+      config: 
+        tags: 'ax'
+    - name: ax_opco_locn
+      config: 
+        tags: 'ax'
+    - name: ax_opco_opco_locn_xref
+      config: 
+        tags: 'ax'
+    - name: ax_opco_vendor_opco_locn_xref
+      config: 
+        tags: 'ax'
+    - name: ax_fscl_clndr
+      config: 
+        tags: 'ax'
+    - name: ax_opco
+      config: 
+        tags: 'ax'
+    - name: ax_opco_assctn
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cost_center
+      config: 
+        tags: 'ax'
+    - name: ax_opco_dept
+      config: 
+        tags: 'ax'
+    - name: ax_opco_site
+      config: 
+        tags: 'ax'
+    - name: ax_opco_type
+      config: 
+        tags: 'ax'
+    - name: ax_region
+      config: 
+        tags: 'ax'
+    - name: ax_sub_region
+      config: 
+        tags: 'ax'
+    - name: ax_warehouse
+      config: 
+        tags: 'ax'
+    - name: ax_opco_invtry_issue_status
+      config: 
+        tags: 'ax'
+    - name: ax_opco_invtry_rcpt_status
+      config: 
+        tags: 'ax'
+    - name: ax_opco_invtry_trans
+      config: 
+        tags: 'ax'
+    - name: ax_opco_invtry_trans_type
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_class
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_cvrg_grp
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_freight
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_grp
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_invtry
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_model_grp
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_opco_assctn_xref
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_psi_dtl
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_size
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_sls_class
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_subtype
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_type
+      config: 
+        tags: 'ax'
+    - name: ax_opco_lob
+      config: 
+        tags: 'ax'
+    - name: ax_opco_purpose
+      config: 
+        tags: 'ax'
+    - name: ax_opco_uom
+      config: 
+        tags: 'ax'
+    - name: ax_opco_vendor
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_catgry
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_cost_frcst
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_cost_trans
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_empl_frcst
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_empl_trans
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_invoice_project_xref
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_item_trans
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_revenue_trans
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_trans_origin
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_trans_posting
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_trans_status
+      config: 
+        tags: 'ax'
+    - name: ax_opco_po
+      config: 
+        tags: 'ax'
+    - name: ax_opco_po_doc_status
+      config: 
+        tags: 'ax'
+    - name: ax_opco_po_line
+      config: 
+        tags: 'ax'
+    - name: ax_opco_po_type
+      config: 
+        tags: 'ax'
+    - name: ax_opco_dlvry_mode
+      config: 
+        tags: 'ax'
+    - name: ax_opco_dlvry_terms
+      config: 
+        tags: 'ax'
+    - name: ax_opco_sls_ordr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_sls_ordr_doc_status
+      config: 
+        tags: 'ax'
+    - name: ax_opco_sls_ordr_line
+      config: 
+        tags: 'ax'
+    - name: ax_opco_sls_ordr_type
+      config: 
+        tags: 'ax'
+    - name: ax_opco_trans_status
+      config: 
+        tags: 'ax'
+    - name: ax_sls_ordr_opco_locn_xref
+      config: 
+        tags: 'ax'
+    - name: ax_opco_vendor_invoice
+      config: 
+        tags: 'ax'
+    - name: ax_opco_vendor_invoice_line
+      config: 
+        tags: 'ax'
+    - name: ax_opco_vendor_packing_slip
+      config: 
+        tags: 'ax'
+    - name: ax_opco_vendor_packing_slip_line
+      config: 
+        tags: 'ax'
+    - name: ax_opco_vendor_trans
+      config: 
+        tags: 'ax'
+
+
+    - name: ns_opco_currency
+      config: 
+        tags: 'ns'
+    - name: ns_opco_pymnt_mode
+      config: 
+        tags: 'ns'
+    - name: ns_opco_pymnt_terms
+      config: 
+        tags: 'ns'
+    - name: ns_opco_chart_of_accts
+      config: 
+        tags: 'ns'
+    - name: ns_opco_chart_of_accts_type
+      config: 
+        tags: 'ns'
+    - name: ns_opco_fscl_yr_gl_opening_bal
+      config: 
+        tags: 'ns'
+    - name: ns_opco_gl_trans
+      config: 
+        tags: 'ns'
+    - name: ns_opco_gl_trans_type
+      config: 
+        tags: 'ns'
+    - name: ns_opco
+      config: 
+        tags: 'ns'
+    - name: ns_opco_cost_center
+      config: 
+        tags: 'ns'
+    - name: ns_opco_dept
+      config: 
+        tags: 'ns'
+    - name: ns_opco_type
+      config: 
+        tags: 'ns'
+    - name: ns_region
+      config: 
+        tags: 'ns'
+    - name: ns_sub_region
+      config: 
+        tags: 'ns'
+    - name: ns_opco_brand
+      config: 
+        tags: 'ns'
+    - name: ns_opco_purpose
+      config: 
+        tags: 'ns'
+    - name: ns_opco_uom
+      config: 
+        tags: 'ns'
+
+
+    - name: jde_hnck_opco_currency
+      config: 
+        tags: 'jde_hnck'
+    - name: jde_hnck_opco_chart_of_accts
+      config: 
+        tags: 'jde_hnck'
+    - name: jde_hnck_opco_fscl_yr_gl_opening_bal
+      config: 
+        tags: 'jde_hnck'
+    - name: jde_hnck_opco_gl_trans
+      config: 
+        tags: 'jde_hnck'
+    - name: jde_hnck_opco_gl_trans_type
+      config: 
+        tags: 'jde_hnck'
+    - name: jde_hnck_opco_sub_ledger_type
+      config: 
+        tags: 'jde_hnck'
+    - name: jde_hnck_opco
+      config: 
+        tags: 'jde_hnck'
+    - name: jde_hnck_opco_cost_center
+      config: 
+        tags: 'jde_hnck'
+    - name: jde_hnck_opco_uom
+      config: 
+        tags: 'jde_hnck'
+
+
+    - name: syspro_primex_opco_currency
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_chart_of_accts
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_chart_of_accts_type
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_fscl_yr_gl_opening_bal
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_gl_trans
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_gl_trans_type
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_opco_sub_ledger_type
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_cost_center
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_dept
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_type
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_lob
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_purpose
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_uom
+      config: 
+        tags: 'syspro_primex'
+
+
+    - name: jde_npp_opco_currency
+      config: 
+        tags: 'jde_npp'
+    - name: jde_npp_opco_chart_of_accts
+      config: 
+        tags: 'jde_npp'
+    - name: jde_npp_opco_fscl_yr_gl_opening_bal
+      config: 
+        tags: 'jde_npp'
+    - name: jde_npp_opco_gl_trans
+      config: 
+        tags: 'jde_npp'
+    - name: jde_npp_opco_gl_trans_type
+      config: 
+        tags: 'jde_npp'
+    - name: jde_npp_opco_sub_ledger_type
+      config: 
+        tags: 'jde_npp'
+    - name: jde_npp_opco
+      config: 
+        tags: 'jde_npp'
+    - name: jde_npp_opco_cost_center
+      config: 
+        tags: 'jde_npp'
+    - name: jde_npp_opco_uom
+      config: 
+        tags: 'jde_npp'
+ 
+
+
+    - name: ax_opco_cash_dscnt_terms_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_commsn_grp_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_currency_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_code_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_grp_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_invoice_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_invoice_line_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_open_trans_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_packing_slip_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_packing_slip_line_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_settled_trans_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_trans_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_type_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_handling_status_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_invtry_ref_type_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_opco_cust_xref_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_picking_list_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_pymnt_mode_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_pymnt_terms_curr
+      config: 
+        tags: 'ax'
+    - name: ax_chart_of_accts_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_chart_of_accts_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_chart_of_accts_type_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_fscl_yr_gl_opening_bal_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_gl_trans_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_gl_trans_posting_type_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_gl_trans_type_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cust_opco_locn_xref_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_locn_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_opco_locn_xref_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_vendor_opco_locn_xref_curr
+      config: 
+        tags: 'ax'
+    - name: ax_fscl_clndr_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_assctn_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_cost_center_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_dept_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_site_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_type_curr
+      config: 
+        tags: 'ax'
+    - name: ax_region_curr
+      config: 
+        tags: 'ax'
+    - name: ax_sub_region_curr
+      config: 
+        tags: 'ax'
+    - name: ax_warehouse_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_invtry_issue_status_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_invtry_rcpt_status_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_invtry_trans_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_invtry_trans_type_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_class_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_cvrg_grp_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_freight_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_grp_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_invtry_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_model_grp_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_opco_assctn_xref_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_psi_dtl_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_size_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_sls_class_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_subtype_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_item_type_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_lob_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_purpose_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_uom_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_vendor_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_catgry_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_cost_frcst_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_cost_trans_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_empl_frcst_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_empl_trans_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_invoice_project_xref_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_item_trans_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_revenue_trans_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_trans_origin_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_trans_posting_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_project_trans_status_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_po_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_po_doc_status_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_po_line_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_po_type_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_dlvry_mode_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_dlvry_terms_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_sls_ordr_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_sls_ordr_doc_status_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_sls_ordr_line_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_sls_ordr_type_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_trans_status_curr
+      config: 
+        tags: 'ax'
+    - name: ax_sls_ordr_opco_locn_xref_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_vendor_invoice_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_vendor_invoice_line_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_vendor_packing_slip_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_vendor_packing_slip_line_curr
+      config: 
+        tags: 'ax'
+    - name: ax_opco_vendor_trans_curr
+      config: 
+        tags: 'ax'
+
+
+    - name: ns_opco_currency_curr
+      config: 
+        tags: 'ns'
+    - name: ns_opco_pymnt_mode_curr
+      config: 
+        tags: 'ns'
+    - name: ns_opco_pymnt_terms_curr
+      config: 
+        tags: 'ns'
+    - name: ns_opco_chart_of_accts_curr
+      config: 
+        tags: 'ns'
+    - name: ns_opco_chart_of_accts_type_curr
+      config: 
+        tags: 'ns'
+    - name: ns_opco_fscl_yr_gl_opening_bal_curr
+      config: 
+        tags: 'ns'
+    - name: ns_opco_gl_trans_curr
+      config: 
+        tags: 'ns'
+    - name: ns_opco_gl_trans_type_curr
+      config: 
+        tags: 'ns'
+    - name: ns_opco_curr
+      config: 
+        tags: 'ns'
+    - name: ns_opco_cost_center_curr
+      config: 
+        tags: 'ns'
+    - name: ns_opco_dept_curr
+      config: 
+        tags: 'ns'
+    - name: ns_opco_type_curr
+      config: 
+        tags: 'ns'
+    - name: ns_region_curr
+      config: 
+        tags: 'ns'
+    - name: ns_sub_region_curr
+      config: 
+        tags: 'ns'
+    - name: ns_opco_brand_curr
+      config: 
+        tags: 'ns'
+    - name: ns_opco_purpose_curr
+      config: 
+        tags: 'ns'
+    - name: ns_opco_uom_curr
+      config: 
+        tags: 'ns'
+
+
+    - name: jde_hnck_opco_currency_curr
+      config: 
+        tags: 'jde_hnck'
+    - name: jde_hnck_opco_chart_of_accts_curr
+      config: 
+        tags: 'jde_hnck'
+    - name: jde_hnck_opco_fscl_yr_gl_opening_bal_curr
+      config: 
+        tags: 'jde_hnck'
+    - name: jde_hnck_opco_gl_trans_curr
+      config: 
+        tags: 'jde_hnck'
+    - name: jde_hnck_opco_gl_trans_type_curr
+      config: 
+        tags: 'jde_hnck'
+    - name: jde_hnck_opco_sub_ledger_type_curr
+      config: 
+        tags: 'jde_hnck'
+    - name: jde_hnck_opco_curr
+      config: 
+        tags: 'jde_hnck'
+    - name: jde_hnck_opco_cost_center_curr
+      config: 
+        tags: 'jde_hnck'
+    - name: jde_hnck_opco_uom_curr
+      config: 
+        tags: 'jde_hnck'
+
+
+    - name: syspro_primex_opco_currency_curr
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_chart_of_accts_curr
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_chart_of_accts_type_curr
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_fscl_yr_gl_opening_bal_curr
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_gl_trans_curr
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_gl_trans_type_curr
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_opco_sub_ledger_type_curr
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_curr
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_cost_center_curr
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_dept_curr
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_type_curr
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_lob_curr
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_purpose_curr
+      config: 
+        tags: 'syspro_primex'
+    - name: syspro_primex_opco_uom_curr
+      config: 
+        tags: 'syspro_primex'
+
+
+    - name: jde_npp_opco_currency_curr
+      config: 
+        tags: 'jde_npp'
+    - name: jde_npp_opco_chart_of_accts_curr
+      config: 
+        tags: 'jde_npp'
+    - name: jde_npp_opco_fscl_yr_gl_opening_bal_curr
+      config: 
+        tags: 'jde_npp'
+    - name: jde_npp_opco_gl_trans_curr
+      config: 
+        tags: 'jde_npp'
+    - name: jde_npp_opco_gl_trans_type_curr
+      config: 
+        tags: 'jde_npp'
+    - name: jde_npp_opco_sub_ledger_type_curr
+      config: 
+        tags: 'jde_npp'
+    - name: jde_npp_opco_curr
+      config: 
+        tags: 'jde_npp'
+    - name: jde_npp_opco_cost_center_curr
+      config: 
+        tags: 'jde_npp'
+    - name: jde_npp_opco_uom_curr
+      config: 
+        tags: 'jde_npp'
+
+
+
+
+
+
+
+
+
+
+   
