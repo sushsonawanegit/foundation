@@ -15,11 +15,13 @@ with epcr_eu_opco_purpose as(
     upper(trim(segmentcode))::varchar(20) as src_purpose_cd,
     max(segmentcode)::varchar(100) as src_purpose_desc,
     case 
-        when activeflag = 'T' then 1 
+        when activeflag = 'TRUE' then 1 
         else 0 
     end::numeric(1,0) as actv_ind,
     {{ spcl_chr_rp('src_purpose_desc')}}::varchar(100) as purpose_wo_spcl_chr_cd
     from {{source('EPCR_EU_DEV', 'COASEGVALUES')}}
+    where coacode = 'MAIN' and segmentnbr = 4
+    and company not in ('CUBAUS01','CUBAUS02') 
     group by src_sys_nm, src_purpose_cd , _fivetran_deleted, actv_ind
 ),
 final as (
