@@ -4,11 +4,7 @@ with epcr_eu_opco_type as (
     select 
     current_timestamp as crt_dtm,
     max(_fivetran_synced) as stg_load_dtm,
-    case
-        when max(_fivetran_deleted) = true then stg_load_dtm
-        else null
-    end as delete_dtm,
-
+    null::timestamp_tz as delete_dtm,
     'EPCR-EU'::varchar(20) as src_sys_nm,
     upper(trim(segmentcode))::varchar(20) as src_type_cd,
     max(segmentname)::varchar(100) as src_type_desc,

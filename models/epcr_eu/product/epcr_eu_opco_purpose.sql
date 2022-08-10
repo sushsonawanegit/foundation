@@ -36,7 +36,7 @@ delete_captured as (
         opco_PURPOSE_sk, opco_PURPOSE_ck, crt_dtm, 
         (select max(stg_load_dtm) from final) as stg_load_dtm,
         (select max(stg_load_dtm) from final) as delete_dtm,
-        src_sys_nm, src_PURPOSE_cd, src_PURPOSE_nm, actv_ind
+        src_sys_nm, src_PURPOSE_cd, src_purpose_desc, actv_ind, purpose_wo_spcl_chr_cd
         from {{ var('fnd_tbl_db')}}.{{ var('fnd_tbl_sch')}}.OPCO_PURPOSE
         {% if _load == 1 %}
             where OPCO_PURPOSE_ck not in (select distinct OPCO_PURPOSE_ck from final)
