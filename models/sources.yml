@@ -147,3 +147,8 @@ sources:
     schema: EPICOR_PROD_ERP
     tables:      
       - name: CURRENCY
+      - name: COMPANY
+      - name: COASEGVALUES
+      - name: UOM
+      - name: JRNLCODE
+    
